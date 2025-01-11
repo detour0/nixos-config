@@ -1,79 +1,22 @@
 {
   pkgs,
   username,
+  inputs,
   ...
 }:
-
   let
-    lock-false = {
-      Value = false;
-      Status = "locked";
-    };
-    lock-true = {
-      Value = true;
-      Status = "locked";
-    };
-  in
-{
-  programs = {
-    firefox = {
-      enable = true;
-      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        extraPolicies = {
-          # DisableTelemetry = true;
-          # add policies here...
-
-          /* ---- EXTENSIONS ---- */
-          # Check about:support for extension/add-on ID strings.
-          # "force_installed" and "normal_installed".
-          ExtensionSettings = {
-            # "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
-            # uBlock Origin:
-            "uBlock0@raymondhill.net" = {
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-              installation_mode = "force_installed";
-            };
-            # Tabliss
-            "extension@tabliss.io" = {
-              install_url = "https://addons.mozilla.org/firefox/downloads/file/3940751/tabliss-2.6.0.xpi";
-              installation_mode = "normal_installed";
-            };
-            # Phantom
-            "{7c42eea1-b3e4-4be4-a56f-82a5852b12dc}" = {
-              install_url = "https://addons.mozilla.org/firefox/downloads/file/4407896/phantom_app-24.30.0.xpi";
-              installation_mode = "normal_installed";
-            };
-
-            # add extensions here...
-          };
-
-          /* ---- PREFERENCES ---- */
-          # Set preferences shared by all profiles.
-          Preferences = {
-            "browser.contentblocking.category" = { Value = "strict"; Status = "locked"; };
-            "extensions.pocket.enabled" = lock-false;
-            "extensions.screenshots.disabled" = lock-true;
-            # add global preferences here...
-          };
-        };
-      };
-      profiles.${username} = {
-        id = 0;
-        name = "dt";
-        isDefault = true;
-        search = {
-          force = true;
-          default = "Google";
-          privateDefault = "Google";
-          order = ["Google" "DuckDuckGo"];
-        };
-#         extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-#           ublock-origin
-#           phantom
-#           tabliss
-#         ];
-        bookmarks = {};
-        settings = {
+    extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+      ublock-origin
+      privacy-badger
+      vimium
+      darkreader
+      unpaywall
+      # languagetool Unfree licence error despite: allowUnfree in system.nix
+      link-cleaner
+      # auto-accepts cookies, use only with privacy-badger & ublock-origin
+      istilldontcareaboutcookies
+    ];
+    settings = {
           # Betterfox                                                                *
           # "Ad meliora"                                                             *
           # version: 133                                                             *
@@ -97,7 +40,7 @@
           "browser.cache.disk.enable" = true;
 
           # MEDIA CACHE ***/
-          "media.memory_cache_max_size" = 65536;
+          "media.memory_cache_max_size" = 65536;#&OWL*#W&th:u(ccG;ZK
           "media.cache_readahead_limit" = 7200;
           "media.cache_resume_threshold" = 3600;
 
@@ -290,6 +233,21 @@
           "findbar.highlightAll" = true;
           "layout.word_select.eat_space_to_next_word" = false;
         };
+  in
+{
+  programs = {
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-beta-bin;
+      profiles.${username} = {
+        id = 0;
+        search = {
+          force = true;
+          default = "Google";
+          privateDefault = "Google";
+          order = ["Google" "DuckDuckGo"];
+        };
+        inherit extensions settings;
       };
     };
   };
