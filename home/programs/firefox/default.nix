@@ -5,17 +5,6 @@
   ...
 }:
   let
-    extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-      ublock-origin
-      privacy-badger
-      vimium
-      darkreader
-      unpaywall
-      # languagetool Unfree licence error despite: allowUnfree in system.nix
-      link-cleaner
-      # auto-accepts cookies, use only with privacy-badger & ublock-origin
-      istilldontcareaboutcookies
-    ];
     settings = {
           # Betterfox                                                                *
           # "Ad meliora"                                                             *
@@ -70,8 +59,7 @@
           # SECTION: SECUREFOX                                                       *
           #***************************************************************************/
           # TRACKING PROTECTION ***/
-          # Disabled in favour of global immutable option
-          #"browser.contentblocking.category" = "strict";
+          "browser.contentblocking.category" = "strict";
           "urlclassifier.trackingSkipURLs" = [
             "*.reddit.com" "*.twitter.com" "*.twimg.com" "*.tiktok.com"
             ];
@@ -218,8 +206,7 @@
           "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
 
           # POCKET ***/
-          # disabled in favour of global immutable option
-          #"extensions.pocket.enabled" = false;
+          "extensions.pocket.enabled" = false;
 
           # DOWNLOADS ***/
           "browser.download.manager.addToRecentDocs" = false;
@@ -238,7 +225,7 @@
   programs = {
     firefox = {
       enable = true;
-      package = pkgs.firefox-beta-bin;
+      package = pkgs.firefox;
       profiles.${username} = {
         id = 0;
         search = {
