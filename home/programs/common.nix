@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   ...
 }: {
@@ -7,6 +6,7 @@
     kdePackages.kate
     megasync
     keepassxc
+    obsidian
   ];
 
   services = {

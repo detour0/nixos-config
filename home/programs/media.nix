@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   ...
 }:
 # media - control and enjoy audio/video

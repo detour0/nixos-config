@@ -28,6 +28,7 @@
     dates = lib.mkDefault "monthly";
     options = lib.mkDefault "--delete-older-than 1m";
   };
+  programs.nix-ld.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

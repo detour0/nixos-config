@@ -17,26 +17,33 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{
     self,
     nixpkgs,
     home-manager,
     plasma-manager,
+    nix-vscode-extensions,
     ...
   }: {
     nixosConfigurations = {
       desktop-NixOs =
       let
         username = "dt";
-        specialArgs = {inherit username;};
+        specialArgs = {inherit username inputs;};
       in
         nixpkgs.lib.nixosSystem {
+
           inherit specialArgs;
           system = "x86_64-linux";
 
           modules = [
             ./hosts/desktop-NixOs
+            ./overlays
 
             home-manager.nixosModules.home-manager
             {

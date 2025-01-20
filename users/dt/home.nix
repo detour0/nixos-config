@@ -1,4 +1,4 @@
-{...}: {
+{ username, ... }: {
   ##################################################################################################################
   #
   # All dt's home-manager configuration
@@ -11,7 +11,7 @@
   ];
 
   programs.git = {
-    userName = "John Doe";
+    userName = "${username}";
     userEmail = "john_does@aol.com";
     extraConfig = {
       init.defaultBranch = "main";

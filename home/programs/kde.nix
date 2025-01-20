@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
 
   programs.plasma = {
@@ -126,7 +126,7 @@
         };
         turnOffDisplay = {
           idleTimeout = 1000;
-          idleTimeoutWhenLocked = "immediately";
+          idleTimeoutWhenLocked = 20;
         };
       };
       battery = {

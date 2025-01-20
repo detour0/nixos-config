@@ -6,8 +6,8 @@
       ../../modules/system.nix
       ../../modules/steam.nix
       ../../modules/vm.nix
+      #../../modules/vscode/try2.nix
 
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -48,13 +48,13 @@
     unzip
     p7zip
 
-    vim
+    neovim
     nil
 
   ];
 
   # Setting default editor to vim
-  environment.variables.EDITOR = "vim";
+  environment.variables.EDITOR = "neovim";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
