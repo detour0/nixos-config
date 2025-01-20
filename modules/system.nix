@@ -28,7 +28,11 @@
     dates = lib.mkDefault "monthly";
     options = lib.mkDefault "--delete-older-than 1m";
   };
+  
+  # Was recommended for codeium, seems not to do anything
+  # source: https://www.reddit.com/r/Codeium/comments/1cpnzra/for_anyone_on_nixos_if_codeium_doesnt_work/
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = [];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
