@@ -6,7 +6,6 @@
       ../../modules/system.nix
       ../../modules/steam.nix
       ../../modules/vm.nix
-      #../../modules/vscode/try2.nix
 
       ./hardware-configuration.nix
     ];
@@ -33,9 +32,6 @@
 
   environment.systemPackages = with pkgs; [
 
-    # Installing Home Manager binary and adding to PATH
-    home-manager
-
     wget
     curl
     neofetch
@@ -48,13 +44,12 @@
     unzip
     p7zip
 
-    neovim
+    # Nix Language Server
     nil
-
   ];
 
   # Setting default editor to vim
-  environment.variables.EDITOR = "neovim";
+  # environment.variables.EDITOR = "neovim";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

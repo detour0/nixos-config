@@ -6,5 +6,6 @@
     ./media.nix
     ./kde.nix
     ./vscode
+    ./nvim.nix
   ];
 }

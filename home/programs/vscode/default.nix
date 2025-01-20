@@ -2,10 +2,7 @@
 {
     programs.vscode = {
         enable = true;
-
         mutableExtensionsDir = false;
-        enableUpdateCheck = false;
-        enableExtensionUpdateCheck = false;
 
         extensions = with pkgs.open-vsx; [
 
@@ -23,15 +20,10 @@
 
 
             # Helpers
-            codeium.codeium
             asvetliakov.vscode-neovim
             redhat.vscode-yaml
             esbenp.prettier-vscode
             jnoortheen.nix-ide
         ];
-
-        userSettings = {
-            "workbench.colorTheme" = "One Dark Pro Darker";
-        };
     };
 }
