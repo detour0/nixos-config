@@ -1,23 +1,18 @@
-{ username, config,  ... }: 
+{ username, config, ... }:
   ##################################################################################################################
   #
   # All dt's home-manager configuration
   #
   ##################################################################################################################
 let
-  nvimPath = "${config.home.homeDirectory}/nix-config/user/${username}/dotfiles/nvim";
-  vscodePath = "${config.home.homeDirectory}/nix-config/user/${username}/dotfiles/vscode";
+#   nvimPath = "${config.home.homeDirectory}/nix-config/dotfiles/nvim-init.lua";
+  vscodeSettingsPath = "${config.home.homeDirectory}/nix-config/dotfiles/vscode/settings.json";
 in
+
 {
-  xdg.configFile {
-    "nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink nvimPath;
-      recursive = true;
-    };
-    "vscode" = {
-      source = config.lib.file.mkOutOfStoreSymlink vscodePath;
-      recursive = true;
-    };
+  home.file = {
+    # ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink nvimPath;
+    ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink vscodeSettingsPath;
   };
  
   imports = [
