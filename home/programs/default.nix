@@ -7,5 +7,6 @@
     ./kde.nix
     ./vscode
     ./nvim.nix
+    ./bash.nix
   ];
 }

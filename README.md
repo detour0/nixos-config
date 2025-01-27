@@ -10,3 +10,6 @@ Firefox:
 
 Vscode:
 - Codeium ai plugin not working:
+
+Dotfiles:
+- Can't symlink dotfiles with hm for whatever reason

@@ -4,17 +4,21 @@
   # All dt's home-manager configuration
   #
   ##################################################################################################################
-let
+# Does create the symlink, but with invalid target
+# let
 #   nvimPath = "${config.home.homeDirectory}/nix-config/dotfiles/nvim-init.lua";
-  vscodeSettingsPath = "${config.home.homeDirectory}/nix-config/dotfiles/vscode/settings.json";
-in
+#   vscodeSettingsPath = "${config.home.homeDirectory}/dotfiles/vscode/settings.json";
+# in
 
-{
-  home.file = {
-    # ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink nvimPath;
-    ".config/Code/User/settings.json".source = config.lib.file.mkOutOfStoreSymlink vscodeSettingsPath;
-  };
- 
+# {
+#   home.file = {
+#     ".config/nvim".source = config.lib.file.mkOutOfStoreSymlink nvimPath;
+#     ".config/Code/User/settings.json" = {
+#       source = config.lib.file.mkOutOfStoreSymlink vscodeSettingsPath;
+#       force = true; # Overrite existing files
+#     };
+#   };
+{ 
   imports = [
     ../../home
     ../../home/programs
