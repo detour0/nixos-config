@@ -18,9 +18,11 @@
             ms-python.debugpy
             charliermarsh.ruff
 
-
-            # Helpers
+            # Productivity
             asvetliakov.vscode-neovim
+            vspacecode.whichkey
+
+            # miscellaneous
             redhat.vscode-yaml
             esbenp.prettier-vscode
             jnoortheen.nix-ide
