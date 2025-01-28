@@ -84,6 +84,7 @@
 
       # nerdfonts
       nerdfonts
+      jetbrains-mono
 
     ];
 

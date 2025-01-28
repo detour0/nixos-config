@@ -4,7 +4,7 @@
     ./common.nix
     ./git.nix
     ./media.nix
-    ./kde.nix
+    ./plasma.nix
     ./vscode
     ./nvim.nix
     ./bash.nix

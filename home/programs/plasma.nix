@@ -160,13 +160,13 @@
         ];
       };
 
-      kwin = {
+/*       kwin = {
         # "Expose" = "Meta+,";
         "Switch Window Down" = "Meta+J";
         "Switch Window Left" = "Meta+H";
         "Switch Window Right" = "Meta+L";
         "Switch Window Up" = "Meta+K";
-      };
+      }; */
 #       ActivityManager = {
 #           "switch-to-activity-2f6b3df2-80a8-4dba-83b9-eeb9033d9e27" = "Meta+V,none,Switch to activity \"browsing\"";
 #           "switch-to-activity-ef316a8a-24ef-4c39-81bd-8c436ad5fa63" = "Meta+C,none,Switch to activity \"markets\"";
