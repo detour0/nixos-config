@@ -46,6 +46,8 @@
 
     # Nix Language Server
     nil
+    nixfmt-rfc-style
+    
   ];
 
   # Setting default editor to vim

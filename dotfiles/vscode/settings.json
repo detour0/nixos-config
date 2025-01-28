@@ -2,7 +2,18 @@
     "workbench.colorTheme": "One Dark Pro Darker",
     "extensions.autoCheckUpdates": false,
     "update.mode": "none",
+
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
-    }
+    },
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "zenMode.fullScreen": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "zenMode.silentNotifications": false,
+    "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
+    "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.vim",
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "/run/current-system/sw/bin/nil",
 }
