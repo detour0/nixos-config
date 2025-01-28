@@ -15,5 +15,5 @@
     "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
     "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.vim",
     "nix.enableLanguageServer": true,
-    "nix.serverPath": "/run/current-system/sw/bin/nil",
+    "nix.serverPath": "/run/current-system/sw/bin/nil"
 }
