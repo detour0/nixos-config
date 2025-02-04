@@ -5,7 +5,7 @@ nrs() {
     sudo nixos-rebuild switch && sudo reboot now
   elif [ "$1" = "-t" ]; then
     echo "Running 'sudo nixos-rebuild test'"
-    sudo nixos-rebuild
+    sudo nixos-rebuild test
   else
     echo "Running 'sudo nixos-rebuild switch'..."
     sudo nixos-rebuild switch

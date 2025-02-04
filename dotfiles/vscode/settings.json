@@ -1,35 +1,46 @@
 {
-    // General
-    "extensions.autoCheckUpdates": false,
-    "update.mode": "none",
-    "zenmode.restore": true,
-    "editor.minimap.enabled": false,
-    // Look
-    "workbench.colorTheme": "One Dark Pro Darker",
-    "editor.fontFamily": "JetBrains Mono",
-    // Formatting & Save
-    "files.autoSave": "onFocusChange",
-    "editor.formatOnSave": true,
-    "trailing-spaces.trimOnSave": true,
-    // Extension Settings
-    "extensions.experimental.affinity": {
-        "asvetliakov.vscode-neovim": 1
-    },
-    "vscode-neovim.compositeKeys": {
-        "tab": {
-            "command": "vscode-neovim.escape"
-        }
-    },
-    "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
-    "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.lua",
-    // Zen mode
-    "zenMode.fullScreen": false,
-    "zenMode.hideLineNumbers": false,
-    "zenMode.hideStatusBar": false,
-    "zenMode.silentNotifications": false,
-    "zenMode.centerLayout": false,
-    //"zenMode.showTabs": "single"
-    // Language Server Settings
-    "nix.enableLanguageServer": true,
-    "nix.serverPath": "/run/current-system/sw/bin/nil"
+  // General
+  "extensions.autoCheckUpdates": false,
+  "update.mode": "none",
+  "zenmode.restore": true,
+  "editor.minimap.enabled": false,
+  // Look
+  "workbench.colorTheme": "One Dark Pro Darker",
+  "editor.fontFamily": "JetBrains Mono",
+  // Formatting & Save
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  // Extension Settings
+  "extensions.experimental.affinity": {
+      "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.lua",
+  // Zen mode
+  "zenMode.fullScreen": false,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.hideStatusBar": false,
+  "zenMode.silentNotifications": false,
+  "zenMode.centerLayout": false,
+  //"zenMode.showTabs": "single"
+  // Language Server Settings
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "/run/current-system/sw/bin/nil",
+  "vscode-neovim.ctrlKeysForInsertMode": [
+    "a",
+    "c",
+    "d",
+    "h",
+    "j",
+    "m",
+    "o",
+    "r",
+    "t",
+    "u",
+    "w",
+    "k",
+    "l"
+  ],
 }
