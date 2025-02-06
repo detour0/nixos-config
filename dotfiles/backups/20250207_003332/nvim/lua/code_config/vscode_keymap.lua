@@ -13,10 +13,13 @@ keymap("n", "<C-w>_", "<cmd>lua require('vscode').action('workbench.action.toggl
 -- Show which-key
 keymap({ "n", "x" }, "<Space>", "<cmd>lua require('vscode').action('whichkey.show')<CR>", opts)
 
+-- Comment Functionality
+keymap({ "n", "x" }, "<C-/>", "<cmd>lua Comment()<CR>", opts)
+
 -- remap leader key
--- keymap("n", "<Space>", "", opts)
--- vim.g.mapleader = " "
--- vim.g.maplocalleader = " "
+keymap("n", "<Space>", "", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- yank to system clipboard
 keymap({"n", "v"}, "<leader>y", '"+y', opts)
@@ -38,15 +41,3 @@ keymap("v", "p", '"_dP', opts)
 
 -- removes highlighting after escaping vim search
 keymap("n", "<Esc>", "<Esc>:noh<CR>", opts)
-
--- general keymaps
--- keymap({"n", "v"}, "<leader>t", "<cmd>lua require('vscode').action('workbench.action.terminal.toggleTerminal')<CR>")
--- keymap({"n", "v"}, "<leader>b", "<cmd>lua require('vscode').action('editor.debug.action.toggleBreakpoint')<CR>")
--- keymap({"n", "v"}, "<leader>d", "<cmd>lua require('vscode').action('editor.action.showHover')<CR>")
--- keymap({"n", "v"}, "<leader>a", "<cmd>lua require('vscode').action('editor.action.quickFix')<CR>")
--- keymap({"n", "v"}, "<leader>sp", "<cmd>lua require('vscode').action('workbench.actions.view.problems')<CR>")
--- keymap({"n", "v"}, "<leader>cn", "<cmd>lua require('vscode').action('notifications.clearAll')<CR>")
--- keymap({"n", "v"}, "<leader>ff", "<cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>")
--- keymap({"n", "v"}, "<leader>cp", "<cmd>lua require('vscode').action('workbench.action.showCommands')<CR>")
--- keymap({"n", "v"}, "<leader>pr", "<cmd>lua require('vscode').action('code-runner.run')<CR>")
--- keymap({"n", "v"}, "<leader>fd", "<cmd>lua require('vscode').action('editor.action.formatDocument')<CR>")
