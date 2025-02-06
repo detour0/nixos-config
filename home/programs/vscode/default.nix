@@ -25,7 +25,7 @@
             # miscellaneous
             redhat.vscode-yaml
             esbenp.prettier-vscode
-            azuretools.vscode-docker
+            ms-azuretools.vscode-docker
 
             # LSPs
             jnoortheen.nix-ide

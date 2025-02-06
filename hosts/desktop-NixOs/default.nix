@@ -6,7 +6,6 @@
       ../../modules/system.nix
       ../../modules/steam.nix
       ../../modules/vm.nix
-
       ./hardware-configuration.nix
     ];
 
@@ -38,7 +37,7 @@
     btop
     man-pages
     man-pages-posix
-    
+
     # Archive
     zip
     unzip
@@ -47,8 +46,13 @@
     # Nix Language Server
     nil
     nixfmt-rfc-style
-    
+
   ];
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # Setting default editor to vim
   # environment.variables.EDITOR = "neovim";

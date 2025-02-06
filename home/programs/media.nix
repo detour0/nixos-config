@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     vlc
   ];
-  
+
   programs = {
     obs-studio.enable = true;
   };
