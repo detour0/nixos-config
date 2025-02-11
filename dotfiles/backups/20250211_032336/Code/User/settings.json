@@ -340,7 +340,7 @@
           "command": "workbench.action.togglePanel"
         },
         {
-          "key": "f",
+          "key": "F",
           "name": "Toggle full screen",
           "type": "command",
           "command": "workbench.action.toggleFullScreen"
