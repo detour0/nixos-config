@@ -399,10 +399,5 @@
   },
   "editor.minimap.enabled": false,
   "workbench.startupEditor": "none",
-  "workbench.activityBar.location": "hidden",
-  "[python]": {
-
-    "diffEditor.ignoreTrimWhitespace": false,
-    "editor.defaultColorDecorators": "never"
-  }
+  "workbench.activityBar.location": "hidden"
 }
