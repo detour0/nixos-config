@@ -7,14 +7,22 @@ keymap({ "n", "x" }, "<C-k>", "<cmd>lua require('vscode').action('workbench.acti
 keymap({ "n", "x" }, "<C-h>", "<cmd>lua require('vscode').action('workbench.action.navigateLeft')<CR>", opts)
 keymap({ "n", "x" }, "<C-l>", "<cmd>lua require('vscode').action('workbench.action.navigateRight')<CR>", opts)
 
+-- Toggle editor widths
+keymap("n", "<C-w>_", "<cmd>lua require('vscode').action('workbench.action.toggleEditorWidths')<CR>", opts)
+
 -- Show which-key
 keymap({ "n", "x" }, "<Space>", "<cmd>lua require('vscode').action('whichkey.show')<CR>", opts)
 
--- ////////// DOES NOT WORK BUT IMPORTANT /////////////
+-- remap leader key
+-- keymap("n", "<Space>", "", opts)
+-- vim.g.mapleader = " "
+-- vim.g.maplocalleader = " "
+
 -- yank to system clipboard
-keymap({ "n", "v" }, "<C+y>", "<cmd>lua require('vscode').action('editor.action.clipboardCopyAction')<CR>", opts)
-keymap({ "n", "v" }, "<C+p>", "<cmd>lua require('vscode').action('editor.action.clipboardPasteAction')<CR>", opts)
--- Nur gebrabbel
+keymap({"n", "v"}, "<leader>y", '"+y', opts)
+-- paste from system clipboard
+keymap({"n", "v"}, "<leader>p", '"+p', opts)
+
 -- better indent handling
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)

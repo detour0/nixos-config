@@ -18,6 +18,8 @@
         "$python"
         "$rust"
         "$sudo"
+        "$cmd_duration"
+        "$jobs"
         "$line_break"
         "$shell"
         "$character"
@@ -27,6 +29,10 @@
       };
       directory = {
         truncation_symbol = "../";
+      };
+      cmd_duration = {
+        min_time = 1;
+        show_milliseconds = true;
       };
     };
   };
