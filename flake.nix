@@ -3,10 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,11 +36,10 @@
       desktop-NixOs =
       let
         username = "dt";
-        specialArgs = {inherit username inputs;};
       in
         nixpkgs.lib.nixosSystem {
 
-          inherit specialArgs;
+          specialArgs = { inherit username inputs; };
           system = "x86_64-linux";
 
           modules = [

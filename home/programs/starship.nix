@@ -25,7 +25,7 @@
         "$character"
         ];
       fill = {
-        symbol = " ";
+        symbol = ".";
       };
       directory = {
         truncation_symbol = "../";
