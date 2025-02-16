@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, pkgsUnstable, ... }:
 {
     programs.vscode = {
         enable = true;
+        package = pkgsUnstable.vscode;
         mutableExtensionsDir = false;
 
         extensions = with pkgs.open-vsx; [

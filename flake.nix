@@ -21,7 +21,7 @@
     };
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
   outputs = inputs@{
@@ -45,16 +45,22 @@
           modules = [
             ./hosts/desktop-NixOs
             ./overlays
+            ./modules/extrargs.nix
 
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-              home-manager.extraSpecialArgs = { inherit username inputs; };
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-              home-manager.backupFileExtension = "backup";
-            }
+            ({ config, ... }: {  # Use a function to access `config`
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                extraSpecialArgs = {
+                  inherit username inputs;
+                  pkgsUnstable = config._module.args.pkgsUnstable;  # Reference from module args
+                };
+                users.${username} = import ./users/${username}/home.nix;
+                backupFileExtension = "backup";
+              };
+            })
           ];
         };
 
