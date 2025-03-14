@@ -1,18 +1,3 @@
-[[ $- == *i* ]] || return
-
-HISTFILESIZE=100000
-HISTSIZE=10000
-
-shopt -s histappend
-shopt -s checkwinsize
-shopt -s extglob
-shopt -s globstar
-shopt -s checkjobs
-
-if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
-  . "/nix/store/knkgz12zyg83w9g61xys6qjxwxgmymh5-bash-completion-2.14.0/etc/profile.d/bash_completion.sh"
-fi
-
 # Shortcut function for rebuilding and testing NixOs config
 nrs() {
   if [ "$1" = "-r" ]; then
@@ -78,4 +63,3 @@ dotbak() {
 alias ..="cd .."
 alias nixconf="code ~/nixos-config"
 alias nfc="nix flake check ~/nixos-config"
-alias vimdiff='nvim -d'

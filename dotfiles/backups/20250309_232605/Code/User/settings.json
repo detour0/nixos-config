@@ -398,13 +398,11 @@
     "**/.factorypath": true
   },
   "editor.minimap.enabled": false,
-  "workbench.startupEditor": "terminal",
+  "workbench.startupEditor": "none",
+  "workbench.activityBar.location": "hidden",
   "[python]": {
+
     "diffEditor.ignoreTrimWhitespace": false,
-    "editor.defaultColorDecorators": "never",
-    "editor.defaultFormatter": "charliermarsh.ruff"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultColorDecorators": "never"
   }
 }

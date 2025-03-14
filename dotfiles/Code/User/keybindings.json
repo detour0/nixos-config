@@ -1,74 +1,74 @@
 // Place your key bindings in this file to override the defaults
 [
-    // Toggle File explorer
-    {
-        "key": "ctrl+e",
-        "command": "workbench.view.explorer",
-        "when": "!explorerViewletVisible"
-    },
-    {
-        "key": "ctrl+e",
-        "command": "workbench.action.closeSidebar",
-        "when": "sideBarVisible"
-    },
-    // Cycle Through Editor Tabs
-    {
-      "key": "tab",
-      "command": "workbench.action.nextEditorInGroup"
-    },
-    {
-      "key": "shift+tab",
-      "command": "workbench.action.previousEditorInGroup"
-    },
-    // Move Cursor Focus between Editor and Sidebar or Terminal
-    {
-        "key": "ctrl+l",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "sideBarFocus"
-    },
-    {
-        "key": "ctrl+j",
-        "command": "workbench.action.terminal.focus",
-        "when": "sideBarFocus"
-    },
-    {
-        "key": "ctrl+k",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
-    },
-    // Scroll through the terminal
-    {
-        "key": "alt+j",
-        "command": "workbench.action.terminal.scrollDown",
-        "when": "terminalFocus"
-    },
-    {
-        "key": "alt+k",
-        "command": "workbench.action.terminal.scrollUp",
-        "when": "terminalFocus"
-    },
-    // Adjusting Editor size
-    {
-        "key": "alt+h",
-        "command": "workbench.action.increaseViewWidth",
-        "when": "editorFocus"
-    },
-    {
-        "key": "alt+l",
-        "command": "workbench.action.decreaseViewWidth",
-        "when": "editorFocus"
-    },
-    {
-        "key": "alt+j",
-        "command": "workbench.action.decreaseViewHeight",
-        "when": "editorFocus"
-    },
-    {
-        "key": "alt+k",
-        "command": "workbench.action.increaseViewHeight",
-        "when": "editorFocus"
-    },
-    // Navigate List Suggestions
+  // Toggle File explorer
+  {
+    "key": "ctrl+e",
+    "command": "workbench.view.explorer",
+    "when": "!explorerViewletVisible"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "workbench.action.closeSidebar",
+    "when": "sideBarVisible"
+  },
+  // Cycle Through Editor Tabs
+  {
+    "key": "tab",
+    "command": "workbench.action.nextEditorInGroup"
+  },
+  {
+    "key": "shift+tab",
+    "command": "workbench.action.previousEditorInGroup"
+  },
+  // Move Cursor Focus between Editor and Sidebar or Terminal
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "sideBarFocus"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.terminal.focus",
+    "when": "sideBarFocus"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  // Scroll through the terminal
+  {
+    "key": "alt+j",
+    "command": "workbench.action.terminal.scrollDown",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "alt+k",
+    "command": "workbench.action.terminal.scrollUp",
+    "when": "terminalFocus"
+  },
+  // Adjusting Editor size
+  {
+    "key": "alt+h",
+    "command": "workbench.action.increaseViewWidth",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+l",
+    "command": "workbench.action.decreaseViewWidth",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+j",
+    "command": "workbench.action.decreaseViewHeight",
+    "when": "editorFocus"
+  },
+  {
+    "key": "alt+k",
+    "command": "workbench.action.increaseViewHeight",
+    "when": "editorFocus"
+  },
+  // Navigate List Suggestions
   {
     "key": "j",
     "command": "list.focusDown",
@@ -101,16 +101,20 @@
   },
   // Show Hover - not working -
   {
-    "key": "shift+k",
+    "key": "shift+h",
     "command": "editor.action.showHover",
     "when": "editorTextFocus"
   },
-
-    // ********************************************************
-    // ignoring default keybindings starts here
-    // ********************************************************
-    {
-        "key": "ctrl+j",
-        "command": "-workbench.action.togglePanel"
-    },
+  // Quit Vscode
+  {
+    "key": "ctrl+escape",
+    "command": "workbench.action.quit"
+  },
+  // ********************************************************
+  // ignoring default keybindings starts here
+  // ********************************************************
+  {
+    "key": "ctrl+j",
+    "command": "-workbench.action.togglePanel"
+  }
 ]
