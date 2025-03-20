@@ -2,25 +2,21 @@
   // General
   "extensions.autoCheckUpdates": false,
   "update.mode": "none",
-
   // Look
   "workbench.colorTheme": "One Dark Pro Darker",
   "editor.fontFamily": "JetBrains Mono",
-  "editor.guides.bracketPairs": "active",
-
   // Formatting & Save
   "files.autoSave": "onFocusChange",
   "editor.formatOnSave": true,
   "files.trimTrailingWhitespace": true,
   "diffEditor.ignoreTrimWhitespace": false,
-
-  // Neovim-extension Settings
+  "editor.guides.bracketPairs": "active",
+  // Extension Settings
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
   "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.lua",
-
   // Zen mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
@@ -28,17 +24,9 @@
   "zenMode.silentNotifications": false,
   "zenMode.centerLayout": false,
   //"zenMode.showTabs": "single"
-
-  // Language Settings
+  // Language Server Settings
   "nix.enableLanguageServer": true,
-  "nix.serverPath": "nil",
-  "nix.serverSettings": { "nil": { "formatting": { "command": ["nixfmt"] } } },
-
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-
-  // Wichkey Config
+  "nix.serverPath": "/run/current-system/sw/bin/nil",
   "whichkey.delay": 0,
   "whichkey.sortOrder": "alphabetically",
   "whichkey.bindings": [
@@ -415,5 +403,8 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.defaultColorDecorators": "never",
     "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

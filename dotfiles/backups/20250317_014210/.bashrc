@@ -79,6 +79,3 @@ alias ..="cd .."
 alias nixconf="code ~/nixos-config"
 alias nfc="nix flake check ~/nixos-config"
 alias vimdiff='nvim -d'
-
-# Direnv shell hook
-eval "$(direnv hook bash)"
