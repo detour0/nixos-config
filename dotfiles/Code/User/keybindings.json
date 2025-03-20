@@ -11,15 +11,6 @@
     "command": "workbench.action.closeSidebar",
     "when": "sideBarVisible"
   },
-  // Cycle Through Editor Tabs
-  {
-    "key": "tab",
-    "command": "workbench.action.nextEditorInGroup"
-  },
-  {
-    "key": "shift+tab",
-    "command": "workbench.action.previousEditorInGroup"
-  },
   // Move Cursor Focus between Editor and Sidebar or Terminal
   {
     "key": "ctrl+l",

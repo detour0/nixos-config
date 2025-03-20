@@ -20,6 +20,8 @@
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];
+    substituters = [ "https://devenv.cachix.org" ];
+    trusted-public-keys = [ "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
   };
 
   # do garbage collection weekly to keep disk usage low
@@ -28,11 +30,11 @@
     dates = lib.mkDefault "monthly";
     options = lib.mkDefault "--delete-older-than 1m";
   };
-  
+
   # Was recommended for codeium, seems not to do anything
   # source: https://www.reddit.com/r/Codeium/comments/1cpnzra/for_anyone_on_nixos_if_codeium_doesnt_work/
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = [];
+  # programs.nix-ld.enable = true;
+  # programs.nix-ld.libraries = [];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -123,5 +125,5 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-  
+
 }

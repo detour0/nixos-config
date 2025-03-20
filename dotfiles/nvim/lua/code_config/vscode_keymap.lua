@@ -14,7 +14,11 @@ keymap({ "n", "x" }, "<Space>", "<cmd>lua require('vscode').action('whichkey.sho
 -- yank to system clipboard
 keymap({ "n", "v" }, "<C+y>", "<cmd>lua require('vscode').action('editor.action.clipboardCopyAction')<CR>", opts)
 keymap({ "n", "v" }, "<C+p>", "<cmd>lua require('vscode').action('editor.action.clipboardPasteAction')<CR>", opts)
--- Nur gebrabbel
+
+-- Cycle through open Editors
+keymap({ "n", "v" }, "<Tab>", "<cmd>lua require('vscode').action('workbench.action.nextEditorInGroup')<CR>", opts)
+keymap({ "n", "v" }, "<S-Tab>", "<cmd>lua require('vscode').action('workbench.action.previousEditorInGroup')<CR>", opts)
+
 -- better indent handling
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
