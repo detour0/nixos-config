@@ -9,6 +9,8 @@ keymap({ "n", "x" }, "<C-l>", "<cmd>lua require('vscode').action('workbench.acti
 
 -- Show which-key
 keymap({ "n", "x" }, "<Space>", "<cmd>lua require('vscode').action('whichkey.show')<CR>", opts)
+-- Show Hover Menu
+keymap("n", "H", "<cmd>lua require('vscode').action('editor.action.showHover')<CR>", opts)
 
 -- ////////// DOES NOT WORK BUT IMPORTANT /////////////
 -- yank to system clipboard

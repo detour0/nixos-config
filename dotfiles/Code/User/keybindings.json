@@ -90,11 +90,26 @@
     "command": "workbench.action.quickOpenNavigatePrevious",
     "when": "inQuickOpen"
   },
-  // Show Hover - not working -
+  // Navigate Bottom Panel
   {
-    "key": "shift+h",
-    "command": "editor.action.showHover",
-    "when": "editorTextFocus"
+    "key": "ctrl+shift+h",
+    "command": "workbench.action.problems.focus"
+  },
+  {
+    "key": "ctrl+shift+j",
+    "command": "workbench.action.output.toggleOutput"
+  },
+  {
+    "key": "ctrl+shift+k",
+    "command": "workbench.debug.action.toggleRepl"
+  },
+  {
+    "key": "ctrl+shift+l",
+    "command": "workbench.action.terminal.focus"
+  },
+  {
+    "key": "ctrl+shift+;",
+    "command": "workbench.action.focusActiveEditorGroup"
   },
   // Quit Vscode
   {
