@@ -76,6 +76,7 @@ dotbak() {
 
 # Aliases
 alias ..="cd .."
+alias cdc="cd ~/megasync/coding"
 alias nixconf="code ~/nixos-config"
 alias nfc="nix flake check ~/nixos-config"
 alias vimdiff='nvim -d'

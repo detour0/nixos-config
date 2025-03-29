@@ -2,11 +2,34 @@
   // General
   "extensions.autoCheckUpdates": false,
   "update.mode": "none",
+  "terminal.integrated.defaultProfile.linux": "tmux",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh"
+    },
+    "fish": {
+      "path": "fish"
+    },
+    "tmux": {
+      "path": "tmux",
+      "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"],
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
 
   // Look
   "workbench.colorTheme": "One Dark Pro Darker",
   "editor.fontFamily": "JetBrains Mono",
   "editor.guides.bracketPairs": "active",
+  "editor.minimap.enabled": false,
 
   // Formatting & Save
   "files.autoSave": "onFocusChange",
@@ -415,8 +438,7 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
-  "editor.minimap.enabled": false,
-  "workbench.startupEditor": "terminal",
+  "workbench.startupEditor": "none",
   "[python]": {
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.defaultColorDecorators": "never",
