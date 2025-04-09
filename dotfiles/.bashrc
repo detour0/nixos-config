@@ -79,6 +79,7 @@ alias ..="cd .."
 alias cdc="cd ~/megasync/coding"
 alias nixconf="code ~/nixos-config"
 alias nfc="nix flake check ~/nixos-config"
+alias nfu="nix flake update ~/nixos-config"
 alias vimdiff='nvim -d'
 
 # Direnv shell hook

@@ -93,34 +93,34 @@
   // Navigate Bottom Panel
   {
     "key": "ctrl+shift+h",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "ctrl+shift+u",
     "command": "workbench.action.problems.focus"
   },
   {
-    "key": "ctrl+shift+j",
+    "key": "ctrl+shift+i",
     "command": "workbench.action.output.toggleOutput"
   },
   {
-    "key": "ctrl+shift+k",
+    "key": "ctrl+shift+o",
     "command": "workbench.debug.action.toggleRepl"
   },
   {
-    "key": "ctrl+shift+l",
+    "key": "ctrl+shift+j",
     "command": "workbench.action.terminal.focus"
   },
   {
-    "key": "ctrl+shift+;",
+    "key": "ctrl+shift+k",
     "command": "workbench.action.focusActiveEditorGroup"
   },
   // Quit Vscode
   {
     "key": "ctrl+escape",
     "command": "workbench.action.quit"
-  },
-  // ********************************************************
-  // ignoring default keybindings starts here
-  // ********************************************************
-  {
-    "key": "ctrl+j",
-    "command": "-workbench.action.togglePanel"
   }
+  //////////////////////////////
+  ///// Ignoring annoying keybindings
+  //////////////////////////////}
 ]

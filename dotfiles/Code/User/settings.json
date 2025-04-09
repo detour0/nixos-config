@@ -15,7 +15,7 @@
       "path": "fish"
     },
     "tmux": {
-      "path": "tmux",
+      "path": "/etc/profiles/per-user/dt/bin/tmux",
       "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"],
       "icon": "terminal-tmux"
     },
