@@ -9,6 +9,7 @@
       obsidian
       scrcpy
       obs-studio
+      plocate
     ])
     ++ (with pkgsUnstable; [
       devenv
