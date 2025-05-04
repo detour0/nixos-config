@@ -115,6 +115,11 @@
     "key": "ctrl+shift+k",
     "command": "workbench.action.focusActiveEditorGroup"
   },
+  // Clear Notifications
+  {
+    "key": "ctrl+alt+n",
+    "command": "notifications.clearAll"
+  },
   // Quit Vscode
   {
     "key": "ctrl+escape",

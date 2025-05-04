@@ -2,6 +2,6 @@
 {
   programs.tmux = {
     enable = true;
-    extraConfig = "set -g mouse on";
+    extraConfig = "set -g mouse";
   };
 }
