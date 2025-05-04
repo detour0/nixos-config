@@ -21,6 +21,9 @@ nrs() {
   elif [ "$1" = "-t" ]; then
     echo "Running 'sudo nixos-rebuild test'"
     sudo nixos-rebuild test
+  elif [ "$1" = "-s" ]; then
+    echo "Running 'sudo nixos-rebuild switch' and shutting down..."
+    sudo nixos-rebuild switch && sudo shutdown now
   else
     echo "Running 'sudo nixos-rebuild switch'..."
     sudo nixos-rebuild switch

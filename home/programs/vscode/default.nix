@@ -5,32 +5,36 @@
     package = pkgsUnstable.vscode;
     mutableExtensionsDir = false;
 
-    extensions = with pkgs.open-vsx; [
+    extensions =
+      (with pkgs.open-vsx; [
 
-      # Themes
-      zhuangtongfa.material-theme
+        # Themes
+        zhuangtongfa.material-theme
 
-      # Javascript
-      denoland.vscode-deno
-      vue.volar
+        # Javascript
+        denoland.vscode-deno
+        vue.volar
 
-      # Python
-      ms-python.python
-      ms-toolsai.jupyter
-      ms-python.debugpy
-      charliermarsh.ruff
+        # Python
+        ms-python.python
+        ms-toolsai.jupyter
+        ms-python.debugpy
+        charliermarsh.ruff
 
-      # Productivity
-      asvetliakov.vscode-neovim
-      vspacecode.whichkey
+        # Productivity
+        asvetliakov.vscode-neovim
+        vspacecode.whichkey
 
-      # miscellaneous
-      redhat.vscode-yaml
-      esbenp.prettier-vscode
-      ms-azuretools.vscode-docker
+        # miscellaneous
+        redhat.vscode-yaml
+        esbenp.prettier-vscode
+        ms-azuretools.vscode-docker
 
-      # LSPs
-      jnoortheen.nix-ide
-    ];
+        # LSPs
+        jnoortheen.nix-ide
+      ])
+      ++ (with pkgs.vscode-extensions; [
+        ms-python.vscode-pylance
+      ]);
   };
 }
