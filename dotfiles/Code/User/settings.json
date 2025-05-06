@@ -441,7 +441,7 @@
   "workbench.startupEditor": "none",
   "[python]": {
     "diffEditor.ignoreTrimWhitespace": false,
-    "editor.defaultColorDecorators": "never",
+    "editor.defaultColorDecorators": "auto",
     "editor.defaultFormatter": "charliermarsh.ruff"
   }
 }
