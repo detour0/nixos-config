@@ -12,21 +12,21 @@
     "when": "sideBarVisible"
   },
   // Move Cursor Focus between Editor and Sidebar or Terminal
-  {
-    "key": "ctrl+l",
-    "command": "workbench.action.focusActiveEditorGroup",
-    "when": "sideBarFocus"
-  },
-  {
-    "key": "ctrl+j",
-    "command": "workbench.action.terminal.focus",
-    "when": "sideBarFocus"
-  },
-  {
-    "key": "ctrl+k",
-    "command": "workbench.action.focusActiveEditorGroup",
-    "when": "terminalFocus"
-  },
+  // {
+  //   "key": "ctrl+l",
+  //   "command": "workbench.action.focusActiveEditorGroup",
+  //   "when": "sideBarFocus"
+  // },
+  // {
+  //   "key": "ctrl+j",
+  //   "command": "workbench.action.terminal.focus",
+  //   "when": "sideBarFocus"
+  // },
+  // {
+  //   "key": "ctrl+k",
+  //   "command": "workbench.action.focusActiveEditorGroup",
+  //   "when": "terminalFocus"
+  // },
   // Scroll through the terminal
   {
     "key": "alt+j",
@@ -50,12 +50,12 @@
     "when": "editorFocus"
   },
   {
-    "key": "alt+j",
+    "key": "alt+k",
     "command": "workbench.action.decreaseViewHeight",
     "when": "editorFocus"
   },
   {
-    "key": "alt+k",
+    "key": "alt+j",
     "command": "workbench.action.increaseViewHeight",
     "when": "editorFocus"
   },
