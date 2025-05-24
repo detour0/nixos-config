@@ -1,32 +1,10 @@
 // Place your key bindings in this file to override the defaults
 [
-  // Toggle File explorer
+  // Close any Tab (which-keys does not work on non-editors)
   {
-    "key": "ctrl+e",
-    "command": "workbench.view.explorer",
-    "when": "!explorerViewletVisible"
+    "key": "ctrl+w",
+    "command": "workbench.action.closeActiveEditor"
   },
-  {
-    "key": "ctrl+e",
-    "command": "workbench.action.closeSidebar",
-    "when": "sideBarVisible"
-  },
-  // Move Cursor Focus between Editor and Sidebar or Terminal
-  // {
-  //   "key": "ctrl+l",
-  //   "command": "workbench.action.focusActiveEditorGroup",
-  //   "when": "sideBarFocus"
-  // },
-  // {
-  //   "key": "ctrl+j",
-  //   "command": "workbench.action.terminal.focus",
-  //   "when": "sideBarFocus"
-  // },
-  // {
-  //   "key": "ctrl+k",
-  //   "command": "workbench.action.focusActiveEditorGroup",
-  //   "when": "terminalFocus"
-  // },
   // Scroll through the terminal
   {
     "key": "alt+j",
@@ -93,11 +71,13 @@
   // Navigate Bottom Panel
   {
     "key": "ctrl+shift+h",
-    "command": "workbench.view.explorer"
+    "command": "workbench.view.explorer",
+    "when": "!sideBarFocus"
   },
   {
-    "key": "ctrl+shift+u",
-    "command": "workbench.action.problems.focus"
+    "key": "ctrl+shift+h",
+    "command": "workbench.action.closeSidebar",
+    "when": "sideBarFocus"
   },
   {
     "key": "ctrl+shift+i",
