@@ -5,7 +5,7 @@
     package = pkgsUnstable.vscode;
     mutableExtensionsDir = false;
 
-    extensions =
+    profiles.default.extensions =
       (with pkgs.open-vsx; [
 
         # Themes
