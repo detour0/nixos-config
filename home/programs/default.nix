@@ -10,5 +10,7 @@
     ./bash.nix
     ./starship.nix
     ./direnv.nix
+    ./ghostty.nix
+    ./gnome-extensions.nix
   ];
 }
