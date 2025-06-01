@@ -2,8 +2,8 @@
 {
   home.packages =
     (with pkgs; [
-      kdePackages.kate
-      kdePackages.kcalc
+      # kdePackages.kate
+      # kdePackages.kcalc
       megasync
       keepassxc
       obsidian

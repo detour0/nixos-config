@@ -1,13 +1,14 @@
 { pkgs, ... }:
 
 {
-  imports =
-    [
-      ../../modules/system.nix
-      ../../modules/steam.nix
-      ../../modules/vm.nix
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ../../modules/system.nix
+    ../../modules/steam.nix
+    ../../modules/vm.nix
+    # ../../modules/kde-plasma.nix
+    ../../modules/gnome.nix
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader = {
