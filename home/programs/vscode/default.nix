@@ -3,7 +3,7 @@
   programs.vscode = {
     enable = true;
     package = pkgsUnstable.vscode;
-    mutableExtensionsDir = false;
+    mutableExtensionsDir = true;
 
     profiles.default.extensions =
       (with pkgs.open-vsx; [
@@ -28,13 +28,14 @@
         # miscellaneous
         redhat.vscode-yaml
         esbenp.prettier-vscode
-        ms-azuretools.vscode-docker
+        ms-azuretools.vscode-containers
 
         # LSPs
         jnoortheen.nix-ide
       ])
       ++ (with pkgs.vscode-extensions; [
         ms-python.vscode-pylance
+        ms-vscode-remote.remote-containers
       ]);
   };
 }
