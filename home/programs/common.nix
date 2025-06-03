@@ -16,10 +16,6 @@
     ]);
 
   programs = {
-    tmux = {
-      enable = true;
-      extraConfig = "set -g mouse";
-    };
     chromium = {
       enable = true;
       package = pkgs.brave;

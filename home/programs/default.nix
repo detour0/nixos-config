@@ -12,5 +12,6 @@
     ./direnv.nix
     ./ghostty.nix
     ./gnome-extensions.nix
+    ./tmux.nix
   ];
 }

@@ -1,8 +1,22 @@
 { pkgs, ... }:
 {
+  home.packages = [
+    pkgs.bibata-cursors
+  ];
+
+  # All the cursor related stuff does nada at the moment....
+  home.pointerCursor = {
+    gtk.enable = true; # Enable for GTK applications
+    x11.enable = true; # Enable for X11 (optional if using Wayland)
+    package = pkgs.bibata-cursors; # Cursor theme package
+    name = "Bibata"; # Cursor theme name
+    size = 24; # Adjust cursor size as needed
+  };
+
   dconf = {
     enable = true;
     settings = {
+
       "org/gnome/desktop/background" = {
         picture-uri-dark = "file://${toString ../../assets/blackhole_bw_4k.png}";
         picture-options = "zoom";
@@ -10,12 +24,14 @@
 
       "org/gnome/shell" = {
         enabled-extensions = [
-          pkgs.gnomeExtensions.open-bar.extensionUuid
+          # pkgs.gnomeExtensions.open-bar.extensionUuid
           pkgs.gnomeExtensions.blur-my-shell.extensionUuid
           pkgs.gnomeExtensions.freon.extensionUuid
           pkgs.gnomeExtensions.net-speed-simplified.extensionUuid
           pkgs.gnomeExtensions.rounded-window-corners-reborn.extensionUuid
           pkgs.gnomeExtensions.appindicator.extensionUuid
+          pkgs.gnomeExtensions.caffeine.extensionUuid
+          pkgs.gnomeExtensions.unblank.extensionUuid
         ];
       };
 
@@ -26,14 +42,24 @@
 
       # Configure keyboard shortcuts for switching to specific workspaces
       "org/gnome/desktop/wm/keybindings" = {
-        switch-to-workspace-1 = [ "<Super>v" ]; # Switch to Workspace 1
-        switch-to-workspace-2 = [ "<Super>c" ]; # Switch to Workspace 2
-        switch-to-workspace-3 = [ "<Super>x" ]; # Switch to Workspace 3
-        switch-to-workspace-4 = [ "<Super>z" ]; # Switch to Workspace 4
+        switch-to-workspace-1 = [ "<Super>z" ]; # Switch to Workspace 1
+        switch-to-workspace-2 = [ "<Super>x" ]; # Switch to Workspace 2
+        switch-to-workspace-3 = [ "<Super>c" ]; # Switch to Workspace 3
+        switch-to-workspace-4 = [ "<Super>v" ]; # Switch to Workspace 4
+
+        # Move windows to specific workspaces
+        move-to-workspace-1 = [ "<Super><Alt>z" ];
+        move-to-workspace-2 = [ "<Super><Alt>x" ];
+        move-to-workspace-3 = [ "<Super><Alt>c" ];
+        move-to-workspace-4 = [ "<Super><Alt>v" ];
       };
 
       "org/gnome/mutter" = {
         workspaces-only-on-primary = false; # Ensure workspaces span all monitors
+      };
+
+      "org/gnome/desktop/interface" = {
+        cursor-theme = "Bibata"; # Match the home.pointerCursor.name
       };
 
       "org/gnome/shell/extensions/openbar" = {
@@ -796,7 +822,7 @@
           24
         ];
         pause-reload = false;
-        position = "Top";
+        position = "bottom";
         prominent1 = [
           100
           100
