@@ -10,6 +10,7 @@
 
         # Themes
         zhuangtongfa.material-theme
+        catppuccin.catppuccin-vsc
 
         # Javascript
         denoland.vscode-deno

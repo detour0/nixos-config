@@ -1,10 +1,11 @@
 { pkgs, ... }:
 {
-  home.packages = pkgs.xsel; # yank dependency
+  home.packages = [ pkgs.xsel ]; # yank dependency
   programs = {
     tmux = {
       enable = true;
       mouse = true;
+      # For whatever reason Plugins need to be installed with <Prefix + i>
       plugins = with pkgs.tmuxPlugins; [
         sensible
         vim-tmux-navigator
@@ -39,7 +40,7 @@
         bind '"' split-window -v -c "#{pane_current_path}"
         bind % split-window -h -c "#{pane_current_path}"
 
-        set -g @catppuccin_flavour 'mocha'
+        set -g @catppuccin_flavour 'macchiato'
       '';
     };
   };
