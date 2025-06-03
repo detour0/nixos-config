@@ -39,6 +39,8 @@
       net-speed-simplified
       rounded-window-corners-reborn
       appindicator
+      caffeine
+      unblank
     ])
     ++ [
       pkgs.dconf-editor
