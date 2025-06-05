@@ -37,7 +37,7 @@
 
       # Optional: Configure dynamic workspaces or set a fixed number
       "org/gnome/desktop/wm/preferences" = {
-        num-workspaces = 4; # Set to desired number of workspaces
+        num-workspaces = 5; # Set to desired number of workspaces
       };
 
       # Configure keyboard shortcuts for switching to specific workspaces
@@ -46,12 +46,14 @@
         switch-to-workspace-2 = [ "<Super>x" ]; # Switch to Workspace 2
         switch-to-workspace-3 = [ "<Super>c" ]; # Switch to Workspace 3
         switch-to-workspace-4 = [ "<Super>v" ]; # Switch to Workspace 4
+        switch-to-workspace-5 = [ "<Super>b" ]; # Switch to Workspace 5
 
         # Move windows to specific workspaces
         move-to-workspace-1 = [ "<Super><Alt>z" ];
         move-to-workspace-2 = [ "<Super><Alt>x" ];
         move-to-workspace-3 = [ "<Super><Alt>c" ];
         move-to-workspace-4 = [ "<Super><Alt>v" ];
+        move-to-workspace-5 = [ "<Super><Alt>b" ];
       };
 
       "org/gnome/mutter" = {
