@@ -10,6 +10,7 @@
       scrcpy
       obs-studio
       plocate
+      vdhcoapp
     ])
     ++ (with pkgsUnstable; [
       devenv

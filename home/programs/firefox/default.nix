@@ -16,6 +16,7 @@ let
     link-cleaner
     # auto-accepts cookies, use only with privacy-badger & ublock-origin
     istilldontcareaboutcookies
+    video-downloadhelper
   ];
   settings = {
     # Betterfox                                                                *
