@@ -63,6 +63,9 @@
       "org/gnome/desktop/interface" = {
         cursor-theme = "Bibata"; # Match the home.pointerCursor.name
       };
+      "org.gnome.settings-daemon.plugins.power" = {
+        sleep-inactive-ac-type = "nothing";
+      };
 
       "org/gnome/shell/extensions/openbar" = {
         accent-color = [

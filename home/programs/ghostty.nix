@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       theme = "catppuccin-macchiato";
-      gtk-titlebar = false;
+      gtk-titlebar = true;
     };
   };
 }
