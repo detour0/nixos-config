@@ -13,10 +13,10 @@ let
     unpaywall
     tabliss
     # languagetool Unfree licence error despite: allowUnfree in system.nix
+    # video-downloadhelper same licence error
     link-cleaner
     # auto-accepts cookies, use only with privacy-badger & ublock-origin
     istilldontcareaboutcookies
-    video-downloadhelper
   ];
   settings = {
     # Betterfox                                                                *
