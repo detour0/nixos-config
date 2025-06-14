@@ -33,6 +33,11 @@ let
     # Load tabs and windows from prev session
     "browser.startup.page" = 3;
 
+    # SCROLLBAR VISIBILITY ***/
+    "widget.gtk.overlay-scrollbars.enabled" = false;
+    "widget.non-native-theme.scrollbar.size.override" = 18;
+    "widget.non-native-theme.scrollbar.style" = 4;
+
     # GFX ***/
     "gfx.canvas.accelerated.cache-items" = 4096;
     "gfx.canvas.accelerated.cache-size" = 512;
