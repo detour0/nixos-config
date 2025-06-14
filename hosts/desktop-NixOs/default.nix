@@ -48,6 +48,8 @@
     nil
     nixfmt-rfc-style
 
+    docker-compose
+    docker-compose-language-service
   ];
 
   virtualisation.docker.rootless = {
