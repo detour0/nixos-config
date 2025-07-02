@@ -66,7 +66,10 @@
       "org.gnome.settings-daemon.plugins.power" = {
         sleep-inactive-ac-type = "nothing";
       };
-
+      "org.gnome.desktop.session" = {
+        # Screen idle logout timer
+        idle-delay = 900;
+      };
       "org/gnome/shell/extensions/openbar" = {
         accent-color = [
           0.0

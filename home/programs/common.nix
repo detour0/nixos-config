@@ -10,7 +10,6 @@
       scrcpy
       obs-studio
       plocate
-      vdhcoapp
       yt-dlp
     ])
     ++ (with pkgsUnstable; [
