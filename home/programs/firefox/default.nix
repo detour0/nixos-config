@@ -35,7 +35,7 @@ let
 
     # SCROLLBAR VISIBILITY ***/
     "widget.gtk.overlay-scrollbars.enabled" = false;
-    "widget.non-native-theme.scrollbar.size.override" = 18;
+    "widget.non-native-theme.scrollbar.size.override" = 14;
     "widget.non-native-theme.scrollbar.style" = 4;
 
     # GFX ***/

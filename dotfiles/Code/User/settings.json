@@ -444,5 +444,6 @@
     "editor.defaultColorDecorators": "never",
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "python.languageServer": "Pylance"
+  "python.languageServer": "Pylance",
+  "python.analysis.typeCheckingMode": "standard"
 }
