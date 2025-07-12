@@ -4,29 +4,15 @@
     enable = true;
     settings = {
       format = lib.concatStrings [
-        "$directory"
-        "$git_branch"
-        "$git_status"
-        "$fill"
-        "$deno"
-        "$direnv"
-        "$docker_context"
-        "$hostname"
-        "$lua"
-        "$nix_shell"
-        "$nodejs"
-        "$python"
-        "$rust"
-        "$sudo"
-        "$cmd_duration"
-        "$jobs"
+        "$all"
         "$line_break"
         "$shell"
         "$character"
-        ];
+      ];
       fill = {
         symbol = ".";
       };
+      right_format = "$cmd_duration";
       directory = {
         truncation_symbol = "../";
       };
