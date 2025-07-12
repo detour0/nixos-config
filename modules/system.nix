@@ -121,7 +121,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
+  networking.firewall.trustedInterfaces = [ "docker0" ];
   # Enable the OpenSSH daemon
 
   # Enable sound with pipewire.

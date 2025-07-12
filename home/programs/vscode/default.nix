@@ -3,7 +3,8 @@
   programs.vscode = {
     enable = true;
     package = pkgsUnstable.vscode;
-    mutableExtensionsDir = true;
+    #'true' causes vscode to restrict extensions to certain profiles, requiring manual enabling
+    mutableExtensionsDir = false;
 
     profiles.default.extensions =
       (with pkgs.open-vsx; [
@@ -14,7 +15,6 @@
 
         # Javascript
         denoland.vscode-deno
-        vue.volar
 
         # Python
         ms-python.python
