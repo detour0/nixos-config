@@ -12,7 +12,7 @@
       fill = {
         symbol = ".";
       };
-      right_format = "$cmd_duration";
+      # right_format = "$cmd_duration"; # Doesn't work with bash
       directory = {
         truncation_symbol = "../";
       };
