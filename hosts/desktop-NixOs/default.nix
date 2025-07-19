@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
@@ -30,27 +30,33 @@
 
   # for Nvidia GPU
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages =
+    (with pkgs; [
 
-    wget
-    curl
-    neofetch
-    btop
-    man-pages
-    man-pages-posix
+      wget
+      curl
+      neofetch
+      btop
+      man-pages
+      man-pages-posix
 
-    # Archive
-    zip
-    unzip
-    p7zip
+      # Archive
+      zip
+      unzip
+      p7zip
 
-    # Nix Language Server
-    nil
-    nixfmt-rfc-style
+      # Nix Language Server
+      nil
+      nixfmt-rfc-style
 
-    docker-compose
-    docker-compose-language-service
-  ];
+      docker-compose
+      docker-compose-language-service
+
+      mullvad-vpn
+    ])
+    ++ [
+      inputs.tws.defaultPackage.${pkgs.system}
+    ];
 
   virtualisation.docker.rootless = {
     enable = true;
