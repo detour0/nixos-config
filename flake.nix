@@ -23,6 +23,7 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    tws.url = "path:./modules/tws";
   };
   outputs =
     inputs@{

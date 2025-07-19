@@ -11,6 +11,7 @@
       obs-studio
       plocate
       yt-dlp
+      tradingview
     ])
     ++ (with pkgsUnstable; [
       devenv
