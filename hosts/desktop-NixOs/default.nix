@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -28,6 +28,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  services = {
+    mullvad-vpn.enable = true;
+    mullvad-vpn.package = pkgs.mullvad-vpn;
+    resolved.enable = true;
+  };
+
   # for Nvidia GPU
 
   environment.systemPackages =
@@ -51,11 +57,8 @@
 
       docker-compose
       docker-compose-language-service
-
-      mullvad-vpn
     ])
     ++ [
-      inputs.tws.defaultPackage.${pkgs.system}
     ];
 
   virtualisation.docker.rootless = {
