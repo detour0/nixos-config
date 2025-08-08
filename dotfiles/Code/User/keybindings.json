@@ -100,6 +100,11 @@
     "key": "ctrl+alt+n",
     "command": "notifications.clearAll"
   },
+  // Show Hover
+  {
+    "key": "shift+k",
+    "command": "editor.action.showHover"
+  },
   // Quit Vscode
   {
     "key": "ctrl+escape",

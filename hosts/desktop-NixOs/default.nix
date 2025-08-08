@@ -65,6 +65,14 @@
     enable = true;
     setSocketVariable = true;
   };
+  networking.firewall = {
+    allowedTCPPorts = [
+      80
+      443
+    ]; # HTTP/HTTPS
+    trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
+    enable = true;
+  };
 
   # Setting default editor to vim
   # environment.variables.EDITOR = "neovim";
