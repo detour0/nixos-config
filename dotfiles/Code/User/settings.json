@@ -16,7 +16,12 @@
     },
     "tmux": {
       "path": "/etc/profiles/per-user/dt/bin/tmux",
-      "args": ["new-session", "-A", "-s", "vscode:${workspaceFolder}"],
+      "args": [
+        "new-session",
+        "-A",
+        "-s",
+        "${workspaceFolder}"
+      ],
       "icon": "terminal-tmux"
     },
     "pwsh": {
@@ -24,26 +29,22 @@
       "icon": "terminal-powershell"
     }
   },
-
   // Look
   "workbench.colorTheme": "Catppuccin Macchiato",
   "editor.fontFamily": "JetBrains Mono",
   "editor.guides.bracketPairs": "active",
   "editor.minimap.enabled": false,
-
   // Formatting & Save
   "files.autoSave": "onFocusChange",
   "editor.formatOnSave": true,
   "files.trimTrailingWhitespace": true,
   "diffEditor.ignoreTrimWhitespace": false,
-
   // Neovim-extension Settings
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
   "vscode-neovim.neovimExecutablePaths.linux": "/etc/profiles/per-user/dt/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.lua",
-
   // Zen mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
@@ -51,14 +52,20 @@
   "zenMode.silentNotifications": false,
   "zenMode.centerLayout": false,
   //"zenMode.showTabs": "single"
-
   // Language Settings
   "nix.enableLanguageServer": true,
   "nix.serverPath": "nil",
-  "nix.serverSettings": { "nil": { "formatting": { "command": ["nixfmt"] } } },
-
+  "nix.serverSettings": {
+    "nil": {
+      "formatting": {
+        "command": [
+          "nixfmt"
+        ]
+      }
+    }
+  },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -66,7 +73,6 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   // Wichkey Config
   "whichkey.delay": 0,
   "whichkey.sortOrder": "alphabetically",
@@ -445,5 +451,7 @@
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "python.languageServer": "Pylance",
-  "python.analysis.typeCheckingMode": "standard"
+  "python.analysis.typeCheckingMode": "standard",
+  "window.newWindowProfile": "Default",
+  "extensions.ignoreRecommendations": true
 }
