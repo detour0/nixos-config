@@ -57,7 +57,7 @@
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+                    # sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
                     extraSpecialArgs = {
                       inherit username inputs;
                       pkgsUnstable = config._module.args.pkgsUnstable; # Reference from module args

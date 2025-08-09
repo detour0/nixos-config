@@ -123,8 +123,8 @@
   # networking.firewall.enable = false;
   # Enable the OpenSSH daemon
   networking.nameservers = [
-    "1.1.1.1"
-    "9.9.9.9"
+    "1.1.1.1" # Cloudflare
+    "9.9.9.9" # Quad9
   ];
 
   # Enable sound with pipewire.
