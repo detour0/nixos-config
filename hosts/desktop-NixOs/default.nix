@@ -61,15 +61,23 @@
     ++ [
     ];
 
+  # After changing settings, Docker needs manual restart 'systemctl --user restart docker.service'
   virtualisation.docker.rootless = {
     enable = true;
     setSocketVariable = true;
+    daemon.settings = {
+      # DNS needs to be set, otherwise requests from inside the container won't resolve
+      dns = [
+        "1.1.1.1"
+        "9.9.9.9"
+      ];
+    };
   };
   networking.firewall = {
-    allowedTCPPorts = [
-      80
-      443
-    ]; # HTTP/HTTPS
+    # allowedTCPPorts = [
+    #   80
+    #   443
+    # ]; # HTTP/HTTPS
     trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
     enable = true;
   };
