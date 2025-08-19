@@ -35,13 +35,6 @@
     extra-trusted-public-keys = nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=
   '';
 
-  # do garbage collection weekly to keep disk usage low
-  nix.gc = {
-    automatic = lib.mkDefault true;
-    dates = lib.mkDefault "monthly";
-    options = lib.mkDefault "--delete-older-than 1m";
-  };
-
   # Was recommended for codeium, seems not to do anything
   # source: https://www.reddit.com/r/Codeium/comments/1cpnzra/for_anyone_on_nixos_if_codeium_doesnt_work/
   # programs.nix-ld.enable = true;
@@ -74,8 +67,16 @@
     variant = "altgr-intl";
   };
 
-  # Enable CUPS to print documents.
+  # Enable CUPS to print documents
   services.printing.enable = true;
+
+  # Finally less nix-command-mess
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 4d --keep 3";
+    flake = "/home/${username}/nixos-config"; # sets NH_OS_FLAKE variable for you
+  };
 
   fonts = {
     packages =
