@@ -23,6 +23,13 @@
         bind -n M-H previous-window
         bind -n M-L next-window
 
+        # Use Ctrl + h/j/k/l to move between panes
+        bind -n C-h select-pane -L
+        bind -n C-j select-pane -D
+        bind -n C-k select-pane -U
+        bind -n C-l select-pane -R
+
+
         # Start windows and panes at 1, not 0
         set -g base-index 1
         set -g pane-base-index 1

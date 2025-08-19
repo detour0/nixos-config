@@ -23,12 +23,17 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
       self,
       nixpkgs,
       home-manager,
+      sops-nix,
       plasma-manager,
       nix-vscode-extensions,
       ...
@@ -45,6 +50,7 @@
             system = "x86_64-linux";
 
             modules = [
+              sops-nix.nixosModules.sops
               ./hosts/desktop-NixOs
               ./overlays
               ./modules/extrargs.nix
