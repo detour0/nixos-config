@@ -73,12 +73,13 @@
       ];
     };
   };
+
   networking.firewall = {
     # allowedTCPPorts = [
     #   80
     #   443
     # ]; # HTTP/HTTPS
-    trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
+    # trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
     enable = true;
   };
 

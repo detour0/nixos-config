@@ -78,6 +78,10 @@
     flake = "/home/${username}/nixos-config"; # sets NH_OS_FLAKE variable for you
   };
 
+  environment.systemPackages = with pkgs; [
+    age
+  ];
+
   fonts = {
     packages =
       with pkgs;
