@@ -23,7 +23,7 @@
   };
   systemd.services."docker-tws-ibkr" = {
     serviceConfig = {
-      Restart = lib.mkOverride 90 "yes";
+      Restart = lib.mkOverride 90 "no";
     };
     after = [
       "docker-network-tws_default.service"

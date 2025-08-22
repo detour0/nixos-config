@@ -33,7 +33,7 @@
       nixpkgs,
       home-manager,
       sops-nix,
-      plasma-manager,
+      # plasma-manager,
       nix-vscode-extensions,
       ...
     }:
