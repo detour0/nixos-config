@@ -12,6 +12,13 @@
       plocate
       yt-dlp
       tradingview
+      git-filter-repo
+
+      libreoffice-fresh
+      hunspell
+      hunspellDicts.de_DE
+      hunspellDicts.en_US
+      hunspellDicts.en_US
     ])
     ++ (with pkgsUnstable; [
       devenv
