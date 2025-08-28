@@ -1,4 +1,4 @@
-Very much a work in progress, in case of questions/hints/etc just abuse the issue function.
+Very much a work in progress
 
 Issues:
 
