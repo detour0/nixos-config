@@ -3,6 +3,7 @@
   "extensions.autoCheckUpdates": false,
   "update.mode": "none",
   "terminal.integrated.defaultProfile.linux": "tmux",
+  "terminal.integrated.allowChords": false,
   "terminal.integrated.profiles.linux": {
     "bash": {
       "path": "bash",

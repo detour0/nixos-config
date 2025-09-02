@@ -39,42 +39,17 @@
     }:
     {
       nixosConfigurations = {
-        desktop-NixOs =
-          let
-            username = "dt";
-          in
-          nixpkgs.lib.nixosSystem {
-
-            specialArgs = { inherit username inputs; };
-            system = "x86_64-linux";
-
-            modules = [
-              sops-nix.nixosModules.sops
-              ./hosts/desktop-NixOs
-              ./overlays
-              ./modules/extrargs.nix
-              ./modules/tws.nix
-
-              home-manager.nixosModules.home-manager
-              (
-                { config, ... }:
-                {
-                  # Use a function to access `config`
-                  home-manager = {
-                    useGlobalPkgs = true;
-                    useUserPackages = true;
-                    # sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-                    extraSpecialArgs = {
-                      inherit username inputs;
-                      pkgsUnstable = config._module.args.pkgsUnstable; # Reference from module args
-                    };
-                    users.${username} = import ./users/${username}/home.nix;
-                    backupFileExtension = "backup";
-                  };
-                }
-              )
-            ];
-          };
+        
+      shaundi = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ 
+          ./hosts/shaundi
+          ./overlays
+          sops-nix.nixosModules.sops
+           ];
+        specialArgs = {
+          inherit inputs;
+        };
 
       };
     };
