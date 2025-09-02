@@ -4,7 +4,7 @@
         ./hardware-configuration.nix
         ../common/global
 
-        ../common/users/ { username = "dt" }
+        (import ../../users { username = "dt"; })
 
         ../common/systemd-boot.nix
         ../common/networking.nix
@@ -21,7 +21,7 @@
 
     ];
 
-  networking.hostName = "shaundi"
+  networking.hostName = "shaundi";
 
   environment.variables.EDITOR = "nano";
 

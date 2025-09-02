@@ -36,21 +36,22 @@
       # plasma-manager,
       nix-vscode-extensions,
       ...
-    }:
-    {
-      nixosConfigurations = {
-        
+  }:
+  {
+    nixosConfigurations = {
+
       shaundi = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
           ./hosts/shaundi
           ./overlays
           sops-nix.nixosModules.sops
-           ];
+          ];
         specialArgs = {
           inherit inputs;
         };
 
       };
     };
+  };
 }
