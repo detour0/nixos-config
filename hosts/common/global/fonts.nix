@@ -1,4 +1,6 @@
-{fonts = {
+{ pkgs, ... }:
+{
+  fonts = {
     packages =
       with pkgs;
       [

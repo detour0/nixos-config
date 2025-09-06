@@ -1,10 +1,14 @@
-{ pkgs, inputs, username, ... }:
+{ pkgs, lib, inputs, mkUser, ... }:
+
 {
     imports = [
         ./hardware-configuration.nix
         ../common/global
 
-        (import ../../users { username = "dt"; })
+        (mkUser "dt")
+
+        ../../overlays
+        inputs.sops-nix.nixosModules.sops
 
         ../common/systemd-boot.nix
         ../common/networking.nix

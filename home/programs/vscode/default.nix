@@ -1,12 +1,23 @@
-{ pkgs, pkgsUnstable, ... }:
+{ pkgs, lib, config, pkgsUnstable, ... }:
 {
+  home.file.".config/Code/User/settings.json".source = lib.mkForce (
+  config.lib.file.mkOutOfStoreSymlink ./../../../dotfiles/Code/User/settings.json
+);
+  home.file.".config/Code/User/keybindings.json".source = lib.mkForce (
+    config.lib.file.mkOutOfStoreSymlink ../../../dotfiles/Code/User/keybindings.json
+  );
   programs.vscode = {
     enable = true;
     package = pkgsUnstable.vscode;
     #'true' causes vscode to restrict extensions to certain profiles, requiring manual enabling
     mutableExtensionsDir = false;
 
-    profiles.default.extensions =
+    profiles.default = {
+
+      # userSettings = builtins.toString ../../../dotfiles/Code/User/settings.json;
+      # keybindings = builtins.toString ../../../dotfiles/Code/User/keybindings.json;
+
+      extensions =
       (with pkgs.open-vsx; [
 
         # Themes
@@ -39,4 +50,4 @@
         ms-vscode-remote.remote-containers
       ]);
   };
-}
+};
