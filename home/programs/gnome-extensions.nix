@@ -16,12 +16,10 @@
   dconf = {
     enable = true;
     settings = {
-
       "org/gnome/desktop/background" = {
         picture-uri-dark = "file://${toString ../../assets/blackhole_bw_4k.png}";
         picture-options = "zoom";
       };
-
       "org/gnome/shell" = {
         enabled-extensions = [
           # pkgs.gnomeExtensions.open-bar.extensionUuid
@@ -34,12 +32,10 @@
           pkgs.gnomeExtensions.unblank.extensionUuid
         ];
       };
-
       # Optional: Configure dynamic workspaces or set a fixed number
       "org/gnome/desktop/wm/preferences" = {
         num-workspaces = 5; # Set to desired number of workspaces
       };
-
       # Configure keyboard shortcuts for switching to specific workspaces
       "org/gnome/desktop/wm/keybindings" = {
         switch-to-workspace-1 = [ "<Super>z" ]; # Switch to Workspace 1
@@ -55,11 +51,10 @@
         move-to-workspace-4 = [ "<Super><Alt>v" ];
         move-to-workspace-5 = [ "<Super><Alt>b" ];
       };
-
       "org/gnome/mutter" = {
+        dynamic-workspaces = false;
         workspaces-only-on-primary = false; # Ensure workspaces span all monitors
       };
-
       "org/gnome/desktop/interface" = {
         cursor-theme = "Adwaita"; # Match the home.pointerCursor.name
         color-scheme = "prefer-dark";
