@@ -1,21 +1,21 @@
-{ config, username, ... }
+{ config, username, inputs, lib, ... }:
+
 {
-    home-manager.nixosModules.home-manager
-    (
-        { config, username, ... }:
-        {
-            # Use a function to access `config`
-            home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            extraSpecialArgs = {
+    imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ( { config, username, inputs, ... }:
+      {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = {
             inherit username inputs;
-            pkgsUnstable = config._module.args.pkgsUnstable; # Reference from module args
-            };
-            users.${username} = import ./users/${username}/home.nix;
-            backupFileExtension = "backup";
-            };
-        }
+            pkgsUnstable = config._module.args.pkgsUnstable;
+          };
+          users.${username} = import ../home; # import ../home/${username}/${config.networking.hostName}.nix;
+          backupFileExtension = "backup";
+        };
+      }
     )
-    home-manager.users.${username} = import ../../../../home/${username}/${config.networking.hostName}.nix;
+    ];
 }

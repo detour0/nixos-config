@@ -6,16 +6,21 @@
     inherit username;
     homeDirectory = "/home/${username}";
 
-    # This value determines the Home Manager release that your
-    # configuration is compatible with. This helps avoid breakage
-    # when a new Home Manager release introduces backwards
-    # incompatible changes.
-    #
-    # You can update Home Manager without changing this value. See
-    # the Home Manager release notes for a list of state version
-    # changes in each release.
     stateVersion = "24.11";
   };
+  
+  imports = [
+    ./programs
+  ];
+
+  programs.git = {
+    userName = "${username}";
+    userEmail = "35782618+detour0@users.noreply.github.com";
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
+  };
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

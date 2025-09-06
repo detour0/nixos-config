@@ -1,7 +1,6 @@
 {
-  pkgs,
-  lib,
   username,
+  inputs,
   ...
 }:
 {
@@ -16,5 +15,5 @@
     ];
   };
 
-  import ./home.nix { username }  
+  imports = [ ./home.nix ];
 }

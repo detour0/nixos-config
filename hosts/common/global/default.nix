@@ -1,5 +1,5 @@
 {
-  import = [
+  imports = [
       ./locale.nix
       ./settings.nix
       ./fonts.nix

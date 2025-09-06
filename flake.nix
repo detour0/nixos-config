@@ -37,19 +37,27 @@
       nix-vscode-extensions,
       ...
   }:
+    let
+      mkUser = username: args@{ config, pkgs, lib, inputs, ... }: {
+          _module.args = {
+            inherit username;
+          };
+          imports = [ ./users ] ;
+        };
+    in
   {
     nixosConfigurations = {
 
-      shaundi = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ 
-          ./hosts/shaundi
-          ./overlays
-          sops-nix.nixosModules.sops
+
+      shaundi =
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ 
+            ./hosts/shaundi
           ];
-        specialArgs = {
-          inherit inputs;
-        };
+          specialArgs = {
+            inherit inputs mkUser;
+          };
 
       };
     };
