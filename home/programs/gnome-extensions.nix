@@ -5,13 +5,13 @@
   ];
 
   # All the cursor related stuff does nada at the moment....
-  home.pointerCursor = {
-    gtk.enable = true; # Enable for GTK applications
-    x11.enable = true; # Enable for X11 (optional if using Wayland)
-    package = pkgs.bibata-cursors; # Cursor theme package
-    name = "Bibata"; # Cursor theme name
-    size = 24; # Adjust cursor size as needed
-  };
+  # home.pointerCursor = {
+  #   gtk.enable = true; # Enable for GTK applications
+  #   x11.enable = true; # Enable for X11 (optional if using Wayland)
+  #   package = pkgs.bibata-cursors; # Cursor theme package
+  #   name = "Bibata"; # Cursor theme name
+  #   size = 24; # Adjust cursor size as needed
+  # };
 
   dconf = {
     enable = true;
@@ -61,7 +61,8 @@
       };
 
       "org/gnome/desktop/interface" = {
-        cursor-theme = "Bibata"; # Match the home.pointerCursor.name
+        cursor-theme = "Adwaita"; # Match the home.pointerCursor.name
+        color-scheme = "prefer-dark";
       };
       "org.gnome.settings-daemon.plugins.power" = {
         sleep-inactive-ac-type = "nothing";
