@@ -1,5 +1,11 @@
 // Place your key bindings in this file to override the defaults
 [
+  // Set the Whichkey leader-key
+  // {
+  //   "key": "space",
+  //   "command": "whichkey.show",
+  //   "when": "editorTextFocus"
+  // },
   // Close any Tab (which-keys does not work on non-editors)
   {
     "key": "ctrl+w",
@@ -100,11 +106,11 @@
     "key": "ctrl+alt+n",
     "command": "notifications.clearAll"
   },
-  // Show Hover
-  {
-    "key": "shift+k",
-    "command": "editor.action.showHover"
-  },
+  // Show Hover - probably not not good idea, does not distinguish normal/insert mode
+  // {
+  //   "key": "shift+k",
+  //   "command": "editor.action.showHover"
+  // },
   // Quit Vscode
   {
     "key": "ctrl+escape",

@@ -22,6 +22,7 @@
     ])
     ++ (with pkgsUnstable; [
       devenv
+      nvim-pkg
     ]);
 
   programs = {

@@ -6,7 +6,7 @@
     ./media.nix
     # ./plasma.nix
     ./vscode
-    ./nvim.nix
+    # ./nvim.nix
     ./bash.nix
     ./starship.nix
     ./direnv.nix

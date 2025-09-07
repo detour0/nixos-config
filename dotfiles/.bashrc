@@ -15,74 +15,42 @@ fi
 
 # Shortcut function for rebuilding and testing NixOs config
 nrs() {
-  if [ "$1" = "-r" ]; then
-    echo "Running 'sudo nixos-rebuild switch' and rebooting..."
-    sudo nixos-rebuild switch && sudo reboot now
-  elif [ "$1" = "-t" ]; then
-    echo "Running 'sudo nixos-rebuild test'"
-    sudo nixos-rebuild test
-  elif [ "$1" = "-s" ]; then
-    echo "Running 'sudo nixos-rebuild switch' and shutting down..."
-    sudo nixos-rebuild switch && sudo shutdown now
-  else
-    echo "Running 'sudo nixos-rebuild switch'..."
-    sudo nixos-rebuild switch
+  if [ $# -eq 0 ]; then
+    echo "Error: hostname required"
+    return 1
   fi
+
+  local hostname="$1"
+  local flake_path="~/workspace/nixos-config"
+  local cmd="sudo nixos-rebuild switch --flake $flake_path#$hostname"
+
+  case "$2" in
+    -r)
+      echo "Running '$cmd' and rebooting..."
+      $cmd && sudo reboot now
+      ;;
+    -t)
+      cmd="sudo nixos-rebuild test --flake $flake_path#$hostname"
+      echo "Running '$cmd'"
+      $cmd
+      ;;
+    -s)
+      echo "Running '$cmd' and shutting down..."
+      $cmd && sudo shutdown now
+      ;;
+    *)
+      echo "Running '$cmd'..."
+      $cmd
+      ;;
+  esac
 }
-
-dotbak() {
-    # Define source and target directories
-    local source_dir="$HOME/.config"
-    local target_dir="$HOME/nixos-config/dotfiles"
-    local backup_dir="$target_dir/backups/$(date +%Y%m%d_%H%M%S)"
-
-    # Files to copy
-    local files=(
-        "Code/User/settings.json"
-        "Code/User/keybindings.json"
-        ".bashrc"
-        "starship.toml"
-        "nvim"
-    )
-
-    # Create backup directory if it doesn't exist
-    mkdir -p "$backup_dir"
-
-    # Iterate over files and copy them
-    for file in "${files[@]}"; do
-        local source_file="$source_dir/$file"
-        local target_file="$target_dir/$file"
-
-        # Check if the source file exists
-        if [[ -e "$source_file" ]]; then
-            # If the target file exists, move it to the backup directory
-            if [[ -e "$target_file" ]]; then
-                mkdir -p "$(dirname "$backup_dir/$file")"
-                mv "$target_file" "$backup_dir/$file"
-                echo "Backed up $target_file to $backup_dir/$file"
-            fi
-
-            # Copy the source file to the target directory
-            mkdir -p "$(dirname "$target_file")"
-            cp -r "$source_file" "$target_file"
-            echo "Copied $source_file to $target_file"
-        else
-            echo "Source file $source_file does not exist, skipping."
-        fi
-    done
-
-    echo "Backup and copy completed. Backup directory: $backup_dir"
-}
-# # Make sure the function is available in the current shell
-# export -f nrs
-# export -f dotbak
 
 # Aliases
 alias ..="cd .."
-alias cdc="cd ~/megasync/coding"
-alias nixconf="code ~/nixos-config"
-alias nfc="nix flake check ~/nixos-config"
-alias nfu="nix flake update ~/nixos-config"
+alias cdc="cd ~/mega/coding"
+alias nixconf="code ~/workspace/nixos-config"
+alias nfc="nix flake check ~/workspace/nixos-config"
+alias nfu="nix flake update ~/workspace/nixos-config"
 alias vimdiff='nvim -d'
 
 # Direnv shell hook
