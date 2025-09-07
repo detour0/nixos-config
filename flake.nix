@@ -13,6 +13,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     #   inputs.home-manager.follows = "home-manager";
     # };
+    # nnvim.url = "github.com/detour0/nnvim";
     nurpkgs.url = "github:nix-community/NUR";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -35,31 +36,41 @@
       sops-nix,
       # plasma-manager,
       nix-vscode-extensions,
+      # nnvim,
       ...
-  }:
+    }:
     let
-      mkUser = username: args@{ config, pkgs, lib, inputs, ... }: {
+      mkUser =
+        username:
+        {
+          config,
+          pkgs,
+          lib,
+          inputs,
+          ...
+        }:
+        {
           _module.args = {
             inherit username;
           };
-          imports = [ ./users ] ;
+          imports = [ ./users ];
         };
+      # nixpkgs-unstable.overlays = [ nnvim.overlays.default ];
     in
-  {
-    nixosConfigurations = {
+    {
+      nixosConfigurations = {
 
-
-      shaundi =
-        nixpkgs.lib.nixosSystem {
+        shaundi = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = [ 
+          modules = [
             ./hosts/shaundi
           ];
           specialArgs = {
             inherit inputs mkUser;
+            stateVersion = "25.05";
           };
 
+        };
       };
     };
-  };
 }

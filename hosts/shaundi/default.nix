@@ -1,29 +1,35 @@
-{ pkgs, lib, inputs, mkUser, ... }:
+{
+  pkgs,
+  inputs,
+  mkUser,
+  stateVersion,
+  ...
+}:
 
 {
-    imports = [
-        ./hardware-configuration.nix
-        ../common/global
+  imports = [
+    ./hardware-configuration.nix
+    ../common/global
 
-        (mkUser "dt")
+    (mkUser "dt")
 
-        ../../overlays
-        inputs.sops-nix.nixosModules.sops
+    ../../overlays
+    inputs.sops-nix.nixosModules.sops
 
-        ../common/systemd-boot.nix
-        ../common/networking.nix
+    ../common/systemd-boot.nix
+    ../common/networking.nix
 
-        ../common/docker.nix
-        ../common/printing.nix
-        ../common/pipewire.nix
-        ../common/mullvad.nix
+    ../common/docker.nix
+    ../common/printing.nix
+    ../common/pipewire.nix
+    ../common/mullvad.nix
 
-        ../common/extrargs.nix
-        ../common/gnome.nix
-        ../common/vm.nix
-        ../common/steam.nix
+    ../common/extrargs.nix
+    ../common/gnome.nix
+    ../common/vm.nix
+    ../common/steam.nix
 
-    ];
+  ];
 
   networking.hostName = "shaundi";
 
@@ -55,10 +61,10 @@
     ];
 
   networking.firewall = {
-    allowedTCPPorts = []; # 80 HTTP/ 443 HTTPS
+    allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
     # trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
     enable = true;
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "${stateVersion}";
 }
