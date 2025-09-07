@@ -1,4 +1,4 @@
-{username, ...}:
+{ username, stateVersion, ... }:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -6,9 +6,9 @@
     inherit username;
     homeDirectory = "/home/${username}";
 
-    stateVersion = "24.11";
+    stateVersion = "${stateVersion}";
   };
-  
+
   imports = [
     ./programs
   ];
@@ -20,7 +20,6 @@
       init.defaultBranch = "main";
     };
   };
-
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

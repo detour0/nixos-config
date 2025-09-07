@@ -1,6 +1,10 @@
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
+vim.opt.ignorecase = true -- search case insensitive
+vim.opt.smartcase = true -- search matters if capital letter
+vim.opt.inccommand = "split" -- "for incsearch while sub
+
 -- Better Navigation
 keymap({ "n", "x" }, "<C-j>", "<cmd>lua require('vscode').action('workbench.action.navigateDown')<CR>", opts)
 keymap({ "n", "x" }, "<C-k>", "<cmd>lua require('vscode').action('workbench.action.navigateUp')<CR>", opts)
@@ -8,7 +12,7 @@ keymap({ "n", "x" }, "<C-h>", "<cmd>lua require('vscode').action('workbench.acti
 keymap({ "n", "x" }, "<C-l>", "<cmd>lua require('vscode').action('workbench.action.navigateRight')<CR>", opts)
 
 -- Show which-key
-keymap({ "n", "x" }, "<Space>", "<cmd>lua require('vscode').action('whichkey.show')<CR>", opts)
+keymap({ "n", "x" }, "<,>", "<cmd>lua require('vscode').action('whichkey.show')<CR>", opts)
 -- Show Hover Menu
 keymap("n", "H", "<cmd>lua require('vscode').action('editor.action.showHover')<CR>", opts)
 

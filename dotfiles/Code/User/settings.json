@@ -53,6 +53,13 @@
   "zenMode.silentNotifications": false,
   "zenMode.centerLayout": false,
   //"zenMode.showTabs": "single"
+  // Disable Copilot
+  "chat.commandCenter.enabled": false,
+  "chat.agent.enabled": false,
+  "github.copilot.enable": false,
+  "github.copilot.editor.enableAutoCompletions": false,
+  "github.copilot.editor.enableCodeActions": false,
+  "github.copilot.nextEditSuggestions.enabled": false,
   // Language Settings
   "nix.enableLanguageServer": true,
   "nix.serverPath": "nil",

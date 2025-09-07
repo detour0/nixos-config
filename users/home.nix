@@ -1,15 +1,26 @@
-{ config, username, inputs, lib, ... }:
+{
+  username,
+  inputs,
+  stateVersion,
+  ...
+}:
 
 {
-    imports = [
+  imports = [
     inputs.home-manager.nixosModules.home-manager
-    ( { config, username, inputs, ... }:
+    (
+      {
+        config,
+        username,
+        inputs,
+        ...
+      }:
       {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
           extraSpecialArgs = {
-            inherit username inputs;
+            inherit username inputs stateVersion;
             pkgsUnstable = config._module.args.pkgsUnstable;
           };
           users.${username} = import ../home; # import ../home/${username}/${config.networking.hostName}.nix;
@@ -17,5 +28,5 @@
         };
       }
     )
-    ];
+  ];
 }
