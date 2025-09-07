@@ -2,7 +2,12 @@ Very much a work in progress
 
 Issues:
 
-KDE Plasma:
+Overlays:
+
+- very unelegant solution just importing with \_module.args
+  directly in the host config file
+
+  KDE Plasma:
 
 - workspace shortcuts need to be set manually
 - splash screen is not disabled

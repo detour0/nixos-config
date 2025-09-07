@@ -19,7 +19,7 @@
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
       comment-nvim
-      hop-nvim
+      # hop-nvim
     ];
   };
 }
