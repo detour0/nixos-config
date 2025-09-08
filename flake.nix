@@ -64,7 +64,7 @@
 
           specialArgs = {
             inherit inputs mkUser;
-            stateVersion = "25.05";
+            stateVersionH = "25.05";
           };
 
         };

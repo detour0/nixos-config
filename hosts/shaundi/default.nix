@@ -2,7 +2,6 @@
   pkgs,
   inputs,
   mkUser,
-  stateVersion,
   ...
 }:
 
@@ -15,6 +14,7 @@
     (mkUser "dt")
 
     ../../overlays
+    ../common/extrargs.nix
     inputs.sops-nix.nixosModules.sops
 
     ../common/systemd-boot.nix
@@ -25,7 +25,6 @@
     ../common/pipewire.nix
     ../common/mullvad.nix
 
-    ../common/extrargs.nix
     ../common/gnome.nix
     ../common/vm.nix
     ../common/steam.nix
@@ -67,5 +66,5 @@
     enable = true;
   };
 
-  system.stateVersion = "${stateVersion}";
+  system.stateVersion = "25.05";
 }
