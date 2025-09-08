@@ -4,10 +4,15 @@ Issues:
 
 Overlays:
 
-- very unelegant solution just importing with \_module.args
-  directly in the host config file
+- very unelegant solution, importing module.args/pkgsUnstable
+  and the overlays from one file directly in the host config file
 
-  KDE Plasma:
+Gnome:
+
+- keybindings conflict when switchen workspace
+  -> <super + v>
+
+KDE Plasma:
 
 - workspace shortcuts need to be set manually
 - splash screen is not disabled
