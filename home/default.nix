@@ -1,4 +1,4 @@
-{ username, stateVersion, ... }:
+{ username, stateVersionH, ... }:
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -6,7 +6,7 @@
     inherit username;
     homeDirectory = "/home/${username}";
 
-    stateVersion = "${stateVersion}";
+    stateVersion = "${stateVersionH}";
   };
 
   imports = [
