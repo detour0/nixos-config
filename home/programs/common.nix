@@ -13,6 +13,7 @@
       yt-dlp
       tradingview
       git-filter-repo
+      tree
 
       libreoffice-fresh
       hunspell

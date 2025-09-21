@@ -192,6 +192,7 @@ let
     # SECTION: PESKYFOX                                                        *
     #***************************************************************************/
     # MOZILLA UI ***/
+    "browser.toolbars.bookmarks.visibility" = "always";
     "browser.privatebrowsing.vpnpromourl" = "";
     "extensions.getAddons.showPane" = false;
     "extensions.htmlaboutaddons.recommendations.enabled" = false;
