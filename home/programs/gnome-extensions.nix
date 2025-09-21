@@ -60,7 +60,8 @@
         color-scheme = "prefer-dark";
       };
       "org.gnome.settings-daemon.plugins.power" = {
-        sleep-inactive-ac-type = "nothing";
+        sleep-inactive-ac-type = "suspend";
+        sleep-inactive-ac-timeout = 1800;
       };
       "org.gnome.desktop.session" = {
         # Screen idle logout timer
