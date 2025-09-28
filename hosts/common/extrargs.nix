@@ -9,6 +9,10 @@
   _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     inherit (config.nixpkgs) config;
-    overlays = [ inputs.nnvim.overlays.default ];
+    overlays = [ 
+    # inputs.nnvim.overlays.default
+    (final: prev: {
+        nvchad = inputs.nvchad.packages."${pkgs.system}".nvchad;
+      })];
   };
 }
