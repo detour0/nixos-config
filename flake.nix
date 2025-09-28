@@ -8,8 +8,8 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nnvim = {
-      url = "github:detour0/nnvim";
+    nvchad = {
+      url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nurpkgs.url = "github:nix-community/NUR";
@@ -32,7 +32,6 @@
       nixpkgs,
       home-manager,
       sops-nix,
-      nnvim,
       nix-vscode-extensions,
       ...
     }:

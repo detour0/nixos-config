@@ -4,6 +4,7 @@
   config,
   ...
 }:
+# Old configuration file, not used with nnvim-repo
 {
   home.file.".config/nvim/init.lua".source = lib.mkForce (
     config.lib.file.mkOutOfStoreSymlink ./../../dotfiles/nvim/init.lua
