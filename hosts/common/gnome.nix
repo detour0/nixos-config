@@ -29,6 +29,7 @@
       iagno # go game
       tali # poker game
       totem # video player
+      xterm # standard gnome-terminal
     ]
   );
   environment.systemPackages =
