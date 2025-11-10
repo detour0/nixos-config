@@ -17,12 +17,12 @@ programs = {
       shellAliases = {
         cw = "cd ~/workspace";
         cdc = "cd ~/mega/coding";
+        nn = "nvim $HOME/workspace/nixos-config";
       };
 
       ohMyZsh = {
          enable = true;
          plugins = [
-           "zsh-autosuggestions"
            "git"
            "npm"
            "history"
