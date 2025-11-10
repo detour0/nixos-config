@@ -7,7 +7,7 @@
     # ./plasma.nix
     ./vscode
     # ./nvim.nix
-    ./bash.nix
+    # ./bash.nix
     ./starship.nix
     ./direnv.nix
     ./ghostty.nix
