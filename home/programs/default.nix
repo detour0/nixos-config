@@ -13,5 +13,6 @@
     ./ghostty.nix
     ./gnome-extensions.nix
     ./tmux.nix
+    ./zsh.nix
   ];
 }
