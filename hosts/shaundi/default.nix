@@ -19,7 +19,7 @@
 
     ../common/systemd-boot.nix
     ../common/networking.nix
-    ../common/zsh.nix
+    # ../common/zsh.nix
 
     ../common/docker.nix
     ../common/printing.nix
@@ -33,6 +33,12 @@
   ];
 
   networking.hostName = "shaundi";
+
+  # login/default shell can only be set system wide 
+  programs = {
+    zsh.enable = true;
+  };
+  users.defaultUserShell = pkgs.zsh;
 
   environment.variables.EDITOR = "nano";
 

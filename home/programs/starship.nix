@@ -2,6 +2,7 @@
 {
   programs.starship = {
     enable = true;
+    enableZshIntegration = true;
     settings = {
       palette = "catppuccin_macchiato";
       format = lib.concatStrings [
