@@ -16,6 +16,5 @@
     ./tmux.nix
     ./zsh.nix
     ./wezterm.nix
-    # ./wt.nix
   ];
 }
