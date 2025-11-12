@@ -15,5 +15,6 @@
     ./gnome-extensions.nix
     ./tmux.nix
     ./zsh.nix
+    ./wezterm.nix
   ];
 }

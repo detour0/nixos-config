@@ -1,5 +1,15 @@
 { pkgs, ... }:
 {
-  home.packages = [ pkgs.wezterm ];
-  xdg.configFile."wezterm/wezterm.lua".source = ./dotfiles/wezterm.lua;
+  programs.wezterm = {
+    enable = true;
+    enableZshIntegration = true;
+    extraConfig = ''
+      -- H-M only adds 'local wezterm = require "wezterm"' :/
+      local config = {}
+
+      config.color_scheme = "catppuccin-mocha"
+
+      return config
+    '';
+  };
 }
