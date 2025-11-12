@@ -18,6 +18,7 @@
       path = "$HOME/.config/zsh/.zsh_history";
       saveNoDups = true;
       share = true;
+      save = 100000;
       size = 100000; 
     };
 
@@ -28,14 +29,32 @@
     };
 
     shellAliases = {
+      ls = "ls --color";
       cw = "cd ~/workspace";
       cdc = "cd ~/mega/coding";
       nn = "nvim $HOME/workspace/nixos-config";
     };
+
+    completionInit = ''
+      zstyle ':comletion:*' matcher-list 'm:{a-z}={A-Za-z}'
+      zstyle ':completion:*' menu no
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always $realpath'
+    '';
     
     initContent = ''
       setopt AUTO_CD
+
+      # Keybindings
+      bindkey "^p" history-search-backward
+      bindkey "^n" history-search-forward
     '';
+
+    plugins = [
+      {
+        name = "fzf-tab";
+        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+      }
+    ];
 
     oh-my-zsh = {
       enable = true;

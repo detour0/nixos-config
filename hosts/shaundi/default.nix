@@ -38,6 +38,8 @@
   programs = {
     zsh.enable = true;
   };
+  # GDM only shows users with their default shell in /etc/shells
+  environment.shells = [ pkgs.zsh ];
   users.defaultUserShell = pkgs.zsh;
 
   environment.variables.EDITOR = "nano";
