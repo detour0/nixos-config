@@ -48,17 +48,6 @@ history = {
       bindkey "^n" history-search-forward
       
       # add empty line instead of starship, avoids empty line in new term
-      # PROMPT_NEEDS_NEWLINE=false
-      # precmd() {
-      #   if [[ "$PROMPT_NEEDS_NEWLINE" == true ]]; then
-      #     echo
-      #   fi
-      #   PROMPT_NEEDS_NEWLINE=true
-      # }
-      # clear() {
-      #   PROMPT_NEEDS_NEWLINE=false
-      #   command clear
-      # }
       precmd() {
         precmd() {
                 echo
