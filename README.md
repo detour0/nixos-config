@@ -6,6 +6,11 @@ TODO:
 
 Issues:
 
+fzf:
+
+- cd autocompletion preview into directory does not show up
+-- "zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always $realpath'"
+
 Overlays:
 
 - very unelegant solution, importing module.args/pkgsUnstable
