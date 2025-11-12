@@ -4,7 +4,8 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      palette = "catppuccin_macchiato";
+      palette = "catppuccin_mocha";
+      add_newline = false;
       format = lib.concatStrings [
         "$all"
         "$line_break"
