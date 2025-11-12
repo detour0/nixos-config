@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  home.shell.enableZshIntegration = true;
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
@@ -9,7 +8,7 @@
     enableCompletion = true;
     syntaxHighlighting.enable = true;
 
-    history = {
+history = {
       append = true;
       expireDuplicatesFirst = true;
       findNoDups = true;
