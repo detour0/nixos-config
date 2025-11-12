@@ -17,8 +17,8 @@ history = {
       path = "$HOME/.config/zsh/.zsh_history";
       saveNoDups = true;
       share = true;
-      save = 100000;
-      size = 100000; 
+      save = 10000;
+      size = 10000; 
     };
 
     historySubstringSearch = {
@@ -46,6 +46,24 @@ history = {
       # Keybindings
       bindkey "^p" history-search-backward
       bindkey "^n" history-search-forward
+      
+      # add empty line instead of starship, avoids empty line in new term
+      # PROMPT_NEEDS_NEWLINE=false
+      # precmd() {
+      #   if [[ "$PROMPT_NEEDS_NEWLINE" == true ]]; then
+      #     echo
+      #   fi
+      #   PROMPT_NEEDS_NEWLINE=true
+      # }
+      # clear() {
+      #   PROMPT_NEEDS_NEWLINE=false
+      #   command clear
+      # }
+      precmd() {
+        precmd() {
+                echo
+        }
+      }
     '';
 
     plugins = [
