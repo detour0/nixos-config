@@ -4,6 +4,7 @@
     ./common.nix
     ./git.nix
     ./media.nix
+    ./fzf.nix
     # ./plasma.nix
     ./vscode
     # ./nvim.nix
