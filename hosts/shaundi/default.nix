@@ -19,14 +19,15 @@
 
     ../common/systemd-boot.nix
     ../common/networking.nix
-    # ../common/zsh.nix
 
     ../common/docker.nix
     ../common/printing.nix
     ../common/pipewire.nix
     ../common/mullvad.nix
 
-    ../common/gnome.nix
+    # ../common/gnome.nix
+    ../common/sway
+
     ../common/vm.nix
     ../common/steam.nix
 
