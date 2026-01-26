@@ -12,7 +12,8 @@
     ./starship.nix
     ./direnv.nix
     ./ghostty.nix
-    ./gnome-extensions.nix
+    # ./gnome-extensions.nix
+    ./sway
     ./tmux.nix
     ./zsh.nix
     ./wezterm.nix
