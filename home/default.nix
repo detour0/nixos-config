@@ -14,9 +14,11 @@
   ];
 
   programs.git = {
-    userName = "${username}";
-    userEmail = "35782618+detour0@users.noreply.github.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "${username}";
+        email = "35782618+detour0@users.noreply.github.com";
+      };
       init.defaultBranch = "main";
     };
   };
