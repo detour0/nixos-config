@@ -74,5 +74,6 @@
     enable = true;
   };
 
+  # Do not change from 25-05!
   system.stateVersion = "25.05";
 }
