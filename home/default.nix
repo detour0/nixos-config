@@ -13,14 +13,6 @@
     ./programs
   ];
 
-  programs.git = {
-    userName = "${username}";
-    userEmail = "35782618+detour0@users.noreply.github.com";
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
-  };
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
