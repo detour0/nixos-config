@@ -1,2 +1,5 @@
 /move_test
 /dotfiles/backups/
+/result
+*.qcow2
+
