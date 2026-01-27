@@ -11,7 +11,7 @@
     # ./bash.nix
     ./starship.nix
     ./direnv.nix
-    ./ghostty.nix
+    # ./ghostty.nix
     ./gnome-extensions.nix
     ./tmux.nix
     ./zsh.nix

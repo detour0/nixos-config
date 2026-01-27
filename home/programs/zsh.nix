@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   programs.zsh = {
     enable = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
 
     autosuggestion.enable = true;
     enableCompletion = true;
@@ -46,13 +46,6 @@ history = {
       # Keybindings
       bindkey "^p" history-search-backward
       bindkey "^n" history-search-forward
-      
-      # add empty line instead of starship, avoids empty line in new term
-      precmd() {
-        precmd() {
-                echo
-        }
-      }
     '';
 
     plugins = [

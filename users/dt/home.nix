@@ -2,18 +2,19 @@
 ##################################################################################################################
 #
 # All dt's home-manager configuration
-#
+# NOT USED - for future implementation
 ##################################################################################################################
 {
   imports = [
     ../../home
-    ../../home/programs
   ];
 
   programs.git = {
-    userName = "${username}";
-    userEmail = "35782618+detour0@users.noreply.github.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "${username}";
+        email = "35782618+detour0@users.noreply.github.com";
+      };
       init.defaultBranch = "main";
     };
   };
