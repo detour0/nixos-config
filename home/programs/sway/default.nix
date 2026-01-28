@@ -8,6 +8,14 @@
     # sway
   ];
 
+  imports = [
+    ../waybar.nix
+  ];
+
+  programs.rofi = {
+    enable = true;
+  };
+
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
@@ -20,9 +28,10 @@
     #     # { command = "firefox"; }
     #   ];
     # };
-    config = null;
   };
-      # This creates the link from your home directory to your dotfiles
-    xdg.configFile."sway/config".source = lib.mkForce 
-      (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
+    # This creates the link from your home directory to your dotfiles
+    # xdg.configFile."sway/config".source = lib.mkForce 
+    #   (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
+    # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
+    xdg.configFile."sway/config".source = lib.mkForce ../../../dotfiles/sway/config;
 }
