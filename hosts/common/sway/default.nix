@@ -1,13 +1,5 @@
 { config, pkgs, lib, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    grim # screenshot functionality
-    slurp # screenshot functionality, region selection
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    mako # notification system developed by swaywm maintainer
-    # sway
-  ];
-
   # Enable the gnome-keyring secrets vault. 
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
@@ -15,7 +7,10 @@
   # In case swaylock cannot be unlocked with correct password:
   # security.pam.services.swaylock = {};
 
+  # sucirty.polkit.enable = true;
+
   # enable Sway window manager
+  # Doing it like this should enable polkit by default
   programs = {
     sway = {
       enable = true;
