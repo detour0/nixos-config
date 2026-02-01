@@ -1,633 +1,333 @@
-/* vim:fileencoding=utf-8:foldmethod=marker:ft=css
-*/
+/*Colorschemes, there are Gruvbox, Tokyo Night, and Everforest by default. The way it works is whichever colorscheme section is defined last will be used. Here everforest is last, but put any one you want to use as the last one.*/
 
-/* Define colors */
-/* {{{ */
-@define-color background1 rgba(32, 32, 48, 1);
-@define-color background2 rgba(21, 21, 32, 1);
-@define-color sepepator #313244;
-@define-color warning #f38ba8;
-@define-color caution #45475a;
-@define-color performance #f5c2e7;
-@define-color audio #cba6f7;
-@define-color misc #94e2d5;
-@define-color date #a6e3a1;
-@define-color work #b4befe;
-@define-color window #b4befe;
-@define-color resize #eba0ac;
-@define-color process #89b4fa;
-@define-color text #000000;
-/* }}} */
 
-/* Reset all styles */
-/* {{{ */
+
+/* Tokyo Night */
+@define-color background #1a1b26;
+@define-color background-light #24283b;
+@define-color foreground #c0caf5;
+@define-color black #15161e;
+@define-color red #f7768e;
+@define-color green #9ece6a;
+@define-color yellow #e0af68;
+@define-color blue #7aa2f7;
+@define-color magenta #bb9af7;
+@define-color cyan #7dcfff;
+@define-color white #a9b1d6;
+@define-color orange #ff9e64;
+
+
+/* Everforest Dark Colors */
+@define-color background #2b3339;
+@define-color background-light #323c41;
+@define-color foreground #d3c6aa;
+@define-color black #3c474d;
+@define-color red #e67e80;
+@define-color green #a7c080;
+@define-color yellow #dbbc7f;
+@define-color blue #7fbbb3;
+@define-color magenta #d699b6;
+@define-color cyan #83c092;
+@define-color white #d3c6aa;
+@define-color orange #e69875;
+
+/* Pastel TTY Colors */
+@define-color background #212121;
+@define-color background-light #3a3a3a;
+@define-color foreground #e0e0e0;
+@define-color black #5a5a5a;
+@define-color red #ff9a9e;
+@define-color green #b5e8a9;
+@define-color yellow #ffe6a7;
+@define-color blue #63a4ff;
+@define-color magenta #dda0dd;
+@define-color cyan #a3e8e8;
+@define-color white #ffffff;
+@define-color orange #ff8952;
+
+
+
+/* Gruvbox Dark Colors */
+@define-color background #282828;
+@define-color background-light #3c3836;
+@define-color foreground #ebdbb2;
+@define-color black #32302f;
+@define-color red #cc241d;
+@define-color green #98971a;
+@define-color yellow #d79921;
+@define-color blue #458588;
+@define-color magenta #b16286;
+@define-color cyan #689d6a;
+@define-color white #ebdbb2;
+@define-color orange #d65d0e;
+
+
+
+/* Module-specific colors */
+@define-color workspaces-color @foreground;
+@define-color workspaces-focused-bg @green;
+@define-color workspaces-focused-fg @cyan;
+@define-color workspaces-urgent-bg @red;
+@define-color workspaces-urgent-fg @black;
+
+/* Text and border colors for modules */
+@define-color mode-color @orange;
+@define-color mpd-color @magenta;
+@define-color playerctl-color @magenta;
+@define-color clock-color @blue;
+@define-color cpu-color @green;
+@define-color memory-color @magenta;
+@define-color temperature-color @yellow;
+@define-color temperature-critical-color @red;
+@define-color battery-color @cyan;
+@define-color battery-charging-color @green;
+@define-color battery-warning-color @yellow;
+@define-color battery-critical-color @red;
+@define-color network-color @blue;
+@define-color network-disconnected-color @red;
+@define-color pulseaudio-color @orange;
+@define-color pulseaudio-muted-color @red;
+@define-color backlight-color @yellow;
+@define-color disk-color @cyan;
+@define-color uptime-color @green;
+@define-color updates-color @orange;
+@define-color quote-color @green;
+@define-color idle-inhibitor-color @foreground;
+@define-color idle-inhibitor-active-color @red;
+
 * {
-  border: none;
-  border-radius: 0;
-  min-height: 0;
-  margin: 0;
-  padding: 0;
-  box-shadow: none;
-  text-shadow: none;
+    /* Base styling for all modules */
+    border: none;
+    border-radius: 0;
+    font-family: "Iosevka Nerd Font";
+    font-size: 14px;
+    min-height: 0;
 }
 
-/* }}} */
-
-/* Main bar keyframes */
-/* {{{ */
-
-/* Keyframes for main bar criticals */
-
-@keyframes blink-urgent-workspace {
-  to {
-    color: @warning;
-    /* background-image: linear-gradient( */
-    /*   -63.435deg, */
-    /*   transparent 25%, */
-    /*   @warning 25%, */
-    /*   @warning 75%, */
-    /*   transparent 75% */
-    /* ); */
-  }
+window#waybar {
+    background-color: @background;
+    color: @foreground;
 }
 
-@keyframes blink-critical-text {
-  to {
-    color: @sepepator;
-  }
+
+
+/* Common module styling with border-bottom */
+#mode, #mpd, #custom-playerctl, #clock, #cpu,
+#memory, #temperature, #battery, #network, #pulseaudio,
+#backlight, #disk, #custom-uptime, #custom-updates, #custom-quote,
+#idle_inhibitor, #tray #custom-trayicon, #idle_inhibitor, #language, #custom-power {
+    padding: 0 10px;
+    margin: 0 2px;
+    border-bottom: 2px solid transparent;
+    background-color: transparent;
 }
 
-/* Keyframes for main bar modifiers */
-@keyframes blink-modifier-text {
-  to {
-    color: @sepepator;
-  }
+/* Workspaces styling */
+#workspaces button {
+    padding: 0 10px;
+    background-color: transparent;
+    color: @workspaces-color;
+    margin: 0;
 }
 
-@keyframes blink-special-workspace {
-  to {
-    color: @window;
-  }
+#workspaces button:hover {
+    background: @background-light;
+    box-shadow: inherit;
 }
 
-/* }}} */
-
-/* Main bar defaults */
-/* {{{ */
-#waybar.main {
-  background: @background2;
-  font-family: "JetBrainsMono Nerd Font propo";
-  /* font-family: "gohufont11 nerd font propo"; */
-  font-size: 12pt;
-  font-weight: 600;
-  color: @text;
-  border-radius: 6pt;
-  /* box-shadow: */
-  /*   inset 0px 5px 4px -5px rgba(170, 190, 255, 0.5), */
-  /*   inset 0px -5px 4px -5px rgba(170, 190, 255, 1); */
+#workspaces button.focused {
+    box-shadow: inset 0 -2px @workspaces-focused-fg;
+    color: @workspaces-focused-fg;
+    font-weight: 900;
 }
 
-#waybar.main button {
-  font-family: "JetBrains Mono Nerd Font propo";
-  font-size: 12pt;
-  font-weight: 600;
-  color: @text;
+#workspaces button.urgent {
+    background-color: @workspaces-urgent-bg;
+    color: @workspaces-urgent-fg;
 }
 
-/* }}} */
+/* Module-specific styling */
 
-/* Main bar modules */
-/* {{{ */
-#cava,
-#waybar.main #custom-headsetbattery,
-#waybar.main #custom-nvidia,
-#waybar.main #custom-weather,
-#waybar.main #custom-weather,
-#waybar.main #battery,
-#waybar.main #keyboard-state,
-#waybar.main #network,
-#waybar.main #battery.charging,
-#waybar.main #backlight,
-#waybar.main #clock,
-#waybar.main #cpu,
-#waybar.main #language,
-#waybar.main #memory.swap,
-#waybar.main #memory.ram,
-#waybar.main #mode,
-#waybar.main #pulseaudio,
-#waybar.main #temperature,
-#waybar.main #traym,
-#waybar.main #window,
-#waybar.main #disk,
-#custom-timer {
-  padding-left: 8pt;
-  padding-right: 8pt;
+/* Launcher / Start Menu */
+#custom-trayicon {
+    color: @magenta;
+    border-bottom-color: @magenta;
+    font-size: 16px; /* Slightly larger icon */
+    padding-left: 12px; /* Extra space on the far left */
 }
 
-#waybar.main #custom-weather {
-  padding-right: 8pt;
+/* Idle Inhibitor (Eye icon) */
+#idle_inhibitor {
+    color: @foreground;
+    border-bottom-color: transparent; /* No border when inactive */
 }
 
-#waybar.main #custom-nvidia {
-  margin-top: -4px;
-  margin-bottom: -4px;
+#idle_inhibitor.activated {
+    color: @red; /* Red warning when inhibition is active */
+    border-bottom-color: @red;
 }
 
-/* }}} */
-
-/* Module colors */
-/* {{{ */
-#waybar.main #custom-nvidia,
-#waybar.main #cpu,
-#waybar.main #temperature,
-#waybar.main #memory.ram,
-#waybar.main #memory.swap,
-#waybar.main #disk,
-#waybar.main #network {
-  color: @performance;
-  background: @background1;
+/* Language Layout */
+#language {
+    color: @cyan;
+    border-bottom-color: @cyan;
+    min-width: 16px;
 }
 
-#cava {
-  font-size: 12px;
+/* Power Menu */
+#custom-power {
+    color: @orange;
+    border-bottom-color: @orange;
+    padding-right: 12px; /* Extra space on the far right */
+}
+#mode {
+    color: @mode-color;
+    border-bottom-color: @mode-color;
 }
 
-#cava,
-#waybar.main #custom-headsetbattery,
-#waybar.main #pulseaudio {
-  color: @audio;
-  background: @background2;
+#mpd {
+    color: @mpd-color;
+    border-bottom-color: @mpd-color;
 }
 
-#waybar.main #custom-battery,
-#waybar.main #language,
-#waybar.main #backlight,
-#waybar.main #battery {
-  color: @misc;
-  background: @background1;
+#mpd.disconnected,
+#mpd.stopped {
+    color: @foreground;
+    border-bottom-color: transparent;
 }
 
-#waybar.main #custom-weather,
-#waybar.main #clock,
-#custom-timer {
-  color: @date;
-  background: @background2;
+#custom-weather {
+    color: @weather-color;
+    border-bottom-color: @weather-color;
 }
 
-#waybar.main #clock {
-  border-radius: 0pt 6pt 6pt 0pt;
+#custom-playerctl {
+    color: @playerctl-color;
+    border-bottom-color: @playerctl-color;
 }
 
-#waybar.main #window {
-  color: @window;
-  box-shadow: none;
-  font-style: italic;
+#custom-playerctl.Playing {
+    color: @cyan;
+    border-bottom-color: @cyan;
 }
 
-#waybar.main #network.info {
-  padding-right: 10px;
-  padding-left: 10px;
-  color: @caution;
+#custom-playerctl.Paused {
+    color: @orange;
+    border-bottom-color: @orange;
 }
 
-#waybar.main #network.info.wifi.normal,
-#waybar.main #network.info.ethernet {
-  color: @performance;
-  padding-right: 15px;
+#clock {
+    color: @clock-color;
+    border-bottom-color: @clock-color;
 }
 
-#waybar.main #network.info.wifi {
-  color: @warning;
-  padding-right: 15px;
+#cpu {
+    color: @cpu-color;
+    border-bottom-color: @cpu-color;
 }
 
-/* }}} */
-
-/* mode */
-/* {{{ */
-#waybar.main #mode.󰲏 {
-  color: @resize;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-modifier-text;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
-  box-shadow: none;
+#memory {
+    color: @memory-color;
+    border-bottom-color: @memory-color;
 }
 
-#waybar.main #mode. {
-  color: @date;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-modifier-text;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
-  box-shadow: none;
+#temperature {
+    color: @temperature-color;
+    border-bottom-color: @temperature-color;
 }
 
-/* }}} */
-
-/* Main bar criticals */
-/* {{{ */
-#waybar.main #custom-nvidia.critical,
-/* #waybar.main #custom-battery.critical, */
-#waybar.main #custom-headsetbattery.critical,
-#waybar.main #memory.swap.critical,
-#waybar.main #memory.ram.critical,
-#waybar.main #cpu.critical,
-#waybar.main #temperature.critical {
-  color: @warning;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-critical-text;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
+#temperature.critical {
+    color: @temperature-critical-color;
+    border-bottom-color: @temperature-critical-color;
 }
 
-#waybar.main #workspaces button.urgent,
-#waybar.main #workspaces button.special.urgent {
-  transition: all 0s ease;
-  background-image: linear-gradient(
-    -63.435deg,
-    transparent 25%,
-    @background2 25%,
-    @background2 75%,
-    transparent 75%
-  );
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-urgent-workspace;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
+#battery {
+    color: @battery-color;
+    border-bottom-color: @battery-color;
 }
 
-/* }}} */
-
-/* Main bar warnings */
-/* {{{ */
-#waybar.main #custom-headsetbattery.off,
-#waybar.main #pulseaudio.output.muted,
-#waybar.main #pulseaudio.input.source-muted {
-  color: @sepepator;
-}
-#waybar.main #custom-headsetbattery.low,
-#waybar.main #custom-battery.warning,
-#waybar.main #custom-battery.critical {
-  color: @warning;
+#battery.charging, #battery.plugged {
+    color: @battery-charging-color;
+    border-bottom-color: @battery-charging-color;
 }
 
-/* }}} */
-
-/* Battery chargin */
-/* {{{ */
-#waybar.main #custom-battery.charging {
-  color: @misc;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-modifier-text;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
+#battery.warning:not(.charging) {
+    color: @battery-warning-color;
+    border-bottom-color: @battery-warning-color;
 }
 
-/* }}} */
-
-/* Workspaces */
-/* {{{ */
-/* Default workspace settings */
-
-#waybar.main #workspaces {
-  /* background: @warning; */
-  padding-left: 20px;
-  padding-right: 4px;
-  margin-top: -6px;
-  margin-bottom: -6px;
-  background-image: linear-gradient(
-    -243.435deg,
-    @background2 17px,
-    @sepepator 17px,
-    @sepepator 21px,
-    transparent 21px,
-    transparent calc(100% -22px),
-    @sepepator calc(100% -22px),
-    @sepepator calc(100% - 18px),
-    transparent calc(100% - 18px)
-  );
+#battery.critical:not(.charging) {
+    color: @battery-critical-color;
+    border-bottom-color: @battery-critical-color;
 }
 
-#waybar.main #workspaces button {
-  color: #45475a;
-  background: transparent;
-  border: 1.5px solid transparent;
-  padding-left: 4pt;
-  padding-right: 4pt;
-  transition: all 0.25s ease;
-  padding-right: 16px;
-  padding-left: 16px;
-  font-style: italic;
-  margin-left: -17px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  background-image: linear-gradient(
-    -63.435deg,
-    transparent 25%,
-    @background2 25%,
-    @background2 75%,
-    transparent 75%
-  );
+#network {
+    color: @network-color;
+    border-bottom-color: @network-color;
 }
 
-/* Focused workspace */
-#waybar.main #workspaces button.visible {
-  color: @text;
-  background-image: linear-gradient(
-    -63.435deg,
-    transparent 25%,
-    @caution 25%,
-    @caution 75%,
-    transparent 75%
-  );
+#network.disconnected {
+    color: @network-disconnected-color;
+    border-bottom-color: @network-disconnected-color;
 }
 
-/* Focused workspace & monitor */
-#waybar.main #workspaces button.active {
-  color: @window;
-  background-image: linear-gradient(
-    -63.435deg,
-    transparent 24%,
-    @sepepator 24%,
-    @sepepator 28%,
-    @background1 28%,
-    @background1 73%,
-    @sepepator 73%,
-    @sepepator 76%,
-    transparent 76%
-  );
+#pulseaudio {
+    color: @pulseaudio-color;
+    border-bottom-color: @pulseaudio-color;
 }
 
-/* Style when cursor is on the button */
-#waybar.main #workspaces button:hover {
-  color: @window;
+#pulseaudio.muted {
+    color: @pulseaudio-muted-color;
+    border-bottom-color: @pulseaudio-muted-color;
 }
 
-/* #waybar.main #workspaces button.active:hover { */
-/*   color: @background2; */
-/*   background-image: linear-gradient( */
-/*     -63.435deg, */
-/*     transparent 24%, */
-/*     @sepepator 24%, */
-/*     @sepepator 28%, */
-/*     @window 28%, */
-/*     @window 73%, */
-/*     @sepepator 73%, */
-/*     @sepepator 76%, */
-/*     transparent 76% */
-/*   ); */
-/* } */
-
-/* Special workplace animation */
-#waybar.main #workspaces button.special.active {
-  transition: all 0s ease;
-  border: 1.5px solid transparent;
-  color: @sepepator;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-special-workspace;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
+#backlight {
+    color: @backlight-color;
+    border-bottom-color: @backlight-color;
 }
 
-/* }}} */
-
-/* Custom icons as spacers */
-/* {{{ */
-#waybar.main #custom-spacer1,
-#waybar.main #custom-spacer2,
-#waybar.main #custom-spacer3,
-#waybar.main #custom-spacer4,
-#waybar.main #custom-spacer5,
-#waybar.main #custom-spacer6 {
-  font-size: 16pt;
-  font-weight: bold;
-  color: transparent;
-  padding-left: 4px;
-  padding-right: 4px;
-  margin-bottom: -4px;
-  margin-top: -4px;
+#disk {
+    color: @disk-color;
+    border-bottom-color: @disk-color;
 }
 
-#waybar.main #custom-spacer1 {
-  background-image: linear-gradient(
-    63.435deg,
-    @transparent 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    @background1 52.5%
-  );
+#custom-uptime {
+    color: @uptime-color;
+    border-bottom-color: @uptime-color;
 }
 
-#waybar.main #custom-spacer2 {
-  background-image: linear-gradient(
-    63.435deg,
-    @background1 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    @background2 52.5%
-  );
+#custom-updates {
+    color: @updates-color;
+    border-bottom-color: @updates-color;
 }
 
-#waybar.main #custom-spacer3 {
-  background-image: linear-gradient(
-    63.435deg,
-    @background2 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    @background1 52.5%
-  );
+#custom-quote {
+    color: @quote-color;
+    border-bottom-color: @quote-color;
 }
 
-#waybar.main #custom-spacer4 {
-  background-image: linear-gradient(
-    63.435deg,
-    @background1 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    @background2 52.5%
-  );
+#idle_inhibitor {
+    color: @idle-inhibitor-color;
+    border-bottom-color: transparent;
 }
 
-#waybar.main #custom-spacer5 {
-  background-image: linear-gradient(
-    -63.435deg,
-    @transparent 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    transparent 52.5%
-  );
+#idle_inhibitor.activated {
+    color: @idle-inhibitor-active-color;
+    border-bottom-color: @idle-inhibitor-active-color;
 }
 
-#waybar.main #custom-spacer6 {
-  background-image: linear-gradient(
-    -63.435deg,
-    @transparent 47.5%,
-    @sepepator 47.6%,
-    @sepepator 52.4%,
-    transparent 52.5%
-  );
+#tray {
+    background-color: transparent;
+    padding: 0 10px;
+    margin: 0 2px;
 }
 
-/* }}} */
-
-/* Custom tray icon */
-/* {{{ */
-#waybar.main #custom-trayicon {
-  font-size: 11pt;
-  color: transparent;
-  /* font-weight: bold; */
-  font-style: italic;
-  background: transparent;
-  padding-right: 0pt;
-  padding-left: 2pt;
-  background-size: 16px;
-  background-position: 2px, 0px;
-  background-repeat: no-repeat;
+#tray > .passive {
+    -gtk-icon-effect: dim;
 }
 
-/* }}} */
-
-/* Tooltip */
-/* {{{ */
-tooltip {
-  background: @background1;
-  border: 3px solid @caution;
-  border-radius: 8px;
-  font-weight: 500;
-  font-family: "JetBrains Mono Nerd Font";
-}
-
-#waybar.main #tray menu {
-  background: @background;
-  border: 3px solid @caution;
-  border-radius: 8px;
-}
-
-/* }}} */
-
-/* Indicator bar keyframes */
-/* {{{ */
-@keyframes blink-critical-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-warning-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-discharging-battery {
-  to {
-    border-color: @warning;
-    box-shadow:
-      inset 0px 3px 4px -5px @warning,
-      inset 0px -3px 4px -5px @warning;
-  }
-}
-
-@keyframes blink-charging-battery {
-  to {
-    border-color: @misc;
-    box-shadow:
-      inset 0px 3px 4px -5px @misc,
-      inset 0px -3px 4px -5px @misc;
-  }
-}
-
-@keyframes blink-full-battery {
-  to {
-    border-color: @misc;
-    box-shadow:
-      inset 0px 3px 4px -5px @misc,
-      inset 0px -3px 4px -5px @misc;
-  }
-}
-
-/* }}} */
-
-/* indicator bar battery module */
-/* {{{ */
-
-/* Set defaults for indicator bar */
-#waybar.indicator {
-  font-size: 10px;
-  /* This makes indicator thicker */
-  color: rgba(0, 0, 0, 0);
-  background: rgba(0, 0, 0, 0);
-}
-
-/* Set "battery bar" style */
-#waybar.indicator #custom-batteryindicator {
-  border: 2.5px solid @sepepator;
-  background: transparent;
-  box-shadow:
-    inset 0px 4px 4px -5px rgba(0, 0, 0, 0.5),
-    inset 0px -4px 4px -5px rgba(0, 0, 0, 0.5);
-
-  border-radius: 7px;
-  padding-left: 2502px;
-  /* Use this for padding:  */
-  /* (H_rez / scaling) - L_margin -R_margin - 2 * border - (font-size / 2)*/
-  /* For example: (2880px / 1.25) - 24 - 24 - 2 * 2.5 - (27 / 2) = 2237.5px */
-}
-
-/* Blink red when battery is very low */
-#waybar.indicator #custom-batteryindicator.critical {
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-name: blink-critical-battery;
-  animation-duration: 1s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink red twice when battry is low battery */
-#waybar.indicator #custom-batteryindicator.warning {
-  animation-iteration-count: 4;
-  animation-direction: alternate;
-  animation-name: blink-warning-battery;
-  animation-duration: 0.2s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink once red when disconnected from AC */
-#waybar.indicator #custom-batteryindicator.discharging {
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-  animation-name: blink-discharging-battery;
-  animation-duration: 0.3s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink once cyan when plugged to AC */
-#waybar.indicator #custom-batteryindicator.charging {
-  animation-iteration-count: 2;
-  animation-direction: alternate;
-  animation-name: blink-charging-battery;
-  animation-duration: 0.3s;
-  animation-timing-function: steps(15);
-}
-
-/* Blink cyan twice when battery is full */
-#waybar.indicator #custom-batteryindicator.full {
-  animation-iteration-count: 4;
-  animation-direction: alternate;
-  animation-name: blink-full-battery;
-  animation-duration: 0.2s;
-  animation-timing-function: steps(15);
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    color: @red;
+    border-bottom-color: @red;
 }
