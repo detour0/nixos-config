@@ -1,8 +1,9 @@
-# https://github.com/arkboix
-# Sway WM Configuration File
-# AUTHOR: Arkboi X
-# CREDIT: https://github.com/arkboix
-
+### General Settings
+input type:keyboard {
+    xkb_layout "us,de"
+    xkb_variant "altgr-intl,"
+    # The comma in xkb_variant matches 'de' (which usually has no variant)
+}
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -51,7 +52,7 @@ exec mako
 
 ## Autostart Applications
 
-exec swaymsg "workspace 1; exec wezterm"
+exec swaymsg "workspace 3; exec wezterm"
 
 ### Key bindings
 #
