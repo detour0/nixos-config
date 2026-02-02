@@ -1,12 +1,13 @@
+/* https://github.com/arkboix/sway */
 {
     "layer": "top",
     "position": "top",
-    "height": 30,
+    "height": 25,
     "spacing": 1,
     "margin": 0,
     "modules-left": ["custom/trayicon", "sway/workspaces", "sway/mode"],
-        "modules-center": ["tray"],                                                                           //battery   //disk     // uptime      //updates        // systray
-    "modules-right": ["idle_inhibitor", "sway/language", "pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "clock", "custom/power"],
+        "modules-center": ["clock"],                                                                           //battery   //disk     // uptime      //updates        // systray
+    "modules-right": ["tray", "idle_inhibitor", "sway/language", "pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "custom/power"],
 
     "sway/workspaces": {
         "all-outputs": true,
@@ -40,7 +41,7 @@
 
     "custom/trayicon": {
       "format": "󱄅 ",
-      "tooltip": false,
+      "tooltip-format": "Show rofi-drun",
       "on-click": "rofi -show drun",
       "on-scroll-up": "",
       "on-scroll-down": ""
@@ -75,15 +76,6 @@
         "on-click-right": "playerctl next"
     },
 
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "󰈈",
-            "deactivated": "󰈉"
-        },
-        "tooltip": true
-    },
-
     "clock": {
         "format": "󰥔 {:%H:%M}",
         "format-alt": "󰃮 {:%Y-%m-%d}",
@@ -114,21 +106,26 @@
     "cpu": {
         "format": "󰘚 {usage}%",
         "tooltip": true,
-        "interval": 1,
-        "on-click": "kitty -e htop"
+        "interval": 1
     },
 
     "memory": {
-        "format": "󰍛 {}%",
-        "interval": 1,
-        "on-click": "kitty -e htop"
+      "interval": 4,
+      "format": " {percentage}%",
+      "states": {
+        "warning": 80,
+        "critical": 95
+      },
+      "tooltip": "{}",
+      "tooltip-format": "{used}/{total} GiB"
     },
 
     "temperature": {
-        "critical-threshold": 80,
-        "format": "{icon} {temperatureC}°C",
-        "format-icons": ["󱃃", "󰔏", "󱃂"],
-        "on-click": "kitty -e s-tui"
+      "critical-threshold": 90,
+      "interval": 4,
+      "format": "{icon} {temperatureC}°",
+      "format-icons": ["", "", "", "", ""],
+      "tooltip": false
     },
 
     "battery": {
@@ -150,8 +147,7 @@
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪 Disconnected",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname}: {ipaddr}",
-        "on-click": "kitty -e nmtui"
+        "tooltip-format": "{ifname}: {ipaddr}"
     },
 
     "pulseaudio": {
@@ -182,14 +178,19 @@
     },
 
     "disk": {
-        "interval": 30,
-        "format": "󰋊 {percentage_used}%",
-        "path": "/",
-        "on-click": "kitty -e gdu /"
+      "interval": 16,
+      "format": " {percentage_used}%",
+      "tooltip": "{}",
+      "tooltip-format": "Free {free}",
+      "states": {
+        "warning": 85,
+        "critical": 95
+      }
     },
 
     "tray": {
         "icon-size": 18,
-        "spacing": 5
+        "spacing": 5,
+        "show-passive-items": true
     }
 }
