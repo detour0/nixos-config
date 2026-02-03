@@ -6,6 +6,7 @@
 
   environment.systemPackages = with pkgs; [
     autotiling
+    pavucontrol
   ];
 
   # In case swaylock cannot be unlocked with correct password:
