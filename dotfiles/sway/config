@@ -4,6 +4,10 @@ input type:keyboard {
     xkb_variant "altgr-intl,"
     # The comma in xkb_variant matches 'de' (which usually has no variant)
 }
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -15,18 +19,10 @@ set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator
+# Your preferred applications
 set $term wezterm
-
-# Your preferred application launcher
 set $menu rofi -show drun
-
-# File Manager
 set $file-manager dolphin
-
-# And same goes for any browser, just replace the command with whatever command is used to launch your browser.
-# Brave browser users need to set command as brave-bin
-# Your preferred Browser
 set $web-browser firefox
 
 # Set XDG_CURRENT_DESKTOP for proper Wayland support
@@ -34,20 +30,11 @@ exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLA
 
 ### Autostart
 
-## Sway Automatic Tiling
 exec autotiling -l 2
-
-## Clipboard
 exec wl-paste --type text --watch cliphist store &
 exec wl-paste --type image --watch cliphist store &
-
-# NetworkManager
 exec nm-applet
-
-## Waybar; conflics with nixos
 exec waybar
-
-## Mako Notification
 exec mako
 
 ## Autostart Applications

@@ -50,7 +50,7 @@
 
       wget
       curl
-      neofetch
+      fastfetch
       btop
       man-pages
       man-pages-posix
