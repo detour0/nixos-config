@@ -7,6 +7,7 @@
   environment.systemPackages = with pkgs; [
     autotiling
     pavucontrol
+    nwg-displays
   ];
 
   # In case swaylock cannot be unlocked with correct password:
