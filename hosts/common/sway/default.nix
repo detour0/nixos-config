@@ -8,6 +8,13 @@
     autotiling
     pavucontrol
     nwg-displays
+
+    kdePackages.qtsvg
+    kdePackages.dolphin
+    # kdePackages.kio # needed since 25.11
+    # kdePackages.kio-fuse #to mount remote filesystems via FUSE
+    # kdePackages.kio-extras #extra protocols support (sftp, fish and more)
+    
   ];
 
   # In case swaylock cannot be unlocked with correct password:
