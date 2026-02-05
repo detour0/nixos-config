@@ -13,12 +13,6 @@ input type:touchpad {
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
-# Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
-
 # Your preferred applications
 set $term wezterm
 set $menu rofi -show drun
@@ -27,6 +21,60 @@ set $web-browser firefox
 
 # Set XDG_CURRENT_DESKTOP for proper Wayland support
 exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# lock screen
+set $lock 'swaylock \
+    --color 2d353b \
+    --inside-color 3a454a \
+    --inside-clear-color 5c6a72 \
+    --inside-ver-color 5a524c \
+    --inside-wrong-color 543a3a \
+    --ring-color 7a8478 \
+    --ring-clear-color a7c080 \
+    --ring-ver-color dbbc7f \
+    --ring-wrong-color e67e80 \
+    --key-hl-color d699b6 \
+    --bs-hl-color e69875 \
+    --separator-color 2d353b \
+    --text-color d3c6aa \
+    --text-clear-color d3c6aa \
+    --text-ver-color d3c6aa \
+    --text-wrong-color d3c6aa \
+    --indicator-radius 100 \
+    --indicator-thickness 10 \
+    --font "JetBriansMono Nerd Font"'
+
+### Idle configuration
+#
+exec swayidle -w \
+    timeout 900 'swaylock \
+        --color 2d353b \
+        --inside-color 3a454a \
+        --inside-clear-color 5c6a72 \
+        --inside-ver-color 5a524c \
+        --inside-wrong-color 543a3a \
+        --ring-color 7a8478 \
+        --ring-clear-color a7c080 \
+        --ring-ver-color dbbc7f \
+        --ring-wrong-color e67e80 \
+        --key-hl-color d699b6 \
+        --bs-hl-color e69875 \
+        --separator-color 2d353b \
+        --text-color d3c6aa \
+        --text-clear-color d3c6aa \
+        --text-ver-color d3c6aa \
+        --text-wrong-color d3c6aa \
+        --indicator-radius 100 \
+        --indicator-thickness 10 \
+        --font "Iosevka Nerd Font Mono"' \
+    timeout 1200 'swaymsg output "*" power off' \
+    resume 'swaymsg output "*" power on' \
+    before-sleep 'swaylock -f -c 000000'
+
+
+# This will lock your screen after 900 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Autostart
 
@@ -47,3 +95,7 @@ exec swaymsg "workspace 3; exec wezterm"
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+    # Start your launcher
+    bindsym $mod+d exec $menu
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload

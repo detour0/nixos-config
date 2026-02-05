@@ -1,8 +1,8 @@
 /* Catppuccin Mocha Palette */
-@define-color base   #1e1e2e;
-@define-color text     #cdd6f4;
-@define-color surface0 #313244;
-@define-color surface1 #45475a;
+@define-color base      #1e1e2e;
+@define-color text      #cdd6f4;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
 @define-color blue      #89b4fa;
 @define-color lavender  #b4befe;
 @define-color sapphire  #74c7ec;
@@ -14,10 +14,10 @@
 @define-color mauve     #cba6f7;
 @define-color flamingo  #f2cdcd;
 
-/* Global Reset - Force Block Look */
+/* Global Reset */
 * {
     border: none;
-    border-radius: 0; /* Removes all rounded corners */
+    border-radius: 0;
     font-family: "JetBrainsMono Nerd Font", monospace;
     font-weight: bold;
     font-size: 13px;
@@ -25,12 +25,14 @@
 }
 
 window#waybar {
-    background: @base; /* Solid background for the bar itself */
+    background: @base;
     color: @text;
+    /* Ensure there's enough height for the underline to look good */
+    padding-bottom: 2px; 
 }
 
 /* -----------------------------------------------------------------------------
- * Module Standard Styling (Outline Only, No Background)
+ * Module Standard Styling (Underline Style)
  * -------------------------------------------------------------------------- */
 
 #clock,
@@ -47,10 +49,20 @@ window#waybar {
 #idle_inhibitor,
 #language,
 #custom-power,
-#custom-trayicon {
-    background: transparent; /* Background removed as requested */
-    border: 1px solid @surface1; /* Default outline */
-    margin: 1px 2px; /* Keeps the bar feeling thin */
+#custom-trayicon,
+#custom-weather,
+#custom-uptime,
+#custom-updates {
+    background: transparent;
+    /* Remove old box border */
+    border: none;
+    /* Add new colored underline. Thickness: 3px */
+    border-bottom: 3px solid @surface1; 
+    
+    /* Adjust margins to bring them closer together */
+    margin: 0px 2px;
+    /* Add padding so the text isn't sitting directly on the line */
+    padding: 2px 8px; 
 }
 
 /* -----------------------------------------------------------------------------
@@ -58,92 +70,88 @@ window#waybar {
  * Prevents the bar from jumping when values change (e.g., 9% to 10%)
  * -------------------------------------------------------------------------- */
 
-#memory, #cpu, #battery, #disk {
-    min-width: 45px; /* Ensures space for 3 digits + icon */
-}
+/* Adjusted min-widths slightly to account for new padding */
+#memory, #cpu, #battery, #disk { min-width: 50px; }
+#temperature { min-width: 50px; }
+#pulseaudio, #backlight { min-width: 55px; }
+#clock { min-width: 70px; }
 
-#temperature {
-    min-width: 45px;
-}
-
-#pulseaudio, #backlight {
-    min-width: 48px;
-}
-
-#clock {
-    min-width: 65px;
-    border-color: @blue;
-}
 
 /* -----------------------------------------------------------------------------
  * Specific Module Adjustments
  * -------------------------------------------------------------------------- */
 
-/* Big Trayicon Launcher */
-#custom-trayicon {
-    font-size: 20px; /* High visibility */
-    border-color: @mauve;
-    color: @mauve;
-    min-width: 20px;
-    padding: 0 2px 0 2px;
-    margin-left: 1px;
+#clock {
+    border-bottom-color: @blue;
 }
 
-/* Workspaces - Block Style */
+/* Big Trayicon Launcher */
+#custom-trayicon {
+    font-size: 20px;
+    border-bottom-color: @mauve;
+    color: @mauve;
+    min-width: 20px;
+    padding: 0 6px;
+    margin-left: 4px;
+}
+
+/* Workspaces - Underline Style */
 #workspaces button {
     background: transparent;
     color: @surface1;
-    border: 1px solid @surface1;
-    margin: 3px 2px;
-    padding: 0 4px;
-    min-width: 15px; /* Keeps them consistent */
+    border: none;
+    /* Default underline color for inactive workspaces */
+    border-bottom: 3px solid transparent;
+    
+    margin: 0px;
+    padding: 2px 8px;
+    min-width: 20px;
+    border-radius: 0;
 }
 
+/* Focused worksapce gets the color */
 #workspaces button.focused {
-    border-color: @lavender;
+    border-bottom-color: @lavender;
     color: @lavender;
-    /* Animation removed */
 }
 
 #workspaces button.urgent {
-    border-color: @red;
+    border-bottom-color: @red;
     color: @red;
 }
+/* Hover effect for workspaces */
+#workspaces button:hover {
+    border-bottom-color: @surface1;
+    color: @text;
+}
 
-/* Individual Color Outlines */
-#pulseaudio { border-color: @blue; color: @blue; }
-#network    { border-color: @sapphire; color: @sapphire; }
-#cpu        { border-color: @teal; color: @teal; }
-#memory     { border-color: @green; color: @green; }
-#disk       { border-color: @flamingo; color: @flamingo; }
-#temperature { border-color: @peach; color: @peach; }
-#battery    { border-color: @yellow; color: @yellow; }
+
+/* Individual Color Underlines */
+/* We specifically target border-bottom-color now */
+#pulseaudio { border-bottom-color: @blue; color: @blue; }
+#network    { border-bottom-color: @sapphire; color: @sapphire; }
+#cpu        { border-bottom-color: @teal; color: @teal; }
+#memory     { border-bottom-color: @green; color: @green; }
+#disk       { border-bottom-color: @flamingo; color: @flamingo; }
+#temperature { border-bottom-color: @peach; color: @peach; }
+#battery    { border-bottom-color: @yellow; color: @yellow; }
+#custom-updates { border-bottom-color: @mauve; color: @mauve; }
 
 #battery.critical:not(.charging) {
-    border-color: @red;
+    border-bottom-color: @red;
     color: @red;
 }
 
 /* Tray and Utils */
 #tray {
-    border-color: @surface1;
+    border-bottom-color: @surface1;
 }
 
 #idle_inhibitor {
-    border-color: @flamingo;
-    padding: 0 10px;
+    border-bottom-color: @flamingo;
 }
 
 #custom-power {
-    border-color: @red;
+    border-bottom-color: @red;
     color: @red;
-    margin-right: 1px;
-    padding: 0 10px;
-}
-
-/* Language */
-#language {
-    border-color: @blue;
-    color: @blue;
-    padding: 0 10px;
 }

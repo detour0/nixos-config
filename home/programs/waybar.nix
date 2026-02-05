@@ -17,7 +17,12 @@
     systemd.enable = true;
   };
 
-  # This creates the symlinks in ~/.config/waybar/
-  xdg.configFile."waybar/config.jsonc".source = ../../dotfiles/waybar/config.jsonc;
-  xdg.configFile."waybar/style.css".source = ../../dotfiles/waybar/style.css;
+  xdg.configFile."waybar/config.jsonc".source = 
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/config.jsonc";
+
+  xdg.configFile."waybar/style.css".source = 
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/style.css";
+  # Copy the config files in the nixos for testing in vm:
+  # xdg.configFile."waybar/config.jsonc".source = ../../dotfiles/waybar/config.jsonc;
+  # xdg.configFile."waybar/style.css".source = ../../dotfiles/waybar/style.css;
 }
