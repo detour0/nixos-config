@@ -13,8 +13,8 @@
     # Passing a path literal (starts with ./) tells HM to use the file directly.
     # style = ../../dotfiles/waybar/style.css;
 
-    # Optional: Systemd integration to start Waybar automatically on login
-    systemd.enable = true;
+    # Disable when symlinking config; leads to double loading
+    systemd.enable = false;
   };
 
   xdg.configFile."waybar/config.jsonc".source = 

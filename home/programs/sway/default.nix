@@ -1,23 +1,33 @@
 { config, lib, pkgs, ... }:
 {
+  imports = [
+  ./waybar.nix
+  ./swaylock.nix
+  ./rofi.nix
+  ./kanshi.nix
+  ];
+
   home.packages = with pkgs; [
     grim # screenshot functionality
     slurp # screenshot functionality, region selection
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     mako # notification system developed by swaywm maintainer
-    # sway
-  ];
+    wdisplays
 
-  imports = [
-    ../waybar.nix
-  ];
+    autotiling
+    pavucontrol
 
-  programs.rofi = {
-    enable = true;
-  };
+    kdePackages.qtsvg
+    kdePackages.dolphin
+    # kdePackages.kio # needed since 25.11
+    # kdePackages.kio-fuse #to mount remote filesystems via FUSE
+    # kdePackages.kio-extras #extra protocols support (sftp, fish and more)
+  ];
 
   wayland.windowManager.sway = {
     enable = true;
+    systemd.enable = true;
+    systemd.dbusImplementation = "dbus";
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
     # config = rec {
     #   modifier = "Mod4";
