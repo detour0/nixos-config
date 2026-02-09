@@ -5,15 +5,6 @@
   services.gnome.gnome-keyring.enable = true;
 
   environment.systemPackages = with pkgs; [
-    autotiling
-    pavucontrol
-    nwg-displays
-
-    kdePackages.qtsvg
-    kdePackages.dolphin
-    # kdePackages.kio # needed since 25.11
-    # kdePackages.kio-fuse #to mount remote filesystems via FUSE
-    # kdePackages.kio-extras #extra protocols support (sftp, fish and more)
     
   ];
 
@@ -27,12 +18,11 @@
   programs = {
     sway = {
       enable = true;
-      wrapperFeatures.gtk = true;
+      # wrapperFeatures.gtk = true;
       extraOptions = [
         # "--unsupported-gpu"
       ];
       extraPackages = with pkgs; [
-        swaylock
         swayidle
       ];
     };
