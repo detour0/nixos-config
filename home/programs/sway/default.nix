@@ -16,6 +16,7 @@
 
     autotiling
     pavucontrol
+    overskride
 
     kdePackages.qtsvg
     kdePackages.dolphin
