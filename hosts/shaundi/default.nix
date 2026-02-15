@@ -19,6 +19,7 @@
 
     ../common/systemd-boot.nix
     ../common/networking.nix
+    ../common/bluetooth.nix
 
     ../common/docker.nix
     ../common/printing.nix

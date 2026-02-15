@@ -43,6 +43,7 @@ window#waybar {
 #temperature,
 #backlight,
 #network,
+#bluetooth,
 #pulseaudio,
 #tray,
 #mode,
@@ -70,7 +71,6 @@ window#waybar {
  * Prevents the bar from jumping when values change (e.g., 9% to 10%)
  * -------------------------------------------------------------------------- */
 
-/* Adjusted min-widths slightly to account for new padding */
 #memory, #cpu, #battery, #disk { min-width: 50px; }
 #temperature { min-width: 50px; }
 #pulseaudio, #backlight { min-width: 55px; }
@@ -88,7 +88,6 @@ window#waybar {
 /* Big Trayicon Launcher */
 #custom-trayicon {
     font-size: 20px;
-    border-bottom-color: @mauve;
     color: @mauve;
     min-width: 20px;
     padding: 0 6px;
@@ -128,6 +127,7 @@ window#waybar {
 
 /* Individual Color Underlines */
 /* We specifically target border-bottom-color now */
+#bluetooth { border-bottom-color: @mauve; color: @mauve; }
 #pulseaudio { border-bottom-color: @blue; color: @blue; }
 #network    { border-bottom-color: @sapphire; color: @sapphire; }
 #cpu        { border-bottom-color: @teal; color: @teal; }
@@ -142,6 +142,10 @@ window#waybar {
     color: @red;
 }
 
+#bluetooth.disabled {
+  border-bottom-color: @lavender;
+}
+
 /* Tray and Utils */
 #tray {
     border-bottom-color: @surface1;
@@ -149,9 +153,6 @@ window#waybar {
 
 #idle_inhibitor {
     border-bottom-color: @flamingo;
-}
-
-#custom-power {
     border-bottom-color: @red;
     color: @red;
 }
