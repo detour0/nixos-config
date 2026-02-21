@@ -31,9 +31,10 @@ def get_outputs() -> list[dict[str, Any]]:
     return active
 
 def switch_project(current_wr: int, target_wr: int) -> None:
-    if current_wr == target_wr:
-        logging.warning(f"Current workroom matches target: {current_wr} = {target_wr}")
-        sys.exit(0)
+    # Avoid unnacessary switching to already active workroom
+    # if current_wr == target_wr:
+    #     logging.warning(f"Current workroom matches target: {current_wr} = {target_wr}")
+    #     sys.exit(0)
         
     outputs = get_outputs()
     cmds = []
