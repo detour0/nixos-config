@@ -13,6 +13,7 @@
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     mako # notification system developed by swaywm maintainer
     wdisplays
+    speedcrunch
 
     autotiling
     pavucontrol
@@ -27,8 +28,6 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    systemd.enable = true;
-    systemd.dbusImplementation = "dbus";
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
     # config = rec {
     #   modifier = "Mod4";
@@ -45,4 +44,8 @@
       (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
     # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
     # xdg.configFile."sway/config".source = lib.mkForce ../../../dotfiles/sway/config;
+    xdg.configFile."sway/scripts/workroom".source = pkgs.writeScript "workroom" ''
+      #!${pkgs.python314}/bin/python3
+      ${builtins.readFile ./scripts/workroom.py}
+    '';
 }
