@@ -1,7 +1,14 @@
+# TODO
+# switching workspace should not move mouse
+# Make output flexible when showing workspaces in different workrooms
+# (e.g. workspace 31 will always be on display 1, cannot show instead of 22 only 21)
+
 ### General Settings
+
 input type:keyboard {
     xkb_layout "us,de"
     xkb_variant "altgr-intl,"
+    xkb_numlock enabled
     # The comma in xkb_variant matches 'de' (which usually has no variant)
 }
 input type:touchpad {
@@ -11,11 +18,15 @@ input type:touchpad {
 ### Variables
 
 ## No title bars, bordersize for tiled windows
-default_border pixel 4
+default_border pixel 3
 # No title bars, bordersize for floating windows
 default_floating_border pixel 2
 # Hide borders if only one window in workspace
 # smart_borders on
+# Repeating workspace switch switches back to prior workspace
+workspace_auto_back_and_forth yes
+# Whether mouse hovering will change window focus 'yes|no|always'
+focus_follows_mouse no
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -33,6 +44,10 @@ set $web-browser firefox
 
 # lock screen
 set $lock swaylock
+
+# Set initial workroom
+set $workroom 1
+
 
 ### Idle configuration
 #
@@ -95,7 +110,7 @@ exec swaymsg "workspace 3; exec wezterm"
     bindsym $mod+Shift+q kill_active force
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
     # Lock
     bindsym $mod+shift+t exec $lock
 
@@ -112,6 +127,56 @@ exec swaymsg "workspace 3; exec wezterm"
     bindsym $mod+Shift+$up move up
     bindsym $mod+Shift+$right move right
 
+  # Workspaces
+
+    # Switch all outputs to new workroom
+    bindsym $mod+z exec ~/.config/sway/scripts/workroom $$workroom switch 1; set $$workroom 1
+    bindsym $mod+x exec ~/.config/sway/scripts/workroom $$workroom switch 2; set $$workroom 2
+    bindsym $mod+c exec ~/.config/sway/scripts/workroom $$workroom switch 3; set $$workroom 3
+    bindsym $mod+v exec ~/.config/sway/scripts/workroom $$workroom switch 4; set $$workroom 4
+    bindsym $mod+b exec ~/.config/sway/scripts/workroom $$workroom switch 5; set $$workroom 5
+    
+    # 1 Dimensional workrooms for general purpose apps
+    bindsym $mod+n workspace "n"
+    bindsym $mod+m workspace "m"
+
+    # Silent workroom switch
+    bindsym $mod+Alt+z set $$workroom 1
+    bindsym $mod+Alt+x set $$workroom 2
+    bindsym $mod+Alt+c set $$workroom 3
+    bindsym $mod+Alt+v set $$workroom 4
+    bindsym $mod+Alt+b set $$workroom 5
+
+    # Switching workspaces within workrooms
+    bindsym $mod+1 workspace $$workroom1
+    bindsym $mod+2 workspace $$workroom2
+    bindsym $mod+3 workspace $$workroom3
+    bindsym $mod+4 workspace $$workroom4
+    bindsym $mod+5 workspace $$workroom5
+    bindsym $mod+6 workspace $$workroom6
+    bindsym $mod+7 workspace $$workroom7
+    bindsym $mod+8 workspace $$workroom8
+    bindsym $mod+9 workspace $$workroom9
+
+    bindsym $mod+Shift+z exec ~/.config/sway/scripts/workroom $$workroom move 1
+    bindsym $mod+Shift+x exec ~/.config/sway/scripts/workroom $$workroom move 2
+    bindsym $mod+Shift+c exec ~/.config/sway/scripts/workroom $$workroom move 3
+    bindsym $mod+Shift+v exec ~/.config/sway/scripts/workroom $$workroom move 4
+    bindsym $mod+Shift+b exec ~/.config/sway/scripts/workroom $$workroom move 5
+
+    # Moving containers within workrooms
+    bindsym $mod+Shift+1 move container to workspace $$workroom1
+    bindsym $mod+Shift+2 move container to workspace $$workroom2
+    bindsym $mod+Shift+3 move container to workspace $$workroom3
+    bindsym $mod+Shift+4 move container to workspace $$workroom4
+    bindsym $mod+Shift+5 move container to workspace $$workroom5
+    bindsym $mod+Shift+6 move container to workspace $$workroom6
+    bindsym $mod+Shift+7 move container to workspace $$workroom7
+    bindsym $mod+Shift+8 move container to workspace $$workroom8
+    bindsym $mod+Shift+9 move container to workspace $$workroom9
+
+    bindsym $mod+Shift+n move container to workspace "n"
+    bindsym $mod+Shift+m move container to workspace "m"
 
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
