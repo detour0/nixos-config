@@ -31,7 +31,12 @@ mouse_warping none
 
 ### Window Rules
 
+# 1. Firefox extensions ALWAYS float (immediate)
 for_window [app_id="firefox" title="Extension:.*"] floating enable
+# 2. Firefox initially opens tiled (main browser)
+for_window [app_id="firefox" title="~Mozilla Firefox.*"] floating disable
+# 3. Extension windows get special treatment
+for_window [app_id="firefox" title="Extension:.*"] floating enable, resize set width 400 ppt, resize set height 700 ppt
  
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -95,6 +100,9 @@ exec wl-paste --type image --watch cliphist store &
 exec nm-applet
 exec mako
 exec waybar
+# Restart kanshi to avoid sway config reload messing up screen positions
+exec_always systemctl --user restart kanshi
+
 
 ## Autostart Applications
 #
