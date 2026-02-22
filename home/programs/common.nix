@@ -16,6 +16,7 @@
       tree
       mpv
       # smplayer
+      jq
 
       libreoffice-fresh
       hunspell
