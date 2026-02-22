@@ -29,6 +29,10 @@ focus_follows_mouse no
 # Mouse movement upon workspace change 'output|container|none'
 mouse_warping none
 
+### Window Rules
+
+for_window [app_id="firefox" title="Extension:.*"] floating enable
+ 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
@@ -84,7 +88,7 @@ exec swayidle -w \
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Autostart
-
+#
 exec autotiling -l 2
 exec wl-paste --type text --watch cliphist store &
 exec wl-paste --type image --watch cliphist store &
@@ -93,7 +97,7 @@ exec mako
 exec waybar
 
 ## Autostart Applications
-
+#
 # exec swaymsg "workspace 3; exec wezterm"
 exec swaymsg "workspace 11; exec firefox"
 
@@ -101,6 +105,12 @@ exec swaymsg "workspace 11; exec firefox"
 #
   # Basics:
   #
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
     # Start a terminal
     bindsym $mod+Return exec $term
     # Start your launcher
@@ -111,11 +121,14 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+q kill
     # Force close window
     bindsym $mod+Shift+q kill_active force
-
     # Reload the configuration file
     bindsym $mod+Shift+r reload
     # Lock
     bindsym $mod+shift+t exec $lock
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
 
   # Moving around:
 
@@ -180,6 +193,45 @@ exec swaymsg "workspace 11; exec firefox"
 
     bindsym $mod+Shift+n move container to workspace "n"
     bindsym $mod+Shift+m move container to workspace "m"
+
+  # Modes
+
+    # Resizing containers:
+    mode "resize" {
+        # left will shrink the containers width
+        # right will grow the containers width
+        # up will shrink the containers height
+        # down will grow the containers height
+        bindsym $left resize shrink width 10px
+        bindsym $down resize grow height 10px
+        bindsym $up resize shrink height 10px
+        bindsym $right resize grow width 10px
+
+        # Ditto, with arrow keys
+        bindsym Left resize shrink width 10px
+        bindsym Down resize grow height 10px
+        bindsym Up resize shrink height 10px
+        bindsym Right resize grow width 10px
+
+        # Set width based on percentage size of output
+        bindsym y resize set width 75ppt
+        bindsym u resize set width 66ppt
+        bindsym i resize set width 50ppt
+        bindsym o resize set width 33ppt
+        bindsym p resize set width 25ppt
+
+        # Set height based on percentage size of output
+        bindsym n resize set height 75ppt
+        bindsym m resize set height 66ppt
+        bindsym comma resize set height 50ppt
+        bindsym period resize set height 33ppt
+        bindsym slash resize set height 25ppt
+
+        # Return to default mode
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+    }
+    bindsym $mod+r mode "resize"
 
 # Not sure if need, should be handled by Nixos/Home-Manager
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
