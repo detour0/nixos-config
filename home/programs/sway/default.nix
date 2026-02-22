@@ -14,7 +14,7 @@
     mako # notification system developed by swaywm maintainer
     wdisplays
     speedcrunch
-    swaybg
+    # swaybg
 
     autotiling
     pavucontrol

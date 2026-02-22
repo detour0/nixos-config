@@ -55,11 +55,6 @@ set $web-browser firefox
 # lock screen
 set $lock swaylock
 
-# Set up initial workroom
-exec ~/.config/sway/scripts/workroom 0 switch 1
-set $workroom 1 
-
-
 ### Idle configuration
 #
 exec swayidle -w \
@@ -91,6 +86,12 @@ exec swayidle -w \
 # This will lock your screen after 900 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+
+# Set up initial workroom
+exec ~/.config/sway/scripts/workroom 0 switch 1
+set $workroom 1 
+
+output * bg ~/Pictures/wallpapers/pexels-pixabay-531321.jpg fill
 
 ### Autostart
 #
