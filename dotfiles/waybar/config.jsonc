@@ -25,9 +25,9 @@
             "8": "󰣇",
             "9": "",
             "10": ""
-        },
-        "persistent-workspaces": {
         }
+        // "persistent-workspaces": {
+        // }
     },
 
     "sway/mode": {

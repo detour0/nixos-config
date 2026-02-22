@@ -5,7 +5,7 @@ import logging
 
 logging.basicConfig(
     filename='/tmp/workroom.log',
-    level=logging.ERROR,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
@@ -32,9 +32,9 @@ def get_outputs() -> list[dict[str, Any]]:
 
 def switch_project(current_wr: int, target_wr: int) -> None:
     # Avoid unnacessary switching to already active workroom
-    # if current_wr == target_wr:
-    #     logging.warning(f"Current workroom matches target: {current_wr} = {target_wr}")
-    #     sys.exit(0)
+    if current_wr == target_wr:
+        logging.warning(f"Current workroom matches target: {current_wr} = {target_wr}")
+        sys.exit(0)
         
     outputs = get_outputs()
     cmds = []
