@@ -47,7 +47,8 @@ set $web-browser firefox
 set $lock swaylock
 
 # Set up initial workroom
-exec ~/.config/sway/scripts/workroom 0 switch 1; set $workroom 1
+exec ~/.config/sway/scripts/workroom 0 switch 1
+set $workroom 1 
 
 
 ### Idle configuration
@@ -131,7 +132,6 @@ exec swaymsg "workspace 11; exec firefox"
 
   # Workspaces
 
-
     # Switch all outputs to new workroom
     bindsym $mod+z exec ~/.config/sway/scripts/workroom $$workroom switch 1; set $$workroom 1
     bindsym $mod+x exec ~/.config/sway/scripts/workroom $$workroom switch 2; set $$workroom 2
@@ -181,6 +181,7 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+Shift+n move container to workspace "n"
     bindsym $mod+Shift+m move container to workspace "m"
 
+# Not sure if need, should be handled by Nixos/Home-Manager
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec systemctl --user start sway-session.target
