@@ -4,7 +4,7 @@ let
     pname = "workrooms";
     version = "1.0.1";
     src = ./scripts/workrooms;
-    cargoHash = lib.fakeHash;
+    cargoHash = "sha256-GJnP9T8ds+++dkjVSFZNrVDzBdCEH16QDrQcKSN2gHE=";
   };
 in
 {
@@ -43,8 +43,8 @@ in
   services.cliphist.enable = true;
 
   # Enables using the workrooms script from the nix-store without an environment var
-  xdg.configFile."sway/workroom-vars.conf".text = ''
-    set $workrooms-bin ${workrooms-pkg}/bin/workroom
+  xdg.configFile."sway/script-vars.conf".text = ''
+    set $workrooms_bin ${workrooms-pkg}/bin/workrooms
   '';
 
   # This creates the link from your home directory to your dotfiles
