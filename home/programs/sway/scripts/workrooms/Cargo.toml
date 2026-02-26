@@ -1,0 +1,10 @@
+[package]
+name = "workrooms"
+version = "1.0.1"
+edition = "2024"
+
+[dependencies]
+log = "0.4.29"
+simplelog = "0.12.2"
+swayipc = "4.0.0"
+time = "0.3.47"

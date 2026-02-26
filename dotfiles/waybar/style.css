@@ -1,0 +1,158 @@
+/* Catppuccin Mocha Palette */
+@define-color base      #1e1e2e;
+@define-color text      #cdd6f4;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color sapphire  #74c7ec;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color flamingo  #f2cdcd;
+
+/* Global Reset */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-weight: bold;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: @base;
+    color: @text;
+    /* Ensure there's enough height for the underline to look good */
+    padding-bottom: 2px; 
+}
+
+/* -----------------------------------------------------------------------------
+ * Module Standard Styling (Underline Style)
+ * -------------------------------------------------------------------------- */
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#bluetooth,
+#pulseaudio,
+#tray,
+#mode,
+#idle_inhibitor,
+#language,
+#custom-power,
+#custom-trayicon,
+#custom-weather,
+#custom-uptime,
+#custom-updates {
+    background: transparent;
+    /* Remove old box border */
+    border: none;
+    /* Add new colored underline. Thickness: 3px */
+    border-bottom: 3px solid @surface1; 
+    
+    /* Adjust margins to bring them closer together */
+    margin: 0px 2px;
+    /* Add padding so the text isn't sitting directly on the line */
+    padding: 2px 8px; 
+}
+
+/* -----------------------------------------------------------------------------
+ * Dynamic Size Management
+ * Prevents the bar from jumping when values change (e.g., 9% to 10%)
+ * -------------------------------------------------------------------------- */
+
+#memory, #cpu, #battery, #disk { min-width: 50px; }
+#temperature { min-width: 50px; }
+#pulseaudio, #backlight { min-width: 55px; }
+#clock { min-width: 70px; }
+
+
+/* -----------------------------------------------------------------------------
+ * Specific Module Adjustments
+ * -------------------------------------------------------------------------- */
+
+#clock {
+    border-bottom-color: @blue;
+}
+
+/* Big Trayicon Launcher */
+#custom-trayicon {
+    font-size: 20px;
+    color: @mauve;
+    min-width: 20px;
+    padding: 0 6px;
+    margin-left: 4px;
+}
+
+/* Workspaces - Underline Style */
+#workspaces button {
+    background: transparent;
+    color: @surface1;
+    border: none;
+    /* Default underline color for inactive workspaces */
+    border-bottom: 3px solid transparent;
+    
+    margin: 0px;
+    padding: 2px 8px;
+    min-width: 20px;
+    border-radius: 0;
+}
+
+/* Focused worksapce gets the color */
+#workspaces button.focused {
+    border-bottom-color: @lavender;
+    color: @lavender;
+}
+
+#workspaces button.urgent {
+    border-bottom-color: @red;
+    color: @red;
+}
+/* Hover effect for workspaces */
+#workspaces button:hover {
+    border-bottom-color: @surface1;
+    color: @text;
+}
+
+
+/* Individual Color Underlines */
+/* We specifically target border-bottom-color now */
+#bluetooth { border-bottom-color: @mauve; color: @mauve; }
+#pulseaudio { border-bottom-color: @blue; color: @blue; }
+#network    { border-bottom-color: @sapphire; color: @sapphire; }
+#cpu        { border-bottom-color: @teal; color: @teal; }
+#memory     { border-bottom-color: @green; color: @green; }
+#disk       { border-bottom-color: @flamingo; color: @flamingo; }
+#temperature { border-bottom-color: @peach; color: @peach; }
+#battery    { border-bottom-color: @yellow; color: @yellow; }
+#custom-updates { border-bottom-color: @mauve; color: @mauve; }
+
+#battery.critical:not(.charging) {
+    border-bottom-color: @red;
+    color: @red;
+}
+
+#bluetooth.disabled {
+  border-bottom-color: @lavender;
+}
+
+/* Tray and Utils */
+#tray {
+    border-bottom-color: @surface1;
+}
+
+#idle_inhibitor {
+    border-bottom-color: @flamingo;
+    border-bottom-color: @red;
+    color: @red;
+}
