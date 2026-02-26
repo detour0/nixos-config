@@ -148,11 +148,11 @@ exec swaymsg "workspace 11; exec firefox"
   # Workspaces
 
     # Switch all outputs to new workroom
-    bindsym $mod+z exec ~/.config/sway/scripts/workroom $$workroom switch 1; set $$workroom 1
-    bindsym $mod+x exec ~/.config/sway/scripts/workroom $$workroom switch 2; set $$workroom 2
-    bindsym $mod+c exec ~/.config/sway/scripts/workroom $$workroom switch 3; set $$workroom 3
-    bindsym $mod+v exec ~/.config/sway/scripts/workroom $$workroom switch 4; set $$workroom 4
-    bindsym $mod+b exec ~/.config/sway/scripts/workroom $$workroom switch 5; set $$workroom 5
+    bindsym $mod+z exec $workrooms_bin switch 1; set $$workroom 1
+    bindsym $mod+x exec $workrooms_bin switch 2; set $$workroom 2
+    bindsym $mod+c exec $workrooms_bin switch 3; set $$workroom 3
+    bindsym $mod+v exec $workrooms_bin switch 4; set $$workroom 4
+    bindsym $mod+b exec $workrooms_bin switch 5; set $$workroom 5
     
     # 1 Dimensional workrooms for general purpose apps
     bindsym $mod+n workspace "n"
@@ -176,12 +176,6 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+8 workspace $$workroom8
     bindsym $mod+9 workspace $$workroom9
 
-    bindsym $mod+Shift+z exec ~/.config/sway/scripts/workroom $$workroom move 1
-    bindsym $mod+Shift+x exec ~/.config/sway/scripts/workroom $$workroom move 2
-    bindsym $mod+Shift+c exec ~/.config/sway/scripts/workroom $$workroom move 3
-    bindsym $mod+Shift+v exec ~/.config/sway/scripts/workroom $$workroom move 4
-    bindsym $mod+Shift+b exec ~/.config/sway/scripts/workroom $$workroom move 5
-
     # Moving containers within workrooms
     bindsym $mod+Shift+1 move container to workspace $$workroom1
     bindsym $mod+Shift+2 move container to workspace $$workroom2
@@ -193,8 +187,25 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+Shift+8 move container to workspace $$workroom8
     bindsym $mod+Shift+9 move container to workspace $$workroom9
 
+    # Moving focused container to workroom nr. <>
+    bindsym $mod+Shift+z exec $workrooms_bin move_container 1
+    bindsym $mod+Shift+x exec $workrooms_bin move_container 2
+    bindsym $mod+Shift+c exec $workrooms_bin move_container 3
+    bindsym $mod+Shift+v exec $workrooms_bin move_container 4
+    bindsym $mod+Shift+b exec $workrooms_bin move_container 5
+
     bindsym $mod+Shift+n move container to workspace "n"
     bindsym $mod+Shift+m move container to workspace "m"
+
+    # Move currently focused workspace to output with id <>
+    bindsym $mod+Alt+1 exec $workrooms_bin move_workspace 1
+    bindsym $mod+Alt+2 exec $workrooms_bin move_workspace 2
+    bindsym $mod+Alt+3 exec $workrooms_bin move_workspace 3
+    bindsym $mod+Alt+4 exec $workrooms_bin move_workspace 4
+    bindsym $mod+Alt+5 exec $workrooms_bin move_workspace 5
+
+    bindsym $mod+slash exec $workrooms_bin swap true
+    bindsym $mod+period exec $workrooms_bin swap false
 
   # Modes
 
