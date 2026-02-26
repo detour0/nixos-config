@@ -33,10 +33,10 @@ fn get_active_outputs(conn: &mut Connection) -> Vec<Output> {
 
     // Filter for active outputs
     outputs.retain(|o| o.active);
-    
+
     // Sort them by x position (Left to Right)
     outputs.sort_by_key(|o| o.rect.x);
-    
+
     log::debug!("Number of active outputs: {}", outputs.len());
     outputs
 }
@@ -81,23 +81,26 @@ fn move_between_workrooms(conn: &mut Connection, target_wr: i32) {
 
     // Binding ws to output, so moving to empty ws doesn't break workroom-output mapping
     let mut cmds = Vec::new();
-    cmds.push(format!("workspace {} output '{}'", target_ws_num, output_name));
+    cmds.push(format!(
+        "workspace {} output '{}'",
+        target_ws_num, output_name
+    ));
     cmds.push(format!("move container to workspace {}", target_ws_num));
 
     execute_sway_cmd(conn, cmds.join("; "));
 }
 
-fn swap_next_previous (conn: &mut Connection, swap_next: bool) {
+fn swap_next_previous(conn: &mut Connection, swap_next: bool) {
     let outputs = get_active_outputs(conn);
     let len = outputs.len();
 
-// Find the focused index or abort
+    // Find the focused index or abort
     let focused_idx = outputs
         .iter()
         .position(|out| out.focused)
         .unwrap_or_else(|| {
             log::warn!("No focused output found in the current state. Exiting.");
-            std::process::exit(1); 
+            std::process::exit(1);
         });
 
     // Find the index of the swap partner
@@ -110,12 +113,18 @@ fn swap_next_previous (conn: &mut Connection, swap_next: bool) {
     let current_ws = outputs[focused_idx].current_workspace.as_ref().unwrap();
     let partner_ws = outputs[partner_idx].current_workspace.as_ref().unwrap();
 
-    log::debug!("Swapping workspaces {} and {}", current_ws, partner_ws); 
+    log::debug!("Swapping workspaces {} and {}", current_ws, partner_ws);
 
     let mut cmds = Vec::new();
-    cmds.push(format!("move workspace to output {}", outputs[partner_idx].name));
+    cmds.push(format!(
+        "move workspace to output {}",
+        outputs[partner_idx].name
+    ));
     cmds.push(format!("workspace {}", partner_ws));
-    cmds.push(format!("move workspace to output {}", outputs[focused_idx].name));
+    cmds.push(format!(
+        "move workspace to output {}",
+        outputs[focused_idx].name
+    ));
 
     execute_sway_cmd(conn, cmds.join(";"))
 }
@@ -141,7 +150,9 @@ fn main() {
     let _ = WriteLogger::init(
         LevelFilter::Error,
         ConfigBuilder::new()
-            .set_time_format_custom(format_description!("[year]-[month]-[day] [hour]:[minute]:[second],[subsecond digits:3]"))
+            .set_time_format_custom(format_description!(
+                "[year]-[month]-[day] [hour]:[minute]:[second],[subsecond digits:3]"
+            ))
             .build(),
         log_file,
     );
@@ -164,7 +175,9 @@ fn main() {
             move_between_workrooms(&mut conn, target_wr);
         }
         "move_workspace" if args.len() == 3 => {
-            let target_output_id: usize = args[2].parse().expect("Target output id must be a positiv number");
+            let target_output_id: usize = args[2]
+                .parse()
+                .expect("Target output id must be a positiv number");
             move_ws_to_output(&mut conn, target_output_id);
         }
         "swap" if args.len() == 3 => {
