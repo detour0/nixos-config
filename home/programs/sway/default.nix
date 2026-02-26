@@ -1,4 +1,12 @@
 { config, lib, pkgs, ... }:
+let
+  workrooms-pkg = pkgs.rustPlatform.buildRustPackage {
+    pname = "workrooms";
+    version = "1.0.1";
+    src = ./scripts/workrooms;
+    cargoHash = lib.fakeHash;
+  };
+in
 {
   imports = [
   ./waybar.nix
@@ -30,23 +38,18 @@
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
-    # config = rec {
-    #   modifier = "Mod4";
-    #   # Set default terminal
-    #   terminal = "wezTerm"; 
-    #   startup = [
-    #     # Launch Firefox on start
-    #     # { command = "firefox"; }
-    #   ];
-    # };
   };
-    # This creates the link from your home directory to your dotfiles
-    xdg.configFile."sway/config".source = lib.mkForce 
-      (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
-    # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
-    # xdg.configFile."sway/config".source = lib.mkForce ../../../dotfiles/sway/config;
-    xdg.configFile."sway/scripts/workroom".source = pkgs.writeScript "workroom" ''
-      #!${pkgs.python314}/bin/python3
-      ${builtins.readFile ./scripts/workroom.py}
-    '';
+
+  services.cliphist.enable = true;
+
+  # Enables using the workrooms script from the nix-store without an environment var
+  xdg.configFile."sway/workroom-vars.conf".text = ''
+    set $workrooms-bin ${workrooms-pkg}/bin/workroom
+  '';
+
+  # This creates the link from your home directory to your dotfiles
+  xdg.configFile."sway/config".source = lib.mkForce 
+    (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
+  # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
+  # xdg.configFile."sway/config".source = lib.mkForce ../../../dotfiles/sway/config;
 }

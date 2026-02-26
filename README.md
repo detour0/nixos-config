@@ -5,10 +5,6 @@ TODO:
 
 Issues:
 
-fzf:
-- cd autocompletion preview into directory does not show up
--- "zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always $realpath'"
-
 Overlays:
 - very unelegant solution, importing module.args/pkgsUnstable
   and the overlays from one file directly in the host config file
@@ -28,9 +24,6 @@ Firefox:
 
 Vscode:
 - Codeium ai plugin not working:
-
-Dotfiles:
-- Can't symlink dotfiles with hm for whatever reason
 
 Stuff so obvious, nobody tells you:
 - Run 'nix-collect-garbage -d' as 'sudo', then rebuild the system.
