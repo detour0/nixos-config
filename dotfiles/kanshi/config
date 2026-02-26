@@ -1,0 +1,15 @@
+# kanshi looks at which monitors are physically plugged in and active. It picks the first profile in the list that matches the current hardware state exactly.
+# to reload: 'pkill -HUP kanshi'
+
+
+# Home-desk
+profile {
+    output "eDP-1" mode 1920x1080@60.008Hz position 0,0
+    output "DP-2" mode 2560x1440@143.856Hz position 1920,0
+    output "HDMI-A-1" mode 1920x1080@60.000Hz position 4480,0
+}
+
+# Mobile Setup
+profile {
+    output "eDP-1" mode 1920x1080@60.008Hz position 0,0
+}

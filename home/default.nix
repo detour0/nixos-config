@@ -13,6 +13,19 @@
     ./programs
   ];
 
+<<<<<<< HEAD
+=======
+  programs.git = {
+    settings = {
+      user = {
+        name = "${username}";
+        email = "35782618+detour0@users.noreply.github.com";
+      };
+      init.defaultBranch = "main";
+    };
+  };
+
+>>>>>>> sway
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

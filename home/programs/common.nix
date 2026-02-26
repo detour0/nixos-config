@@ -14,6 +14,9 @@
       tradingview
       git-filter-repo
       tree
+      mpv
+      # smplayer
+      jq
 
       libreoffice-fresh
       hunspell

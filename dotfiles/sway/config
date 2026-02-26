@@ -1,0 +1,252 @@
+include script-vars.conf
+
+### General Settings
+
+input type:keyboard {
+    xkb_layout "us,de"
+    xkb_variant "altgr-intl,"
+    xkb_numlock enabled
+    # The comma in xkb_variant matches 'de' (which usually has no variant)
+}
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+### Variables
+
+## No title bars, bordersize for tiled windows
+default_border pixel 3
+# No title bars, bordersize for floating windows
+default_floating_border pixel 2
+# Hide borders if only one window in workspace
+# smart_borders on
+# Repeating workspace switch switches back to prior workspace
+workspace_auto_back_and_forth yes
+# Whether mouse hovering will change window focus 'yes|no|always'
+focus_follows_mouse no
+# Mouse movement upon workspace change 'output|container|none'
+mouse_warping none
+
+### Window Rules
+
+for_window [app_id="firefox" title="Extension:.*"] floating enable
+
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Your preferred applications
+set $term wezterm
+set $menu rofi -show drun
+set $file-manager dolphin
+set $web-browser firefox
+
+# lock screen
+set $lock swaylock
+
+### Idle configuration
+#
+exec swayidle -w \
+    timeout 900 'swaylock \
+        --color 2d353b \
+        --inside-color 3a454a \
+        --inside-clear-color 5c6a72 \
+        --inside-ver-color 5a524c \
+        --inside-wrong-color 543a3a \
+        --ring-color 7a8478 \
+        --ring-clear-color a7c080 \
+        --ring-ver-color dbbc7f \
+        --ring-wrong-color e67e80 \
+        --key-hl-color d699b6 \
+        --bs-hl-color e69875 \
+        --separator-color 2d353b \
+        --text-color d3c6aa \
+        --text-clear-color d3c6aa \
+        --text-ver-color d3c6aa \
+        --text-wrong-color d3c6aa \
+        --indicator-radius 100 \
+        --indicator-thickness 10 \
+        --font "Iosevka Nerd Font Mono"' \
+    timeout 1200 'swaymsg output "*" power off' \
+    resume 'swaymsg output "*" power on' \
+    before-sleep 'swaylock -f -c 000000'
+
+
+# This will lock your screen after 900 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+# Set up initial workroom
+exec ~/.config/sway/scripts/workroom 0 switch 1
+set $workroom 1 
+
+output * bg ~/Pictures/wallpapers/pexels-pixabay-531321.jpg fill
+
+### Autostart
+#
+exec autotiling -l 2
+exec wl-paste --type text --watch cliphist store &
+exec wl-paste --type image --watch cliphist store &
+exec nm-applet
+exec mako
+exec waybar
+# Restart kanshi to avoid sway config reload messing up screen positions
+exec_always systemctl --user restart kanshi
+
+
+## Autostart Applications
+#
+# exec swaymsg "workspace 3; exec wezterm"
+exec swaymsg "workspace 11; exec firefox"
+
+### Key bindings
+#
+  # Basics:
+  #
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+    # Start a terminal
+    bindsym $mod+Return exec $term
+    # Start your launcher
+    bindsym $mod+d exec $menu
+    # Fullscreen
+    bindsym $mod+f fullscreen
+    # Close window
+    bindsym $mod+q kill
+    # Force close window
+    bindsym $mod+Shift+q kill_active force
+    # Reload the configuration file
+    bindsym $mod+Shift+r reload
+    # Lock
+    bindsym $mod+shift+t exec $lock
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+  # Moving around:
+
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+
+  # Workspaces
+
+    # Switch all outputs to new workroom
+    bindsym $mod+z exec $workrooms_bin switch 1; set $$workroom 1
+    bindsym $mod+x exec $workrooms_bin switch 2; set $$workroom 2
+    bindsym $mod+c exec $workrooms_bin switch 3; set $$workroom 3
+    bindsym $mod+v exec $workrooms_bin switch 4; set $$workroom 4
+    bindsym $mod+b exec $workrooms_bin switch 5; set $$workroom 5
+    
+    # 1 Dimensional workrooms for general purpose apps
+    bindsym $mod+n workspace "n"
+    bindsym $mod+m workspace "m"
+
+    # Silent workroom switch
+    bindsym $mod+Alt+z set $$workroom 1
+    bindsym $mod+Alt+x set $$workroom 2
+    bindsym $mod+Alt+c set $$workroom 3
+    bindsym $mod+Alt+v set $$workroom 4
+    bindsym $mod+Alt+b set $$workroom 5
+
+    # Switching workspaces within workrooms
+    bindsym $mod+1 workspace $$workroom1
+    bindsym $mod+2 workspace $$workroom2
+    bindsym $mod+3 workspace $$workroom3
+    bindsym $mod+4 workspace $$workroom4
+    bindsym $mod+5 workspace $$workroom5
+    bindsym $mod+6 workspace $$workroom6
+    bindsym $mod+7 workspace $$workroom7
+    bindsym $mod+8 workspace $$workroom8
+    bindsym $mod+9 workspace $$workroom9
+
+    # Moving containers within workrooms
+    bindsym $mod+Shift+1 move container to workspace $$workroom1
+    bindsym $mod+Shift+2 move container to workspace $$workroom2
+    bindsym $mod+Shift+3 move container to workspace $$workroom3
+    bindsym $mod+Shift+4 move container to workspace $$workroom4
+    bindsym $mod+Shift+5 move container to workspace $$workroom5
+    bindsym $mod+Shift+6 move container to workspace $$workroom6
+    bindsym $mod+Shift+7 move container to workspace $$workroom7
+    bindsym $mod+Shift+8 move container to workspace $$workroom8
+    bindsym $mod+Shift+9 move container to workspace $$workroom9
+
+    # Moving focused container to workroom nr. <>
+    bindsym $mod+Shift+z exec $workrooms_bin move_container 1
+    bindsym $mod+Shift+x exec $workrooms_bin move_container 2
+    bindsym $mod+Shift+c exec $workrooms_bin move_container 3
+    bindsym $mod+Shift+v exec $workrooms_bin move_container 4
+    bindsym $mod+Shift+b exec $workrooms_bin move_container 5
+
+    bindsym $mod+Shift+n move container to workspace "n"
+    bindsym $mod+Shift+m move container to workspace "m"
+
+    # Move currently focused workspace to output with id <>
+    bindsym $mod+Alt+1 exec $workrooms_bin move_workspace 1
+    bindsym $mod+Alt+2 exec $workrooms_bin move_workspace 2
+    bindsym $mod+Alt+3 exec $workrooms_bin move_workspace 3
+    bindsym $mod+Alt+4 exec $workrooms_bin move_workspace 4
+    bindsym $mod+Alt+5 exec $workrooms_bin move_workspace 5
+
+    bindsym $mod+slash exec $workrooms_bin swap true
+    bindsym $mod+period exec $workrooms_bin swap false
+
+  # Modes
+
+    # Resizing containers:
+    mode "resize" {
+        # left will shrink the containers width
+        # right will grow the containers width
+        # up will shrink the containers height
+        # down will grow the containers height
+        bindsym $left resize shrink width 10px
+        bindsym $down resize grow height 10px
+        bindsym $up resize shrink height 10px
+        bindsym $right resize grow width 10px
+
+        # Ditto, with arrow keys
+        bindsym Left resize shrink width 10px
+        bindsym Down resize grow height 10px
+        bindsym Up resize shrink height 10px
+        bindsym Right resize grow width 10px
+
+        # Set width based on percentage size of output
+        bindsym y resize set width 75ppt
+        bindsym u resize set width 66ppt
+        bindsym i resize set width 50ppt
+        bindsym o resize set width 33ppt
+        bindsym p resize set width 25ppt
+
+        # Set height based on percentage size of output
+        bindsym n resize set height 75ppt
+        bindsym m resize set height 66ppt
+        bindsym comma resize set height 50ppt
+        bindsym period resize set height 33ppt
+        bindsym slash resize set height 25ppt
+
+        # Return to default mode
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+    }
+    bindsym $mod+r mode "resize"
+
+# Not sure if need, should be handled by Nixos/Home-Manager
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec systemctl --user start sway-session.target

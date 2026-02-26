@@ -19,13 +19,19 @@
 
     ../common/systemd-boot.nix
     ../common/networking.nix
+<<<<<<< HEAD
+=======
+    ../common/bluetooth.nix
+>>>>>>> sway
 
     ../common/docker.nix
     ../common/printing.nix
     ../common/pipewire.nix
     ../common/mullvad.nix
 
-    ../common/gnome.nix
+    # ../common/gnome.nix
+    ../common/sway
+
     ../common/vm.nix
     ../common/steam.nix
 
@@ -48,7 +54,7 @@
 
       wget
       curl
-      neofetch
+      fastfetch
       btop
       man-pages
       man-pages-posix

@@ -32,6 +32,8 @@ let
     "content.notify.interval" = 100000;
     # Load tabs and windows from prev session
     "browser.startup.page" = 3;
+    # Show tabs and taskbar in fullscreen-mode
+    "browser.fullscreen.autohide" = false;
 
     # SCROLLBAR VISIBILITY ***/
     "widget.gtk.overlay-scrollbars.enabled" = false;
