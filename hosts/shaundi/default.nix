@@ -31,7 +31,6 @@
 
     ../common/vm.nix
     ../common/steam.nix
-
   ];
 
   networking.hostName = "shaundi";
