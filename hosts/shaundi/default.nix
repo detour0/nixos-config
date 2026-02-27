@@ -19,10 +19,7 @@
 
     ../common/systemd-boot.nix
     ../common/networking.nix
-<<<<<<< HEAD
-=======
     ../common/bluetooth.nix
->>>>>>> sway
 
     ../common/docker.nix
     ../common/printing.nix
