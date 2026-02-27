@@ -1,7 +1,7 @@
 Very much a work in progress
 
 TODO:
-- Create central variables for [ theme ]
+- Create central variables for [ theme desktop-environment ]
 - atm all users get assigned the same git-email
 
 Issues:
