@@ -13,8 +13,6 @@
     ./programs
   ];
 
-<<<<<<< HEAD
-=======
   programs.git = {
     settings = {
       user = {
@@ -25,7 +23,6 @@
     };
   };
 
->>>>>>> sway
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
