@@ -3,21 +3,22 @@ use std::env;
 use std::fs::OpenOptions;
 use swayipc::{Connection, Output};
 
-const MULTIPLIER: i32 = 10;
+const MULTIPLIER: usize = 10;
 const LOG_FILE: &str = "/tmp/workroom.log";
 
 fn show_usage() {
     println!("Usage:");
-    println!("  workroom switch <current_wr> <target_wr>");
-    println!("  workroom move_container <target_wr>");
-    println!("  workroom move_workspace <target_output_id(1-9)>");
+    println!("  workroom setup <target_wr usize>");
+    println!("  workroom switch <target_wr: usize>");
+    println!("  workroom move_container <target_wr: usize>");
+    println!("  workroom move_workspace <target_output_id(1-9): usize>");
     println!("  workroom swap <true|false>");
     std::process::exit(1);
 }
 
-fn compute_ws_num(workroom: i32, output_index: usize) -> i32 {
+fn compute_ws_num(workroom: usize, output_index: usize) -> usize {
     // Returns the workspace number starting with 11 to keep keybinds left sided
-    (workroom * MULTIPLIER) + (output_index as i32 + 1)
+    (workroom * MULTIPLIER) + (output_index + 1)
 }
 
 fn execute_sway_cmd(conn: &mut Connection, cmd: String) {
@@ -41,9 +42,34 @@ fn get_active_outputs(conn: &mut Connection) -> Vec<Output> {
     outputs
 }
 
-fn switch_workroom(conn: &mut Connection, target_wr: i32) {
+fn setup_workroom(conn: &mut Connection, target_wr: usize) {
     let outputs = get_active_outputs(conn);
     let mut cmds = Vec::new();
+
+    for (i, output) in outputs.iter().enumerate() {
+        log::debug!("Outputs: id {}, name {}", i, output.name);
+        let ws_num = compute_ws_num(target_wr, i);
+
+        cmds.push(format!("workspace {} output {}", ws_num, output.name));
+        cmds.push(format!("workspace --no-auto-back-and-forth {}", ws_num));
+        cmds.push(format!("move workspace to output {}", output.name));
+    }
+
+    cmds.push(format!("focus output {}", outputs[0].name));
+
+    execute_sway_cmd(conn, cmds.join("; "));
+}
+
+fn switch_workroom(conn: &mut Connection, target_wr: usize) {
+    let outputs = get_active_outputs(conn);
+    let mut cmds = Vec::new();
+
+    // Get the focused output-name or default to first output
+    let current_focused_output = outputs
+        .iter()
+        .find(|o| o.focused)
+        .map(|o| o.name.clone())
+        .unwrap_or_else(|| outputs[0].name.clone());
 
     // Maps the workspaces to the outputs for the target workroom
     // Then switches to the mapped workspace
@@ -51,14 +77,17 @@ fn switch_workroom(conn: &mut Connection, target_wr: i32) {
         log::debug!("Outputs: id {}, name {}", i, output.name);
         let ws_num = compute_ws_num(target_wr, i);
 
-        cmds.push(format!("workspace {} output '{}'", ws_num, output.name));
-        cmds.push(format!("workspace {}", ws_num));
+        cmds.push(format!("workspace {} output {}", ws_num, output.name));
+        // cmds.push(format!("focus output {}", output.name));
+        cmds.push(format!("workspace --no-auto-back-and-forth {}", ws_num));
     }
+
+    cmds.push(format!("focus output {}", current_focused_output));
 
     execute_sway_cmd(conn, cmds.join("; "));
 }
 
-fn move_between_workrooms(conn: &mut Connection, target_wr: i32) {
+fn move_between_workrooms(conn: &mut Connection, target_wr: usize) {
     let outputs = get_active_outputs(conn);
 
     let mut output_index = 0;
@@ -166,12 +195,16 @@ fn main() {
     let action = args[1].as_str();
 
     match action {
+        "setup" if args.len() == 3 => {
+            let target_wr: usize = args[2].parse().expect("Target workroom must be a number");
+            setup_workroom(&mut conn, target_wr);
+        }
         "switch" if args.len() == 3 => {
-            let target_wr: i32 = args[2].parse().expect("Target workroom must be a number");
+            let target_wr: usize = args[2].parse().expect("Target workroom must be a number");
             switch_workroom(&mut conn, target_wr);
         }
         "move_container" if args.len() == 3 => {
-            let target_wr: i32 = args[2].parse().expect("Target workroom must be a number");
+            let target_wr: usize = args[2].parse().expect("Target workroom must be a number");
             move_between_workrooms(&mut conn, target_wr);
         }
         "move_workspace" if args.len() == 3 => {

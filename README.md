@@ -3,6 +3,8 @@ Very much a work in progress
 TODO:
 - Create central variables for [ theme desktop-environment ]
 - atm all users get assigned the same git-email
+- Main output variable (kanshi) | show waybar, focus after wr switch
+- configure rofi, integrate cliphist
 
 Issues:
 

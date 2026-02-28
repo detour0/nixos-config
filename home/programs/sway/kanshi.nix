@@ -2,7 +2,7 @@
 {
   services.kanshi = {
     enable = true;
-    systemdTarget = "sway-session.target"; 
+    # systemdTarget = "sway-session.target"; 
   };
 
   # Symlink the config file

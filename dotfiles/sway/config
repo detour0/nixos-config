@@ -12,12 +12,13 @@ input type:touchpad {
     tap enabled
     natural_scroll enabled
 }
+
 ### Variables
 
 ## No title bars, bordersize for tiled windows
 default_border pixel 3
 # No title bars, bordersize for floating windows
-default_floating_border pixel 2
+default_floating_border pixel 3
 # Hide borders if only one window in workspace
 # smart_borders on
 # Repeating workspace switch switches back to prior workspace
@@ -80,12 +81,6 @@ exec swayidle -w \
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-# Set up initial workroom
-exec ~/.config/sway/scripts/workroom 0 switch 1
-set $workroom 1 
-
-output * bg ~/Pictures/wallpapers/pexels-pixabay-531321.jpg fill
-
 ### Autostart
 #
 exec autotiling -l 2
@@ -95,12 +90,18 @@ exec nm-applet
 exec mako
 exec waybar
 # Restart kanshi to avoid sway config reload messing up screen positions
-exec_always systemctl --user restart kanshi
+# exec_always systemctl --user restart kanshi
+# exec kanshi
 
+output * bg $wallpaper fill
 
 ## Autostart Applications
 #
-# exec swaymsg "workspace 3; exec wezterm"
+# Set up initial workroom
+exec sleep 1 && $workrooms_bin setup 1
+set $workroom 1 
+
+# exec swaymsg "workspace 21; exec $term"
 exec swaymsg "workspace 11; exec firefox"
 
 ### Key bindings
@@ -153,7 +154,7 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+c exec $workrooms_bin switch 3; set $$workroom 3
     bindsym $mod+v exec $workrooms_bin switch 4; set $$workroom 4
     bindsym $mod+b exec $workrooms_bin switch 5; set $$workroom 5
-    
+
     # 1 Dimensional workrooms for general purpose apps
     bindsym $mod+n workspace "n"
     bindsym $mod+m workspace "m"

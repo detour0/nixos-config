@@ -13,6 +13,7 @@ in
   ./swaylock.nix
   ./rofi.nix
   ./kanshi.nix
+  ../wallpapers.nix
   ];
 
   home.packages = with pkgs; [
@@ -42,9 +43,18 @@ in
 
   services.cliphist.enable = true;
 
+# Set dark-mode as default for apps and websites
+  dconf.enable = true;
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+
   # Enables using the workrooms script from the nix-store without an environment var
   xdg.configFile."sway/script-vars.conf".text = ''
     set $workrooms_bin ${workrooms-pkg}/bin/workrooms
+    set $wallpaper ${config.wallpaper}
   '';
 
   # This creates the link from your home directory to your dotfiles
