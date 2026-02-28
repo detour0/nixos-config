@@ -22,6 +22,7 @@
       extraOptions = [
         # "--unsupported-gpu"
       ];
+      # Overide extraPkgs to avoid default installations (foot, etc...)
       extraPackages = with pkgs; [
         swayidle
       ];
