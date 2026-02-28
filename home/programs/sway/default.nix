@@ -4,7 +4,8 @@ let
     pname = "workrooms";
     version = "1.0.1";
     src = ./scripts/workrooms;
-    cargoHash = "sha256-GJnP9T8ds+++dkjVSFZNrVDzBdCEH16QDrQcKSN2gHE=";
+    cargo.lockFile = ./scripts/workrooms/Cargo.lock;
+    # cargoHash = "sha256-GJnP9T8ds+++dkjVSFZNrVDzBdCEH16QDrQcKSN2gHE=";
   };
 in
 {

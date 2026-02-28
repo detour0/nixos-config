@@ -27,7 +27,7 @@
     ../common/mullvad.nix
 
     # ../common/gnome.nix
-    ../common/sway
+    ../common/sway.nix
 
     ../common/vm.nix
     ../common/steam.nix
