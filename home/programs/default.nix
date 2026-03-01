@@ -1,22 +1,25 @@
 {
   imports = [
     ./firefox
-    ./common.nix
-    ./git.nix
-    ./media.nix
-    ./fzf.nix
-    # ./plasma.nix
-    ./vscode
-    # ./nvim.nix
-    # ./bash.nix
-    ./starship.nix
-    ./direnv.nix
-    # ./ghostty.nix
-    # ./gnome-extensions.nix
-    # ./ghostty.nix
     ./sway
+    ./vscode
+    ./nvim
+
+    ./common.nix
+
     ./tmux.nix
     ./zsh.nix
     ./wezterm.nix
+    ./git.nix
+    ./fzf.nix
+    ./starship.nix
+    ./direnv.nix
+
+    # ./plasma.nix
+    # ./nvim.nix
+    # ./bash.nix
+    # ./ghostty.nix
+    # ./gnome-extensions.nix
+    # ./ghostty.nix
   ];
 }
