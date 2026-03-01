@@ -8,6 +8,9 @@ TODO:
 
 Issues:
 
+Theming:
+- setting a cursor package does nothing
+
 Overlays:
 - very unelegant solution, importing module.args/pkgsUnstable
   and the overlays from one file directly in the host config file

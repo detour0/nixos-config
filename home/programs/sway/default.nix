@@ -4,7 +4,7 @@ let
     pname = "workrooms";
     version = "1.0.1";
     src = ./scripts/workrooms;
-    cargo.lockFile = ./scripts/workrooms/Cargo.lock;
+    cargoLock.lockFile = ./scripts/workrooms/Cargo.lock;
     # cargoHash = "sha256-GJnP9T8ds+++dkjVSFZNrVDzBdCEH16QDrQcKSN2gHE=";
   };
 in
@@ -15,6 +15,8 @@ in
   ./rofi.nix
   ./kanshi.nix
   ../wallpapers.nix
+  ../nemo.nix
+  ../gtkTheme.nix
   ];
 
   home.packages = with pkgs; [
@@ -30,11 +32,6 @@ in
     pavucontrol
     overskride
 
-    kdePackages.qtsvg
-    kdePackages.dolphin
-    # kdePackages.kio # needed since 25.11
-    # kdePackages.kio-fuse #to mount remote filesystems via FUSE
-    # kdePackages.kio-extras #extra protocols support (sftp, fish and more)
   ];
 
   wayland.windowManager.sway = {
@@ -44,11 +41,10 @@ in
 
   services.cliphist.enable = true;
 
-# Set dark-mode as default for apps and websites
   dconf.enable = true;
   dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+    "org/nemo/desktop" = {
+      show-desktop-icons = false;
     };
   };
 
