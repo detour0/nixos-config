@@ -11,12 +11,12 @@
       obs-studio
       plocate
       yt-dlp
-      tradingview
       git-filter-repo
       tree
       mpv
       # smplayer
       jq
+      yazi
 
       libreoffice-fresh
       hunspell
