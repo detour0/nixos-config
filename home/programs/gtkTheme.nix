@@ -19,12 +19,12 @@
     gtk.enable = true;
     name = "Catppuccin-Mocha-Dark-Cursors";
     package = pkgs.catppuccin-cursors.mochaDark;
-    size = 16;
+    size = 20;
   };
 
   home.sessionVariables = {
   XCURSOR_THEME = "Catppuccin-Mocha-Dark-Cursors";
-  XCURSOR_SIZE = "16";
+  XCURSOR_SIZE = "20";
   };
 
   gtk = {
@@ -33,16 +33,18 @@
       name = "Papirus";
       package = pkgs.papirus-icon-theme;
     };
+
     # theme = {
     #   name = "Materia-Dark";
     #   package = pkgs.materia-theme;
     # };
+
       cursorTheme = {
       name = "Catppuccin-Mocha-Dark-Cursors";
       package = pkgs.catppuccin-cursors.mochaDark;
     };
-    gtk3 = {
-      extraConfig.gtk-application-prefer-dark-theme = true;
-    };
+
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
   };
 }

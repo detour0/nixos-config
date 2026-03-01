@@ -5,6 +5,7 @@ TODO:
 - atm all users get assigned the same git-email
 - Main output variable (kanshi) | show waybar, focus after wr switch
 - configure rofi, integrate cliphist
+    - exclude passwords from history
 
 Issues:
 

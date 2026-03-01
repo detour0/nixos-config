@@ -26,7 +26,7 @@
     ])
     ++ (with pkgsUnstable; [
       devenv
-      nvchad
+      # nvchad
     ]);
 
   programs = {
