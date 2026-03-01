@@ -5,7 +5,7 @@
   services.gnome.gnome-keyring.enable = true;
 
   environment.systemPackages = with pkgs; [
-    
+    nemo
   ];
 
   # In case swaylock cannot be unlocked with correct password:
