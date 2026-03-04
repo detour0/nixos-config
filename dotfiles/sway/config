@@ -230,18 +230,18 @@ exec swaymsg "workspace 11; exec firefox"
         bindsym Right resize grow width 10px
 
         # Set width based on percentage size of output
-        bindsym y resize set width 75ppt
-        bindsym u resize set width 66ppt
-        bindsym i resize set width 50ppt
-        bindsym o resize set width 33ppt
-        bindsym p resize set width 25ppt
+        bindsym u resize set width 70ppt
+        bindsym i resize set width 60ppt
+        bindsym o resize set width 50ppt
+        bindsym p resize set width 40ppt
+        bindsym "[" resize set width 30ppt
 
         # Set height based on percentage size of output
-        bindsym n resize set height 75ppt
-        bindsym m resize set height 66ppt
+        bindsym n resize set height 70ppt
+        bindsym m resize set height 60ppt
         bindsym comma resize set height 50ppt
-        bindsym period resize set height 33ppt
-        bindsym slash resize set height 25ppt
+        bindsym period resize set height 40ppt
+        bindsym slash resize set height 30ppt
 
         # Return to default mode
         bindsym Return mode "default"
