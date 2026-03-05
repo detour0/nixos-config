@@ -92,7 +92,7 @@ exec nm-applet
 exec mako
 exec waybar
 # Restart kanshi to avoid sway config reload messing up screen positions
-# exec_always systemctl --user restart kanshi
+exec_always systemctl --user restart kanshi
 # exec kanshi
 
 output * bg $wallpaper fill
@@ -234,7 +234,7 @@ exec swaymsg "workspace 11; exec firefox"
         bindsym i resize set width 60ppt
         bindsym o resize set width 50ppt
         bindsym p resize set width 40ppt
-        bindsym "[" resize set width 30ppt
+        bindsym bracketleft resize set width 30ppt
 
         # Set height based on percentage size of output
         bindsym n resize set height 70ppt

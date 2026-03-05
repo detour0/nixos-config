@@ -22,6 +22,7 @@
 
 -- Definig local v to escape all the warnings
 local v = vim
+local actions = require("telescope.actions")
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -57,12 +58,65 @@ local function live_grep_git_root()
 	end
 end
 
+local telescope_settings = {
+	defaults = {
+		sorting_strategy = "ascending",
+		layout_strategy = "flex",
+		layout_config = {
+			prompt_position = "top",
+			horizontal = {
+				width = 0.95,
+				height = 0.8,
+				preview_width = 0.5,
+			},
+			vertical = {
+				width = 0.9,
+				height = 0.9,
+			},
+		},
+
+		mappings = {
+			i = {
+				["<esc>"] = actions.close,
+			},
+		},
+	},
+}
+
+-- Somehow lazy does not apply the config, so we force it here
+pcall(function()
+	require("telescope").setup(telescope_settings)
+end)
+
 return {
+	-- Ensure lazy can find dependencies
+	{ "plenary.nvim", dev = true },
+	{ "telescope-fzf-native.nvim", dev = true },
+	{ "telescope-ui-select.nvim", dev = true },
+
 	{
 		"telescope-nvim", -- Matches the Nix folder name
 		dev = true, -- Tells Lazy to look in your Nix dev path
-		dependencies = { "plenary.nvim" },
+		dependencies = {
+			"plenary.nvim",
+			"telescope-fzf-native.nvim",
+			"telescope-ui-select.nvim",
+		},
 		cmd = "Telescope",
+
+		config = function()
+			require("telescope").setup({
+				--  All the info you're looking for is in `:help telescope.setup()`
+				--
+				telescope_settings,
+			})
+			-- Enable telescope extensions, if they are installed
+			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "ui-select")
+
+			v.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
+		end,
+
 		keys = {
 			{ "<leader>fM", "<cmd>Telescope notify<CR>", mode = { "n" }, desc = "[F]ind [M]essage" },
 			{ "<leader>fp", live_grep_git_root, mode = { "n" }, desc = "[F]ind git [P]roject root" },
@@ -171,29 +225,5 @@ return {
 				desc = "[F]ind [H]elp",
 			},
 		},
-		config = function()
-			require("telescope").setup({
-				-- You can put your default mappings / updates / etc. in here
-				--  All the info you're looking for is in `:help telescope.setup()`
-				--
-				defaults = {
-					mappings = {
-						i = { ["<c-enter>"] = "to_fuzzy_refine" },
-					},
-				},
-				-- pickers = {}
-				extensions = {
-					["ui-select"] = {
-						require("telescope.themes").get_dropdown(),
-					},
-				},
-			})
-
-			-- Enable telescope extensions, if they are installed
-			pcall(require("telescope").load_extension, "fzf")
-			pcall(require("telescope").load_extension, "ui-select")
-
-			v.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
-		end,
 	},
 }
