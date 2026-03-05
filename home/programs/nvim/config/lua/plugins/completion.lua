@@ -18,9 +18,10 @@ return {
 
 	-- 2. Modern UI for the menu
 	{ "colorful-menu.nvim", dev = true },
-
 	-- 3. Compatibility layer for old cmp sources (like cmdline)
 	{ "blink.compat", dev = true, opts = {} },
+	-- Lazy needs the plugin location
+	{ "cmp-cmdline", dev = true },
 
 	-- 4. The Engine
 	{

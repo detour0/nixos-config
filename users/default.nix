@@ -1,7 +1,5 @@
 {
   username,
-  inputs,
-  pkgs,
   ...
 }:
 {
@@ -13,6 +11,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "kvm"
     ];
   };
 
