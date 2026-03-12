@@ -21,24 +21,23 @@ return {
 
 		-- Symbols & LSP (Code [C] context)
 		{
-			"<leader>cs",
+			"<leader>ds",
 			"<cmd>Trouble symbols toggle focus=false<cr>",
 			desc = "Code [S]ymbols (Trouble)",
 		},
 		{
-			"<leader>cl",
+			"<leader>dl",
 			"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
 			desc = "LSP [L]ist (Definitions/References)",
 		},
 
-		-- Lists [X] (Kept 'x' for lists as they are "extra" tools)
 		{
-			"<leader>xl",
+			"<leader>do",
 			"<cmd>Trouble loclist toggle<cr>",
 			desc = "Location List (Trouble)",
 		},
 		{
-			"<leader>xq",
+			"<leader>dq",
 			"<cmd>Trouble qflist toggle<cr>",
 			desc = "Quickfix List (Trouble)",
 		},

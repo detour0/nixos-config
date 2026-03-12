@@ -1,9 +1,9 @@
 {
   imports = [
-      ./locale.nix
-      ./settings.nix
-      ./fonts.nix
-      ./nameserver.nix
+    ./locale.nix
+    ./settings.nix
+    ./fonts.nix
+    ./dns.nix
   ];
 
   # Allow unfree packages

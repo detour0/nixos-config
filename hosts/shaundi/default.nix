@@ -65,7 +65,6 @@
       nixfmt-rfc-style
 
       docker-compose
-      docker-compose-language-service
     ])
     ++ [
     ];

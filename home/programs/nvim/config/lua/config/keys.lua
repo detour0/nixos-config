@@ -11,13 +11,6 @@ v.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
 -- v.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll Down" })
 -- v.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll Up" })
 
--- Buffer actions
-v.keymap.set("n", "<leader><leader>[", "<cmd>bprev<CR>", { desc = "Previous buffer" })
-v.keymap.set("n", "<leader><leader>]", "<cmd>bnext<CR>", { desc = "Next buffer" })
-v.keymap.set("n", "<leader><leader>l", "<cmd>b#<CR>", { desc = "Last buffer" })
-v.keymap.set("n", "<leader><leader>x", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
-v.keymap.set("n", "<leader><leader>w", "<cmd>w<CR>", { desc = "[W]rite buffer" })
-
 -- Resize windows with arrow keys
 v.keymap.set("n", "<Down>", ":resize +2<CR>", { desc = "Increase window height" })
 v.keymap.set("n", "<Up>", ":resize -2<CR>", { desc = "Decrease window height" })
