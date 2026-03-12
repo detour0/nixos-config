@@ -1,7 +1,7 @@
 local v = vim
 
 -- Remove search highlighting with Esc
-v.keymap.set('n', '<Esc>', '<Esc>:nohlsearch<CR>', { silent = true })
+v.keymap.set("n", "<Esc>", "<Esc>:nohlsearch<CR>", { silent = true })
 
 -- Moving marked lines up and down
 v.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Moves Line Down" })
@@ -16,7 +16,7 @@ v.keymap.set("n", "<leader><leader>[", "<cmd>bprev<CR>", { desc = "Previous buff
 v.keymap.set("n", "<leader><leader>]", "<cmd>bnext<CR>", { desc = "Next buffer" })
 v.keymap.set("n", "<leader><leader>l", "<cmd>b#<CR>", { desc = "Last buffer" })
 v.keymap.set("n", "<leader><leader>x", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
-v.keymap.set("n", "<leader><leader>s", "<cmd>w<CR>", { desc = "Write buffer" })
+v.keymap.set("n", "<leader><leader>w", "<cmd>w<CR>", { desc = "[W]rite buffer" })
 
 -- Resize windows with arrow keys
 v.keymap.set("n", "<Down>", ":resize +2<CR>", { desc = "Increase window height" })
@@ -41,12 +41,7 @@ v.keymap.set("n", "<leader>q", v.diagnostic.setloclist, { desc = "Open diagnosti
 
 -- Yanking to clipboard
 v.keymap.set({ "v", "x", "n" }, "<leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
-v.keymap.set(
-  { "n", "v", "x" },
-  "<leader>Y",
-  '"+yy',
-  { noremap = true, silent = true, desc = "Yank line to clipboard" }
-)
+v.keymap.set({ "n", "v", "x" }, "<leader>Y", '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
 
 v.keymap.set({ "n", "v", "x" }, "<C-a>", "gg0vG$", { noremap = true, silent = true, desc = "Select all" })
 v.keymap.set({ "n", "v", "x" }, "<leader>p", '"+p', { noremap = true, silent = true, desc = "Paste from clipboard" })
@@ -57,9 +52,8 @@ v.keymap.set({ "n", "v", "x" }, "<leader>p", '"+p', { noremap = true, silent = t
 --   { noremap = true, silent = true, desc = "Paste from clipboard from within insert mode" }
 -- )
 v.keymap.set(
-  "x",
-  "<leader>P",
-  '"_dP',
-  { noremap = true, silent = true, desc = "Paste over selection without erasing unnamed register" }
+	"x",
+	"<leader>P",
+	'"_dP',
+	{ noremap = true, silent = true, desc = "Paste over selection without erasing unnamed register" }
 )
-

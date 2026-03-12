@@ -20,6 +20,7 @@
     extraPackages = with pkgs; [
       ripgrep
       fd
+      gcc
 
       lua-language-server
       stylua
@@ -54,12 +55,17 @@
       catppuccin-nvim
       lualine-nvim
       bufferline-nvim
+      snacks-nvim
+      yazi-nvim
 
       lazy-nvim
       which-key-nvim
       conform-nvim
       nvim-lint
       nvim-navic
+      nui-nvim
+      nvim-navbuddy
+      lazydev-nvim
 
       blink-cmp
       blink-compat
