@@ -1,5 +1,0 @@
-
-profile home_rot {
-  output 'Chimei Innolux Corporation 0x14B1 Unknown' mode 1920x1080 position 0,0
-  output 'AOC D2769 AAYE79A000588' mode 1920x1080 position 1920,0
-}

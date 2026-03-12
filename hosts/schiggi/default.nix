@@ -15,39 +15,32 @@
 
     ../../overlays
     ../common/extrargs.nix
-    inputs.sops-nix.nixosModules.sops
 
     ../common/systemd-boot.nix
     ../common/networking.nix
-    ../common/bluetooth.nix
 
     ../common/docker.nix
     ../common/printing.nix
     ../common/pipewire.nix
     ../common/mullvad.nix
 
-    # ../common/gnome.nix
-    ../common/sway.nix
-
     ../common/vm.nix
-    ../common/steam.nix
   ];
 
-  networking.hostName = "shaundi";
+  networking.hostName = "schiggi";
 
   # login/default shell can only be set system wide
   programs = {
     zsh.enable = true;
   };
   # GDM only shows users with their default shell in /etc/shells
-  environment.shells = [ pkgs.zsh ];
   users.defaultUserShell = pkgs.zsh;
 
-  environment.variables.EDITOR = "nvim";
+  environment = {
+    shells = [ pkgs.zsh ];
+    variables.EDITOR = "nvim";
 
-  environment.systemPackages =
-    (with pkgs; [
-
+    systemPackages = with pkgs; [
       wget
       curl
       fastfetch
@@ -66,9 +59,9 @@
 
       docker-compose
       docker-compose-language-service
-    ])
-    ++ [
     ];
+
+  };
 
   networking.firewall = {
     allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
@@ -77,5 +70,5 @@
   };
 
   # Do not change from 25-05!
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

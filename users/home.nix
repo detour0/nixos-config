@@ -20,10 +20,10 @@
           useUserPackages = true;
           extraSpecialArgs = {
             inherit username inputs stateVersionH;
-            pkgsUnstable = config._module.args.pkgsUnstable;
+            inherit (config._module.args) pkgsUnstable;
           };
           users.${username} = import ../home; # import ../home/${username}/${config.networking.hostName}.nix;
-          backupFileExtension = "backup";
+          backupFileExtension = "bak";
         };
       }
     )
