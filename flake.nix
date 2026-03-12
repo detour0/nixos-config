@@ -67,7 +67,18 @@
             # Do not change from 25-05!
             stateVersionH = "25.05";
           };
+        };
 
+        schiggi = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/schiggi
+          ];
+
+          specialArgs = {
+            inherit inputs mkUser;
+            stateVersionH = "25.11";
+          };
         };
       };
     };

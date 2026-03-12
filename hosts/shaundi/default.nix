@@ -35,7 +35,7 @@
 
   networking.hostName = "shaundi";
 
-  # login/default shell can only be set system wide 
+  # login/default shell can only be set system wide
   programs = {
     zsh.enable = true;
   };
@@ -43,7 +43,7 @@
   environment.shells = [ pkgs.zsh ];
   users.defaultUserShell = pkgs.zsh;
 
-  environment.variables.EDITOR = "nano";
+  environment.variables.EDITOR = "nvim";
 
   environment.systemPackages =
     (with pkgs; [
