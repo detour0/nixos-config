@@ -45,7 +45,7 @@ set $right l
 # Your preferred applications
 set $term wezterm
 set $menu rofi -show drun
-set $file-manager nemo
+set $file-manager yazi
 set $web-browser firefox
 
 # lock screen
@@ -120,6 +120,8 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+Return exec $term
     # Start your launcher
     bindsym $mod+d exec $menu
+    # Start your file explorer
+    bindsym $mod+e exec $term -e yazi
     # Fullscreen
     bindsym $mod+f fullscreen
     # Close window

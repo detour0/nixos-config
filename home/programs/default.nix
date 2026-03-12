@@ -7,6 +7,7 @@
 
     ./common.nix
 
+    ./yazi.nix
     ./tmux.nix
     ./zsh.nix
     ./wezterm.nix

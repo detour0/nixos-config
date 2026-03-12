@@ -16,7 +16,6 @@
       mpv
       # smplayer
       jq
-      yazi
 
       libreoffice-fresh
       hunspell
