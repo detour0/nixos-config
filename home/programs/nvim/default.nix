@@ -65,7 +65,7 @@
       nvim-navic
       nui-nvim
       nvim-navbuddy
-      lazydev-nvim
+      trouble-nvim
 
       blink-cmp
       blink-compat
