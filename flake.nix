@@ -73,13 +73,19 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/schiggi
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+            ./lib/role-framework.nix # Inject framework
           ];
-
           specialArgs = {
             inherit inputs mkUser;
             stateVersionH = "25.11";
           };
         };
+
       };
     };
 }
