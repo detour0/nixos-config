@@ -5,7 +5,6 @@ return function(client, bufnr)
 	local ok_navic, navic = pcall(require, "nvim-navic")
 	if ok_navic and client.server_capabilities.documentSymbolProvider then
 		navic.attach(client, bufnr)
-		v.opt_local.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 	end
 
 	local ok_navbuddy, navbuddy = pcall(require, "nvim-navbuddy")

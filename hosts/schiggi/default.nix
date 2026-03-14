@@ -1,17 +1,26 @@
 {
+  config,
   pkgs,
   inputs,
-  mkUser,
   ...
 }:
-
+with config.myUsers;
 {
   imports = [
-    ../../modules/features/container.nix
+    ./hardware-configuration.nix
+    ../../lib/user-manager.nix
+    ../../users/dt.nix
+    ../../modules/system
+    ../../modules/roles/dev.nix
   ];
+
+  role.dev = {
+    enable = true;
+    users = [ dt.name ];
+  };
 
   networking.hostName = "schiggi";
 
-  # Do not change from 25-05!
+  # Do not change!
   system.stateVersion = "25.11";
 }

@@ -2,6 +2,25 @@ local v = vim
 
 return {
 	{
+		-- Doesn't work with lua for whatever reason
+		"indent-blankline.nvim",
+		main = "ibl",
+		dev = true,
+		-- "BufReadPost" is safer than "BufReadPre" because it ensures
+		-- the buffer actually exists and is ready for Tree-sitter.
+		event = { "BufReadPost", "BufNewFile" },
+		opts = {
+			indent = {
+				char = "│",
+				-- This helps when Treesitter is being lazy
+				smart_indent_cap = true,
+			},
+			exclude = {
+				filetypes = { "help", "dashboard", "snacks_dashboard" },
+			},
+		},
+	},
+	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
