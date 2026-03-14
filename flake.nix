@@ -31,9 +31,7 @@
     inputs@{
       self,
       nixpkgs,
-      home-manager,
       sops-nix,
-      nix-vscode-extensions,
       ...
     }:
     let

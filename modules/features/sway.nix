@@ -1,0 +1,65 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  cfg = config.features.sway;
+in
+{
+  options.features.sway.enable = lib.mkEnableOption "sway based environment";
+
+  config = lib.mkIf cfg.enable {
+    # Enable the gnome-keyring secrets vault.
+    # Will be exposed through DBus to programs willing to store secrets.
+    services.gnome.gnome-keyring.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      nemo
+    ];
+
+    # In case swaylock cannot be unlocked with correct password:
+    # security.pam.services.swaylock = {};
+
+    # security.polkit.enable = true;
+
+    # enable Sway window manager
+    # Doing it like this should enable polkit by default
+    programs = {
+      sway = {
+        enable = true;
+        # wrapperFeatures.gtk = true;
+        extraOptions = [
+          # "--unsupported-gpu"
+        ];
+        # Overide extraPkgs to avoid default installations (foot, etc...)
+        extraPackages = with pkgs; [
+          swayidle
+        ];
+      };
+    };
+
+    services.getty = {
+      autologinUser = "dt";
+      autologinOnce = true;
+    };
+    environment.loginShellInit = ''
+      [[ "$(tty)" == /dev/tty1 ]] && sway
+    '';
+
+    # services.greetd = {
+    #   enable = true;
+    #   settings = {
+    #     default_session = {
+    #       command = "${lib.getExe pkgs.tuigreet} --time --cmd sway";
+    #       user = "greeter";
+    #     };
+    #   };
+    # };
+
+    home-manager.sharedModules = [
+      (lib.mkFeatureBridge ./home/sway)
+    ];
+  };
+}

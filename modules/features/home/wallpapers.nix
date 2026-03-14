@@ -1,8 +1,8 @@
 # modules/wallpaper.nix
-{ config, lib, ... }:
+{ lib, ... }:
 
 let
-  wallpaper = ../../assets/wallpapers/pexels-pixabay-531321.jpg;
+  wallpaper = ../../../assets/wallpapers/pexels-pixabay-531321.jpg;
 in
 {
   # Define custom option under 'options' (no 'home.' prefix needed here)
