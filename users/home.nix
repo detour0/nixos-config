@@ -22,7 +22,7 @@
             inherit username inputs stateVersionH;
             inherit (config._module.args) pkgsUnstable;
           };
-          users.${username} = import ../home; # import ../home/${username}/${config.networking.hostName}.nix;
+          users.${username} = import ../home;
           backupFileExtension = "bak";
         };
       }

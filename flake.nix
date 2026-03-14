@@ -37,51 +37,32 @@
       ...
     }:
     let
-      mkUser =
-        username:
-        {
-          config,
-          pkgs,
-          lib,
-          inputs,
-          ...
-        }:
-        {
-          _module.args = {
-            inherit username;
-          };
-          imports = [ ./users ];
-        };
+      myLib = nixpkgs.lib.extend (selfLib: superLib: (import ./lib { lib = selfLib; }));
     in
     {
       nixosConfigurations = {
 
-        shaundi = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/shaundi
-          ];
-
-          specialArgs = {
-            inherit inputs mkUser;
-            # Do not change from 25-05!
-            stateVersionH = "25.05";
-          };
-        };
+        # shaundi = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   modules = [
+        #     ./hosts/shaundi
+        #   ];
+        #
+        #   specialArgs = {
+        #     inherit inputs mkUser;
+        #     # Do not change from 25-05!
+        #     stateVersionH = "25.05";
+        #   };
+        # };
 
         schiggi = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/schiggi
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-            }
-            ./lib/role-framework.nix # Inject framework
           ];
           specialArgs = {
-            inherit inputs mkUser;
+            inherit inputs;
+            lib = myLib;
             stateVersionH = "25.11";
           };
         };

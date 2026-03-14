@@ -1,0 +1,21 @@
+{
+  imports = [
+    ./systemd-boot.nix
+    ./locale.nix
+    ./settings.nix
+    ./fonts.nix
+    ./dns.nix
+  ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Set your time zone.
+  time.timeZone = "Europe/Berlin";
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us,de";
+    variant = "altgr-intl,";
+  };
+}

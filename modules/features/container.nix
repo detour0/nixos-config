@@ -41,11 +41,11 @@ in
     # Docker runtime
     virtualisation.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") {
       enable = mkIf (!cfg.rootless) true;
-      setSocketVariable = mkIf (!cfg.rootless) true;
 
       # Conditionally enable rootless mode
       rootless = mkIf cfg.rootless {
         enable = true;
+        setSocketVariable = true;
         daemon.settings.dns = [
           "1.1.1.1"
           "9.9.9.9"
@@ -69,14 +69,12 @@ in
     };
 
     # Compose tool (runtime-agnostic)
-    environment.systemPackages =
-      with pkgs;
-      lib.optionals cfg.compose [
-        (lib.optional (cfg.runtime == "docker" || cfg.runtime == "both") docker-compose)
-        (lib.optional (cfg.runtime == "podman" || cfg.runtime == "both") podman-compose)
-      ];
+    environment.systemPackages = lib.optionals cfg.compose (
+      (lib.optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.docker-compose)
+      ++ (lib.optional (cfg.runtime == "podman" || cfg.runtime == "both") pkgs.podman-compose)
+    );
 
     # Groups for socket access
-    users.groups.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") { };
+    # users.groups.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") { };
   };
 }

@@ -52,6 +52,7 @@
       curl
       fastfetch
       btop
+      htop
       man-pages
       man-pages-posix
 

@@ -3,6 +3,7 @@
 {
   pkgs,
   config,
+  pkgsUnstable,
   ...
 }:
 {
@@ -51,85 +52,91 @@
 
     ];
 
-    plugins = with pkgs.vimPlugins; [
-      catppuccin-nvim
-      lualine-nvim
-      bufferline-nvim
-      snacks-nvim
-      yazi-nvim
+    plugins =
+      with pkgs.vimPlugins;
+      [
+        catppuccin-nvim
+        lualine-nvim
+        bufferline-nvim
+        snacks-nvim
+        yazi-nvim
 
-      lazy-nvim
-      which-key-nvim
-      conform-nvim
-      nvim-lint
-      nvim-navic
-      nui-nvim
-      nvim-navbuddy
-      trouble-nvim
+        lazy-nvim
+        which-key-nvim
+        conform-nvim
+        nvim-lint
+        nvim-navic
+        nui-nvim
+        nvim-navbuddy
+        trouble-nvim
+        nvim-treesitter-context
 
-      blink-cmp
-      blink-compat
-      colorful-menu-nvim
-      luasnip
-      cmp-cmdline
+        blink-cmp
+        blink-compat
+        colorful-menu-nvim
+        luasnip
+        cmp-cmdline
 
-      nvim-lspconfig
+        nvim-lspconfig
 
-      telescope-fzf-native-nvim
-      telescope-ui-select-nvim
-      telescope-nvim
-      plenary-nvim
+        telescope-fzf-native-nvim
+        telescope-ui-select-nvim
+        telescope-nvim
+        plenary-nvim
 
-      nvim-treesitter-textobjects
-      # nvim-treesitter.withAllGrammars
-      # This is for if you only want some of the grammars
-      (nvim-treesitter.withPlugins (
-        plugins: with plugins; [
-          c
-          python
-          nix
-          lua
-          rust
-          javascript
-          typescript
-          go
-          sql
-          query
-          html
-          http
-          css
-          xml
-          markdown
-          markdown_inline
-          yaml
-          json
-          jsonc
-          jq
-          kcl
-          kconfig
-          helm
-          angular
-          graphql
-          arduino
-          dockerfile
-          csv
-          gitignore
-          gpg
-          regex
-          toml
-          nginx
-          bash
-          zsh
-          sway
-          vim
-          tmux
-          ssh-config
-        ]
-      ))
+        nvim-treesitter-textobjects
+        # nvim-treesitter.withAllGrammars
+        # This is for if you only want some of the grammars
+        (nvim-treesitter.withPlugins (
+          plugins: with plugins; [
+            c
+            python
+            nix
+            lua
+            rust
+            javascript
+            typescript
+            go
+            sql
+            query
+            html
+            http
+            css
+            xml
+            markdown
+            markdown_inline
+            yaml
+            json
+            jsonc
+            jq
+            kcl
+            kconfig
+            helm
+            angular
+            graphql
+            arduino
+            dockerfile
+            csv
+            gitignore
+            gpg
+            regex
+            toml
+            nginx
+            bash
+            zsh
+            sway
+            vim
+            tmux
+            ssh-config
+          ]
+        ))
 
-      mini-icons
-      nvim-web-devicons
-    ];
+        mini-icons
+        nvim-web-devicons
+      ]
+      ++ (with pkgsUnstable.vimPlugins; [
+        indent-blankline-nvim
+      ]);
 
     extraLuaConfig = ''
       require("config.opts")
