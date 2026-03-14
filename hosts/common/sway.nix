@@ -1,6 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 {
-  # Enable the gnome-keyring secrets vault. 
+  # Enable the gnome-keyring secrets vault.
   # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
 
@@ -34,16 +34,16 @@
     autologinOnce = true;
   };
   environment.loginShellInit = ''
-      [[ "$(tty)" == /dev/tty1 ]] && sway
+    [[ "$(tty)" == /dev/tty1 ]] && sway
   '';
 
-  # services.greetd = {                                                      
-  #   enable = true;                                                         
-  #   settings = {                                                           
-  #     default_session = {                                                  
+  # services.greetd = {
+  #   enable = true;
+  #   settings = {
+  #     default_session = {
   #       command = "${lib.getExe pkgs.tuigreet} --time --cmd sway";
-  #       user = "greeter";                                                  
-  #     };                                                                   
-  #   };                                                                     
+  #       user = "greeter";
+  #     };
+  #   };
   # };
 }

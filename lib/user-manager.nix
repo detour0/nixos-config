@@ -10,6 +10,7 @@
 let
   inherit (lib)
     mkOption
+    mkEnableOption
     types
     mkIf
     mapAttrs
@@ -36,18 +37,18 @@ in
     type = types.attrsOf (
       types.submodule {
         options = {
-          enable = lib.mkEnableOption "this user";
+          enable = mkEnableOption "this user";
           name = mkOption {
             type = types.str;
             default = "";
           };
           description = mkOption {
             type = types.str;
-            default = "A NixOS User";
+            default = "";
           };
           extraGroups = mkOption {
             type = types.listOf types.str;
-            default = [ "networkmanager" ];
+            default = [ ];
           };
 
           # Metadata that roles or HM can use later
@@ -93,6 +94,7 @@ in
     # C. Setup the Home Manager base dynamically
     home-manager.users = mapAttrs (username: userCfg: {
       home.stateVersion = stateVersionH;
+      # programs.home-manager.enable = true;
 
       # Use the user's data to configure their basics
       programs.git = mkIf (userCfg.gitName != "") {

@@ -12,11 +12,20 @@ with config.myUsers;
     ../../users/dt.nix
     ../../modules/system
     ../../modules/roles/dev.nix
+    ../../modules/roles/desktop.nix
   ];
 
-  role.dev = {
-    enable = true;
-    users = [ dt.name ];
+  role = {
+    dev = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
+    desktop = {
+      enable = true;
+      users = [ dt.name ];
+      environment = "sway";
+    };
   };
 
   networking.hostName = "schiggi";
