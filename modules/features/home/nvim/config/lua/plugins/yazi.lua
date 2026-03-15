@@ -5,7 +5,7 @@ return {
 	event = "VeryLazy",
 	dev = true,
 	dependencies = {
-		{ "plenary.nvim", lazy = true, dev = true },
+		{ "plenary.nvim", dev = true },
 	},
 	keys = {
 		-- 👇 in this section, choose your own keymappings!

@@ -1,3 +1,5 @@
+local v = vim
+
 return {
 	{
 		"nvim-treesitter",
@@ -5,7 +7,7 @@ return {
 		-- We load on BufReadPost instead of DeferredUIEnter for faster startup
 		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
-			"nvim-treesitter-textobjects",
+			{ "nvim-treesitter-textobjects", dev = true },
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
@@ -17,8 +19,8 @@ return {
 					enable = true,
 					-- Optional: disable for very large files to maintain performance
 					disable = function(lang, buf)
-						local max_filesize = 200 * 1024 -- 200 KB
-						local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+						local max_filesize = 300 * 1024 -- 300 KB
+						local ok, stats = pcall(v.loop.fs_stat, v.api.nvim_buf_get_name(buf))
 						if ok and stats and stats.size > max_filesize then
 							return true
 						end

@@ -3,7 +3,7 @@ return {
 		"lualine.nvim",
 		dev = true,
 		event = "VeryLazy", -- Replaces DeferredUIEnter
-		dependencies = { "nvim-web-devicons" },
+		dependencies = { "nvim-web-devicons", dev = true },
 		config = function()
 			require("lualine").setup({
 				options = {

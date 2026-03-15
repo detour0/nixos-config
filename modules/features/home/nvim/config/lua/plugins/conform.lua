@@ -1,9 +1,8 @@
 return {
 	{
-		-- "conform-nvim",
 		"conform.nvim",
-		-- dev = true, -- Crucial for NixOS
-		event = { "BufWritePre" }, -- Load on save to trigger format_on_save
+		dev = true,
+		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
 		keys = {
 			{
