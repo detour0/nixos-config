@@ -19,6 +19,7 @@ in
       ];
       default = "zsh";
     };
+    ssh.enable = mkEnableOption "openssh daemon";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -31,6 +32,8 @@ in
       # GDM only shows users with their default shell in /etc/shells
       environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
       users.defaultUserShell = pkgs.${cfg.shell};
+
+      services.openssh.enable = mkIf cfg.ssh.enable true;
 
       environment.systemPackages = with pkgs; [
         wget
