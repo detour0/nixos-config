@@ -24,7 +24,7 @@ let
   activeUsers = filterAttrs (name: userCfg: userCfg.enable) cfg;
 
   pkgsUnstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
+    localSystem = pkgs.stdenv.hostPlatform;
     inherit (config.nixpkgs) config;
   };
 in
