@@ -21,7 +21,7 @@ return function(client, bufnr)
 	end
 
 	if ok_navbuddy then
-		nmap("<leader>n", function()
+		nmap("<leader>nb", function()
 			navbuddy.open()
 		end, "[N]av[B]uddy view")
 	end

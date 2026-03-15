@@ -8,7 +8,7 @@ let
   cfg = config.features.sway;
 in
 {
-  options.features.sway.enable = lib.mkEnableOption "sway based environment";
+  options.features.sway.enable = lib.mkEnableOption "swaywm based environment";
 
   config = lib.mkIf cfg.enable {
     # Enable the gnome-keyring secrets vault.

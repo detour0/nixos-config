@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -20,11 +21,47 @@ in
       ];
       default = "sway";
     };
+    browsers = mkOption {
+      type = types.listOf (
+        types.enum [
+          "firefox"
+          "librewolf"
+          "brave"
+        ]
+      );
+      default = [
+        "firefox"
+        "brave"
+      ];
+    };
+    office = mkEnableOption "libre office with language packs";
   };
 
-  config = mkIf cfg.enable {
-    # Just turn on the feature.
-    # This triggers the OS settings AND the HM settings automatically.
-    features.sway.enable = mkIf (cfg.environment == "sway") true;
-  };
+  config = mkIf cfg.enable (mkMerge [
+    {
+      features.sway.enable = mkIf (cfg.environment == "sway") true;
+    }
+
+    (mkRoleHome config "dev" (user: {
+      imports = flatten [
+        (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
+        (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)
+      ];
+
+      home.packages =
+        with pkgs;
+        [
+          megasync
+          keepassxc
+          obsidian
+        ]
+        ++ optionals cfg.office [
+          libreoffice-fresh
+          hunspell
+          hunspellDicts.de_DE
+          hunspellDicts.en_US
+        ];
+
+    }))
+  ]);
 }

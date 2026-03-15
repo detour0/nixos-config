@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 
@@ -13,13 +14,19 @@ in
 {
   imports = [
     ../features/container.nix
+    ../features/vm.nix
   ];
 
   options.role.dev = mkRoleOptions "dev role" {
     editor = mkOption {
-      type = types.str;
+      type = types.enum [ "nvim" ];
       default = "nvim";
     };
+    emulator = mkOption {
+      type = types.enum [ "wezterm" ];
+      default = "wezterm";
+    };
+    vm = mkEnableOption "virtualisation packges/service";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -29,25 +36,33 @@ in
         enable = true;
         # runtime = "podman";
       };
+      features.vm.enable = true;
       environment.variables.EDITOR = cfg.editor;
+
     }
 
-    # 2. Home-manager configs via mkRoleHome
+    # 2. Home-manager features
     (mkRoleHome config "dev" (user: {
-      home.packages = with pkgs; [
-      ];
+      imports = [
+        ../features/home/tmux.nix
+        ../features/home/direnv.nix
+      ]
+      ++ (optional (cfg.editor == "nvim") ../features/home/nvim)
+      ++ (optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix);
 
-      home.shellAliases = {
-        # docker = "podman";
-        "docker-compose" = "dc";
-      };
+      home.packages =
+        (with pkgs; [
+          git-filter-repo
+        ])
+        ++ (with pkgsUnstable; [
+          devenv
+        ]);
     }))
 
-    # 3. System users
+    # 3. Assign additional user roles
     {
       users.users = genAttrs cfg.users (user: {
-        isNormalUser = true;
-        extraGroups = [ "wheel" ]; # wheel for sudo
+        extraGroups = optional cfg.vm "kvm";
       });
     }
   ]);

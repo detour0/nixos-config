@@ -1,6 +1,6 @@
 {
+  config,
   pkgs,
-  username,
   inputs,
   ...
 }:
@@ -252,7 +252,7 @@ in
     firefox = {
       enable = true;
       package = pkgs.firefox;
-      profiles.${username} = {
+      profiles.${config.home.username} = {
         id = 0;
         search = {
           force = true;

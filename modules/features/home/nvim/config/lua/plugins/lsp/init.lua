@@ -23,16 +23,6 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			{
-				"nvim-navbuddy",
-				dev = true,
-				dependencies = {
-					{ "nvim-navic", dev = true },
-					{ "nui.nvim", dev = true },
-				},
-			},
-		},
 		config = function()
 			-- This replaces your 'before' block.
 			-- On Neovim 0.11+, we can set global defaults like this:

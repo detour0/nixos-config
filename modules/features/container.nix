@@ -69,9 +69,9 @@ in
     };
 
     # Compose tool (runtime-agnostic)
-    environment.systemPackages = lib.optionals cfg.compose (
-      (lib.optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.docker-compose)
-      ++ (lib.optional (cfg.runtime == "podman" || cfg.runtime == "both") pkgs.podman-compose)
+    environment.systemPackages = optionals cfg.compose (
+      (optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.docker-compose)
+      ++ (optional (cfg.runtime == "podman" || cfg.runtime == "both") pkgs.podman-compose)
     );
 
     # Groups for socket access

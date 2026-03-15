@@ -1,12 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, ... }:
 {
   programs.wezterm = {
     enable = true;
     enableZshIntegration = true;
   };
-  xdg.configFile."wezterm/wezterm.lua".source = 
-    config.lib.file.mkOutOfStoreSymlink 
-    "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/wezterm.lua";
+  xdg.configFile."wezterm/wezterm.lua".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/wezterm.lua";
 }
 
 # { pkgs, ... }:
