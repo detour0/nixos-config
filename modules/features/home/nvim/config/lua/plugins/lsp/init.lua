@@ -4,8 +4,8 @@ return {
 	{
 		-- Doesn't work with lua for whatever reason
 		"indent-blankline.nvim",
-		main = "ibl",
 		dev = true,
+		main = "ibl",
 		-- "BufReadPost" is safer than "BufReadPre" because it ensures
 		-- the buffer actually exists and is ready for Tree-sitter.
 		event = { "BufReadPost", "BufNewFile" },
@@ -21,7 +21,8 @@ return {
 		},
 	},
 	{
-		"neovim/nvim-lspconfig",
+		"nvim-lspconfig",
+		dev = true,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			-- This replaces your 'before' block.

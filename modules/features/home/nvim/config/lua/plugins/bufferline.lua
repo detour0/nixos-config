@@ -3,7 +3,7 @@ return {
 		"bufferline.nvim",
 		dev = true,
 		event = "VeryLazy",
-		dependencies = { "nvim-web-devicons" },
+		dependencies = { "nvim-web-devicons", dev = true },
 		keys = {
 			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
 			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
