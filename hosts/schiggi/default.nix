@@ -5,7 +5,7 @@
 with config.myUsers;
 {
   imports = [
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
