@@ -17,7 +17,7 @@ return {
 		},
 		{
 			-- Open in the current working directory
-			"C+e",
+			"C-e",
 			"<cmd>Yazi cwd<cr>",
 			desc = "[N]avigate yazi in nvim's [C]WD",
 		},
