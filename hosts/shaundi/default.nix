@@ -58,7 +58,7 @@ with config.myUsers;
     };
   };
 
-  networking.hostName = "schiggi";
+  networking.hostName = "shaundy";
 
   # Do not change from 25-05!
   system.stateVersion = "25.05";
