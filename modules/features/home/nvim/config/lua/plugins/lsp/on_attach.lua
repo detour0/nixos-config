@@ -29,11 +29,8 @@ return function(client, bufnr)
 	-- Standard LSP actions
 	nmap("<leader>lr", "<cmd>LspRestart<cr>", "[R]estart")
 	nmap("<leader>li", "<cmd>LspInfo<cr>", "[L]SP [I]nfo")
-	nmap("<leader>rn", v.lsp.buf.rename, "[R]e[n]ame")
-	nmap("<leader>ca", v.lsp.buf.code_action, "[C]ode [A]ction")
 	nmap("gd", v.lsp.buf.definition, "[G]oto [D]efinition")
 	nmap("gD", v.lsp.buf.declaration, "[G]oto [D]eclaration")
-	nmap("K", v.lsp.buf.hover, "Hover Documentation")
 	nmap("<C-k>", v.lsp.buf.signature_help, "Signature Documentation")
 
 	-- 2. Telescope vs. Built-in logic
@@ -41,15 +38,11 @@ return function(client, bufnr)
 	local has_telescope, telescope_builtin = pcall(require, "telescope.builtin")
 
 	if has_telescope then
-		nmap("gr", telescope_builtin.lsp_references, "[G]oto [R]eferences")
-		nmap("gI", telescope_builtin.lsp_implementations, "[G]oto [I]mplementation")
 		nmap("<leader>ds", telescope_builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
 		nmap("<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 	else
-		-- 3. THE BUILT-IN VERSIONS (as requested)
+		-- 3. THE BUILT-IN VERSIONS
 		-- Neov 0.11 uses a floating list or quickfix for these automatically
-		nmap("gr", v.lsp.buf.references, "[G]oto [R]eferences (Built-in)")
-		nmap("gI", v.lsp.buf.implementation, "[G]oto [I]mplementation (Built-in)")
 		nmap("<leader>ds", v.lsp.buf.document_symbol, "[D]ocument [S]ymbols (Built-in)")
 		nmap("<leader>ws", v.lsp.buf.workspace_symbol, "[W]orkspace [S]ymbols (Built-in)")
 	end

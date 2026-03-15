@@ -33,6 +33,7 @@
       nixd
       statix
       nix
+      nixfmt-rfc-style
 
       typescript-language-server
       eslint_d
@@ -40,6 +41,8 @@
 
       rust-analyzer
       gopls
+      go
+      gotools
 
       vscode-langservers-extracted
       stylelint
@@ -64,6 +67,7 @@
         lazy-nvim
         which-key-nvim
         conform-nvim
+
         nvim-lint
         nvim-navic
         nui-nvim
@@ -71,7 +75,6 @@
         trouble-nvim
         nvim-treesitter-context
 
-        blink-cmp
         blink-compat
         colorful-menu-nvim
         luasnip
@@ -128,6 +131,7 @@
             vim
             tmux
             ssh-config
+            latex
           ]
         ))
 
@@ -136,6 +140,7 @@
       ]
       ++ (with pkgsUnstable.vimPlugins; [
         indent-blankline-nvim
+        blink-cmp
       ]);
 
     extraLuaConfig = ''
