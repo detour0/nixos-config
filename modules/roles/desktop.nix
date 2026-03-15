@@ -21,6 +21,10 @@ in
       ];
       default = "sway";
     };
+    emulator = mkOption {
+      type = types.enum [ "wezterm" ];
+      default = "wezterm";
+    };
     browsers = mkOption {
       type = types.listOf (
         types.enum [
@@ -46,6 +50,7 @@ in
       imports = flatten [
         (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
         (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)
+        (optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix)
       ];
 
       home.packages =

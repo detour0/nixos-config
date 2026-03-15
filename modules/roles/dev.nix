@@ -22,10 +22,6 @@ in
       type = types.enum [ "nvim" ];
       default = "nvim";
     };
-    emulator = mkOption {
-      type = types.enum [ "wezterm" ];
-      default = "wezterm";
-    };
     vm = mkEnableOption "virtualisation packges/service";
   };
 
@@ -47,8 +43,7 @@ in
         ../features/home/tmux.nix
         ../features/home/direnv.nix
       ]
-      ++ (optional (cfg.editor == "nvim") ../features/home/nvim)
-      ++ (optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix);
+      ++ (optional (cfg.editor == "nvim") ../features/home/nvim);
 
       home.packages =
         (with pkgs; [

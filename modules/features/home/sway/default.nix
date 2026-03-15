@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   workrooms-pkg = pkgs.rustPlatform.buildRustPackage {
     pname = "workrooms";
@@ -10,13 +15,13 @@ let
 in
 {
   imports = [
-  ./waybar.nix
-  ./swaylock.nix
-  ./rofi.nix
-  ./kanshi.nix
-  ../wallpapers.nix
-  ../nemo.nix
-  ../gtkTheme.nix
+    ./waybar.nix
+    ./swaylock.nix
+    ./rofi.nix
+    ./kanshi.nix
+    ../wallpapers.nix
+    ../nemo.nix
+    ../gtkTheme.nix
   ];
 
   home.packages = with pkgs; [
@@ -55,8 +60,9 @@ in
   '';
 
   # This creates the link from your home directory to your dotfiles
-  xdg.configFile."sway/config".source = lib.mkForce 
-    (config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config");
+  xdg.configFile."sway/config".source = lib.mkForce (
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config"
+  );
   # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
-  # xdg.configFile."sway/config".source = lib.mkForce ../../../dotfiles/sway/config;
+  # xdg.configFile."sway/config".source = lib.mkForce ../../../../dotfiles/sway/config;
 }
