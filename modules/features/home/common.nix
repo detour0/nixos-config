@@ -1,3 +1,4 @@
+# Nonfunctional; to be cleaned up later
 { pkgs, pkgsUnstable, ... }:
 {
   home.packages =
@@ -28,18 +29,6 @@
       # nvchad
     ]);
 
-  programs = {
-    chromium = {
-      enable = true;
-      package = pkgs.brave;
-      extensions = [
-        { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
-      ];
-      # commandLineArgs = [
-      #   "--disable-features=WebRtcAllowInputVolumeAdjustment"
-      # ];
-    };
-  };
   services = {
     # syncthing.enable = true;
 

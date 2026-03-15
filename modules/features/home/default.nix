@@ -1,3 +1,4 @@
+# Nonfunctional; to be cleaned up later
 {
   imports = [
     ./firefox

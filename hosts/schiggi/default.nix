@@ -1,7 +1,5 @@
 {
   config,
-  pkgs,
-  inputs,
   ...
 }:
 with config.myUsers;
@@ -13,10 +11,30 @@ with config.myUsers;
     ../../modules/system
     ../../modules/roles/dev.nix
     ../../modules/roles/desktop.nix
+    ../../modules/roles/core.nix
+    ../../modules/roles/media.nix
+    ../../modules/roles/game.nix
+    ../../modules/roles/peripherals.nix
   ];
 
   role = {
+    core = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
     dev = {
+      enable = true;
+      users = [ dt.name ];
+      vm = true;
+    };
+
+    media = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
+    game = {
       enable = true;
       users = [ dt.name ];
     };
@@ -25,6 +43,18 @@ with config.myUsers;
       enable = true;
       users = [ dt.name ];
       environment = "sway";
+    };
+
+    peripherals = {
+      enable = true;
+      users = [ dt.name ];
+      bluetooth = true;
+      audio = true;
+      printing = true;
+      vpn = {
+        enable = true;
+        vendor = "mullvad";
+      };
     };
   };
 

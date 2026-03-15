@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
@@ -9,7 +8,7 @@
         dark = "catppuccin-mocha";
       };
     };
-    flavors."catppuccin-mocha" = ../../dotfiles/yazi/flavors/catppuccin-mocha;
+    flavors."catppuccin-mocha" = ../../../dotfiles/yazi/flavors/catppuccin-mocha;
     settings = {
       manager = {
         ratio = [
