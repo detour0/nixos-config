@@ -1,80 +1,64 @@
 {
-  pkgs,
-  inputs,
-  mkUser,
+  config,
   ...
 }:
-
+with config.myUsers;
 {
-
   imports = [
     ./hardware-configuration.nix
-    ../common/global
-
-    (mkUser "dt")
-
-    ../../overlays
-    ../common/extrargs.nix
-    inputs.sops-nix.nixosModules.sops
-
-    ../common/systemd-boot.nix
-    ../common/networking.nix
-    ../common/bluetooth.nix
-
-    ../common/docker.nix
-    ../common/printing.nix
-    ../common/pipewire.nix
-    ../common/mullvad.nix
-
-    # ../common/gnome.nix
-    ../common/sway.nix
-
-    ../common/vm.nix
-    ../common/steam.nix
+    ../../lib/user-manager.nix
+    ../../users/dt.nix
+    ../../modules/system
+    ../../modules/roles/dev.nix
+    ../../modules/roles/desktop.nix
+    ../../modules/roles/core.nix
+    ../../modules/roles/media.nix
+    ../../modules/roles/game.nix
+    ../../modules/roles/peripherals.nix
   ];
 
-  networking.hostName = "shaundi";
+  role = {
+    core = {
+      enable = true;
+      users = [ dt.name ];
+    };
 
-  # login/default shell can only be set system wide
-  programs = {
-    zsh.enable = true;
+    dev = {
+      enable = true;
+      users = [ dt.name ];
+      vm = true;
+    };
+
+    media = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
+    game = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
+    desktop = {
+      enable = true;
+      users = [ dt.name ];
+      environment = "sway";
+    };
+
+    peripherals = {
+      enable = true;
+      users = [ dt.name ];
+      bluetooth = true;
+      audio = true;
+      printing = true;
+      vpn = {
+        enable = true;
+        vendor = "mullvad";
+      };
+    };
   };
-  # GDM only shows users with their default shell in /etc/shells
-  environment.shells = [ pkgs.zsh ];
-  users.defaultUserShell = pkgs.zsh;
 
-  environment.variables.EDITOR = "nvim";
-
-  environment.systemPackages =
-    (with pkgs; [
-
-      wget
-      curl
-      fastfetch
-      btop
-      htop
-      man-pages
-      man-pages-posix
-
-      # Archive
-      zip
-      unzip
-      p7zip
-
-      # Nix Language Server
-      nil
-      nixfmt-rfc-style
-
-      docker-compose
-    ])
-    ++ [
-    ];
-
-  networking.firewall = {
-    allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
-    # trustedInterfaces = [ "docker0" ]; # Trust Docker bridge
-    enable = true;
-  };
+  networking.hostName = "schiggi";
 
   # Do not change from 25-05!
   system.stateVersion = "25.05";

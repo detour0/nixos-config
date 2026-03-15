@@ -10,10 +10,7 @@ with config.myUsers;
     ../../users/dt.nix
     ../../modules/system
     ../../modules/roles/dev.nix
-    ../../modules/roles/desktop.nix
     ../../modules/roles/core.nix
-    ../../modules/roles/media.nix
-    ../../modules/roles/game.nix
     ../../modules/roles/peripherals.nix
   ];
 
@@ -29,27 +26,9 @@ with config.myUsers;
       vm = true;
     };
 
-    media = {
-      enable = true;
-      users = [ dt.name ];
-    };
-
-    game = {
-      enable = true;
-      users = [ dt.name ];
-    };
-
-    desktop = {
-      enable = true;
-      users = [ dt.name ];
-      environment = "sway";
-    };
-
     peripherals = {
       enable = true;
       users = [ dt.name ];
-      bluetooth = true;
-      audio = true;
       printing = true;
       vpn = {
         enable = true;

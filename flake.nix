@@ -40,18 +40,19 @@
     {
       nixosConfigurations = {
 
-        # shaundi = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   modules = [
-        #     ./hosts/shaundi
-        #   ];
-        #
-        #   specialArgs = {
-        #     inherit inputs mkUser;
-        #     # Do not change from 25-05!
-        #     stateVersionH = "25.05";
-        #   };
-        # };
+        shaundi = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/shaundi
+            { nixpkgs.hostPlatform = "x86_64-linux"; }
+          ];
+
+          specialArgs = {
+            inherit inputs;
+            lib = myLib;
+            # Do not change from 25-05!
+            stateVersionH = "25.05";
+          };
+        };
 
         schiggi = nixpkgs.lib.nixosSystem {
           modules = [
