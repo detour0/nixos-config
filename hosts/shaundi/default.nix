@@ -15,7 +15,14 @@ with config.myUsers;
     ../../modules/roles/media.nix
     ../../modules/roles/game.nix
     ../../modules/roles/peripherals.nix
+    ../../modules/features/netbird.nix
   ];
+
+  netbird-wt0 = {
+    enable = true;
+    ui.enable = true;
+    setupKeyFile = "/etc/netbird-wt0/setup-key";
+  };
 
   role = {
     core = {
