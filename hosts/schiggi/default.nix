@@ -12,7 +12,13 @@ with config.myUsers;
     ../../modules/roles/dev.nix
     ../../modules/roles/core.nix
     ../../modules/roles/peripherals.nix
+    ../../modules/features/netbird.nix
   ];
+
+  netbird-wt0 = {
+    enable = true;
+    setupKeyFile = "/etc/netbird-wt0/setup-key";
+  };
 
   role = {
     core = {
