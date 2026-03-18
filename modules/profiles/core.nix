@@ -12,7 +12,7 @@ let
 in
 {
   imports = [ ../features/networking.nix ];
-  options.profile.core = mkProfileHome "core profile" {
+  options.profile.core = mkProfileOptions "core profile" {
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -59,6 +59,7 @@ in
         p7zip
       ];
     }
+
     # --- Specific Logic for VPN ---
     (mkIf (cfg.vpn.enable && cfg.vpn.vendor == "mullvad") {
       features.mullvad.enable = true;
