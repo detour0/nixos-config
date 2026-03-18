@@ -9,7 +9,7 @@
 with lib;
 
 let
-  cfg = config.role.dev;
+  cfg = config.profile.dev;
 in
 {
   imports = [
@@ -17,7 +17,7 @@ in
     ../features/vm.nix
   ];
 
-  options.role.dev = mkRoleOptions "dev role" {
+  options.profile.dev = mkProfileOptions "dev profile" {
     editor = mkOption {
       type = types.enum [ "nvim" ];
       default = "nvim";
@@ -38,7 +38,7 @@ in
     }
 
     # 2. Home-manager features
-    (mkRoleHome config "dev" (user: {
+    (mkProfileHome config "dev" (user: {
       imports = [
         ../features/home/tmux.nix
         ../features/home/direnv.nix
@@ -54,7 +54,7 @@ in
         ]);
     }))
 
-    # 3. Assign additional user roles
+    # 3. Assign additional user profiles
     {
       users.users = genAttrs cfg.users (user: {
         extraGroups = optional cfg.vm "kvm";

@@ -8,12 +8,12 @@
 with lib;
 
 let
-  cfg = config.role.desktop;
+  cfg = config.profile.desktop;
 in
 {
   imports = [ ../features/sway.nix ];
 
-  options.role.desktop = mkRoleOptions "desktop role" {
+  options.profile.desktop = mkProfileOptions "desktop profile" {
     environment = mkOption {
       type = types.enum [
         "sway"
@@ -46,7 +46,7 @@ in
       features.sway.enable = mkIf (cfg.environment == "sway") true;
     }
 
-    (mkRoleHome config "dev" (user: {
+    (mkProfileHome config "dev" (user: {
       imports = flatten [
         (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
         (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)

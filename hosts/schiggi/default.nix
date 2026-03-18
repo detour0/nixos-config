@@ -9,9 +9,9 @@ with config.myUsers;
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
-    ../../modules/roles/dev.nix
-    ../../modules/roles/core.nix
-    ../../modules/roles/peripherals.nix
+    ../../modules/profiles/dev.nix
+    ../../modules/profiles/core.nix
+    ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
   ];
 
@@ -20,7 +20,7 @@ with config.myUsers;
     setupKeyFile = "/etc/netbird-wt0/setup-key";
   };
 
-  role = {
+  profile = {
     core = {
       enable = true;
       users = [ dt.name ];
@@ -37,10 +37,6 @@ with config.myUsers;
       enable = true;
       users = [ dt.name ];
       printing = true;
-      vpn = {
-        enable = true;
-        vendor = "mullvad";
-      };
     };
   };
 

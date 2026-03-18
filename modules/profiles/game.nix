@@ -7,11 +7,11 @@
 with lib;
 
 let
-  cfg = config.role.game;
+  cfg = config.profile.game;
 in
 {
   imports = [ ../features/steam.nix ];
-  options.role.game = mkRoleOptions "game role" { };
+  options.profile.game = mkProfileOptions "game profile" { };
 
   config = mkIf cfg.enable (mkMerge [
     {

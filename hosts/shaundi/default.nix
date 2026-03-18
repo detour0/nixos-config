@@ -9,12 +9,12 @@ with config.myUsers;
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
-    ../../modules/roles/dev.nix
-    ../../modules/roles/desktop.nix
-    ../../modules/roles/core.nix
-    ../../modules/roles/media.nix
-    ../../modules/roles/game.nix
-    ../../modules/roles/peripherals.nix
+    ../../modules/profiles/dev.nix
+    ../../modules/profiles/desktop.nix
+    ../../modules/profiles/core.nix
+    ../../modules/profiles/media.nix
+    ../../modules/profiles/game.nix
+    ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
   ];
 
@@ -24,10 +24,14 @@ with config.myUsers;
     setupKeyFile = "/etc/netbird-wt0/setup-key";
   };
 
-  role = {
+  profile = {
     core = {
       enable = true;
       users = [ dt.name ];
+      vpn = {
+        enable = true;
+        vendor = "mullvad";
+      };
     };
 
     dev = {
@@ -58,10 +62,6 @@ with config.myUsers;
       bluetooth = true;
       audio = true;
       printing = true;
-      vpn = {
-        enable = true;
-        vendor = "mullvad";
-      };
     };
   };
 
