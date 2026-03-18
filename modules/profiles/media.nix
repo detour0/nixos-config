@@ -8,15 +8,15 @@
 with lib;
 
 let
-  cfg = config.role.media;
+  cfg = config.profile.media;
 in
 {
-  options.role.media = mkRoleOptions "media role" { };
+  options.profile.media = mkProfileOptions "media profile" { };
 
   config = mkIf cfg.enable (mkMerge [
     {
     }
-    (mkRoleHome config "media" (user: {
+    (mkProfileHome config "media" (user: {
       home.packages = with pkgs; [
         scrcpy
         obs-studio

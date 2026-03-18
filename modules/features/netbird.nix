@@ -27,10 +27,10 @@ in
     };
 
   config = mkIf cfg.enable {
-    # environment.systemPackages = optionals cfg.ui.enable [ pkgsUnstable.netbird-ui ];
-    # services.netbird.package = pkgsUnstable.netbird;
-    environment.systemPackages = optionals cfg.ui.enable [ pkgs.netbird-ui ];
-    services.netbird.package = pkgs.netbird;
+    environment.systemPackages = optionals cfg.ui.enable [ pkgsUnstable.netbird-ui ];
+    services.netbird.package = pkgsUnstable.netbird;
+    # environment.systemPackages = optionals cfg.ui.enable [ pkgs.netbird-ui ];
+    # services.netbird.package = pkgs.netbird;
 
     services.netbird.clients.wt0 = {
       # Login does nothing atm, might be because the grep "Connected" in the script

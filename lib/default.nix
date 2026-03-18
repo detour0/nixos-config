@@ -1,7 +1,7 @@
 { lib }:
 {
-  # Helper to generate the common role schema
-  mkRoleOptions =
+  # Helper to generate the common profile schema
+  mkProfileOptions =
     description: extraOptions:
     {
       enable = lib.mkEnableOption description;
@@ -10,12 +10,12 @@
         default = [ ];
       };
     }
-    // extraOptions; # Merge common options with role-specific ones
+    // extraOptions; # Merge common options with profile-specific ones
 
-  mkRoleHome =
-    config: roleName: homeConfig:
-    lib.mkIf config.role.${roleName}.enable {
-      home-manager.users = lib.genAttrs config.role.${roleName}.users homeConfig;
+  mkProfileHome =
+    config: profileName: homeConfig:
+    lib.mkIf config.profile.${profileName}.enable {
+      home-manager.users = lib.genAttrs config.profile.${profileName}.users homeConfig;
     };
 
   # Helper to link a System Feature to a Home Manager Module

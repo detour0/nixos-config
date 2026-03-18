@@ -8,10 +8,11 @@
 with lib;
 
 let
-  cfg = config.role.core;
+  cfg = config.profile.core;
 in
 {
-  options.role.core = mkRoleOptions "core role" {
+  imports = [ ../features/networking.nix ];
+  options.profile.core = mkProfileHome "core profile" {
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -20,10 +21,18 @@ in
       default = "zsh";
     };
     ssh.enable = mkEnableOption "openssh daemon";
+    vpn = {
+      enable = mkEnableOption "VPN support";
+      vendor = mkOption {
+        type = types.enum [ "mullvad" ];
+        default = "mullvad";
+      };
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
     {
+      features.networking.enable = true;
       # login/default shell can only be set system wide
       programs = {
         zsh.enable = mkIf (cfg.shell == "zsh") true;
@@ -50,8 +59,12 @@ in
         p7zip
       ];
     }
+    # --- Specific Logic for VPN ---
+    (mkIf (cfg.vpn.enable && cfg.vpn.vendor == "mullvad") {
+      features.mullvad.enable = true;
+    })
 
-    (mkRoleHome config "core" (user: {
+    (mkProfileHome config "core" (user: {
       imports = [
         ../features/home/starship.nix
         ../features/home/yazi.nix
