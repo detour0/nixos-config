@@ -51,7 +51,7 @@ in
             default = [ ];
           };
 
-          # Metadata that roles or HM can use later
+          # Metadata that profiles or HM can use later
           gitName = mkOption {
             type = types.str;
             default = "";
