@@ -28,6 +28,7 @@ with config.myUsers;
     core = {
       enable = true;
       users = [ dt.name ];
+      ssh = "client";
       vpn = {
         enable = true;
         vendor = "mullvad";

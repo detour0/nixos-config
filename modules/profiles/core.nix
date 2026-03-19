@@ -20,7 +20,15 @@ in
       ];
       default = "zsh";
     };
-    ssh.enable = mkEnableOption "openssh daemon";
+    ssh = mkOption {
+      type = types.enum [
+        "client"
+        "server"
+        null
+      ];
+      default = null;
+      description = "Enable ssh as client or server with port 22 open";
+    };
     vpn = {
       enable = mkEnableOption "VPN support";
       vendor = mkOption {
@@ -42,7 +50,7 @@ in
       environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
       users.defaultUserShell = pkgs.${cfg.shell};
 
-      services.openssh.enable = mkIf cfg.ssh.enable true;
+      services.openssh.enable = mkIf (cfg.ssh != null) true;
 
       environment.systemPackages = with pkgs; [
         wget
@@ -58,6 +66,8 @@ in
         unzip
         p7zip
       ];
+
+      networking.firewall.allowedTCPPorts = mkIf (cfg.ssh == "server") [ 22 ];
     }
 
     # --- Specific Logic for VPN ---

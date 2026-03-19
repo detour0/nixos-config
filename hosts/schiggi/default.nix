@@ -36,7 +36,7 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      ssh.enable = true;
+      ssh = "server";
     };
 
     dev = {
