@@ -24,6 +24,12 @@ in
         description = "Path to the file containing the setup key.";
         example = "/etc/netbird/setup-key";
       };
+
+      interfaceName = mkOption {
+        type = types.str;
+        default = "nb0";
+        description = "Name for the netbird network interface";
+      };
     };
 
   config = mkIf cfg.enable {
@@ -43,6 +49,8 @@ in
       ui.enable = cfg.ui.enable;
       # Port used to listen to wireguard connections
       port = 51821;
+      # Name of the network interface managed by this client. Default: "nb-‹name›"
+      interface = cfg.interfaceName;
       # This opens ports required for direct connection without a relay
       openFirewall = true;
       # This opens necessary firewall ports in the Netbird client's network interface
