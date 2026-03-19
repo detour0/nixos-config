@@ -1,22 +1,22 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 let
-  cfg = config.services.grafana;
+  cfg = config.grafana;
   inherit (lib)
     mkIf
     mkEnableOption
     mkOption
     types
+    optionals
     ;
-  promCfg = config.services.prometheus;
-  lokiCfg = config.services.loki;
+  promCfg = config.prometheus;
+  lokiCfg = config.loki;
 in
 {
-  options.services.grafana = {
+  options.grafana = {
     enable = mkEnableOption "Grafana visualization server";
 
     listenAddress = mkOption {
@@ -41,30 +41,33 @@ in
         };
 
         # Disable login form for homelab simplicity, or keep enabled
-        "auth.basic".enabled = false;
-        "auth.anonymous" = {
-          enabled = true;
-          org_role = "Admin"; # Adjust for enterprise security practice
-        };
+        "auth.basic".enabled = true;
+        # "auth.anonymous" = {
+        #   enabled = true;
+        #   org_role = "Admin";
+        # };
       };
 
       # Declarative datasource provisioning
       provision = {
-        datasources.settings.datasources = [
-          {
-            name = "Prometheus";
-            type = "prometheus";
-            access = "proxy";
-            url = "http://${promCfg.listenAddress}:${toString promCfg.port}";
-            isDefault = true;
-          }
-          {
-            name = "Loki";
-            type = "loki";
-            access = "proxy";
-            url = "http://${lokiCfg.listenAddress}:${toString lokiCfg.port}";
-          }
-        ];
+        datasources.settings.datasources =
+          (optionals promCfg.enable [
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://${promCfg.listenAddress}:${toString promCfg.port}";
+              isDefault = true;
+            }
+          ])
+          ++ (optionals lokiCfg.enable [
+            {
+              name = "Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://${lokiCfg.listenAddress}:${toString lokiCfg.port}";
+            }
+          ]);
       };
     };
   };

@@ -3,6 +3,10 @@
   ...
 }:
 with config.myUsers;
+
+let
+  netbirdIp = "100.74.79.155";
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -13,6 +17,8 @@ with config.myUsers;
     ../../modules/profiles/core.nix
     ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
+
+    ../../modules/profiles/monitor.nix
   ];
 
   netbird-wt0 = {
@@ -21,6 +27,12 @@ with config.myUsers;
   };
 
   profile = {
+    monitor = {
+      enable = true;
+      localhost = true;
+      listenAddress = netbirdIp;
+    };
+
     core = {
       enable = true;
       users = [ dt.name ];

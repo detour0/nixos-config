@@ -15,6 +15,7 @@ in
       networkmanager.enable = true;
       firewall = {
         allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
+        allowedUDPPorts = [ ];
         enable = true;
       };
     };
