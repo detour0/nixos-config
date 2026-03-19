@@ -28,7 +28,7 @@ in
 
   profile = {
     monitor = {
-      enable = true;
+      enable = false;
       localhost = true;
       listenAddress = netbirdIp;
     };
@@ -36,7 +36,8 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      ssh = "server";
+      firewall.enable = false;
+      # ssh = "server";
     };
 
     dev = {

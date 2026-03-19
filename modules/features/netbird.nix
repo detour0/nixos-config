@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   pkgsUnstable,
   ...
 }:
@@ -50,7 +49,7 @@ in
       # Port used to listen to wireguard connections
       port = 51821;
       # Name of the network interface managed by this client. Default: "nb-‹name›"
-      interface = cfg.interfaceName;
+      # interface = cfg.interfaceName;
       # This opens ports required for direct connection without a relay
       openFirewall = true;
       # This opens necessary firewall ports in the Netbird client's network interface

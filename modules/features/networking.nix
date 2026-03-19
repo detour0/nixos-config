@@ -5,18 +5,25 @@
 }:
 let
   cfg = config.features.networking;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    ;
 in
 {
-  options.features.networking.enable = lib.mkEnableOption "networking";
+  options.features.networking = {
+    enable = mkEnableOption "networking";
+    firewall.enable = mkEnableOption "firewall";
+  };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     # Enable networking
     networking = {
       networkmanager.enable = true;
       firewall = {
+        inherit (cfg.firewall) enable;
         allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
         allowedUDPPorts = [ ];
-        enable = true;
       };
     };
   };
