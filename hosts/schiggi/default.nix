@@ -17,6 +17,7 @@ in
     ../../modules/profiles/core.nix
     ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
+    ../../modules/profiles/desktop.nix
 
     ../../modules/profiles/monitor.nix
   ];
@@ -33,11 +34,16 @@ in
       listenAddress = netbirdIp;
     };
 
+    desktop = {
+      enable = true;
+      users = [ dt.name ];
+      environment = "sway";
+    };
+
     core = {
       enable = true;
       users = [ dt.name ];
-      firewall.enable = false;
-      # ssh = "server";
+      ssh = "server";
     };
 
     dev = {
