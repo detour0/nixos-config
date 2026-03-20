@@ -28,6 +28,7 @@ with config.myUsers;
     core = {
       enable = true;
       users = [ dt.name ];
+      firewall.disable = false;
       ssh = "client";
       vpn = {
         enable = true;
