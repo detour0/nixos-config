@@ -13,6 +13,7 @@ in
 {
   imports = [ ../features/networking.nix ];
   options.profile.core = mkProfileOptions "core profile" {
+    firewall.disable = mkEnableOption "Disable firewall for testing";
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -40,7 +41,10 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      features.networking.enable = true;
+      features.networking = {
+        enable = true;
+        firewall.enable = mkIf (!cfg.firewall.disable) true;
+      };
       # login/default shell can only be set system wide
       programs = {
         zsh.enable = mkIf (cfg.shell == "zsh") true;
@@ -50,7 +54,10 @@ in
       environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
       users.defaultUserShell = pkgs.${cfg.shell};
 
-      services.openssh.enable = mkIf (cfg.ssh != null) true;
+      services.openssh = {
+        enable = mkIf (cfg.ssh != null) true;
+        openFirewall = mkIf (cfg.ssh == "server") true;
+      };
 
       environment.systemPackages = with pkgs; [
         wget
@@ -66,8 +73,6 @@ in
         unzip
         p7zip
       ];
-
-      networking.firewall.allowedTCPPorts = mkIf (cfg.ssh == "server") [ 22 ];
     }
 
     # --- Specific Logic for VPN ---
