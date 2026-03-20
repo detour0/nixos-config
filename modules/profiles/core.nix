@@ -13,6 +13,7 @@ in
 {
   imports = [ ../features/networking.nix ];
   options.profile.core = mkProfileOptions "core profile" {
+    firewall.disable = mkEnableOption "Deactivate firewall for testing";
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -40,7 +41,10 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      features.networking.enable = true;
+      features.networking = {
+        enable = true;
+        firewall.enable = mkIf (!cfg.firewall.disable) true;
+      };
       # login/default shell can only be set system wide
       programs = {
         zsh.enable = mkIf (cfg.shell == "zsh") true;
