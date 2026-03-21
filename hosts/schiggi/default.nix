@@ -34,12 +34,6 @@ in
       listenAddress = netbirdIp;
     };
 
-    desktop = {
-      enable = true;
-      users = [ dt.name ];
-      environment = "sway";
-    };
-
     core = {
       enable = true;
       users = [ dt.name ];
