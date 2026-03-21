@@ -5,7 +5,7 @@
 with config.myUsers;
 
 let
-  netbirdIp = "100.74.79.155";
+  netbirdIp = "100.74.11.59";
 in
 {
   imports = [
