@@ -17,6 +17,7 @@ in
     ../../modules/profiles/core.nix
     ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
+    ../../modules/profiles/desktop.nix
 
     ../../modules/profiles/monitor.nix
   ];
@@ -31,6 +32,12 @@ in
       enable = false;
       localhost = true;
       listenAddress = netbirdIp;
+    };
+
+    desktop = {
+      enable = true;
+      users = [ dt.name ];
+      environment = "sway";
     };
 
     core = {
