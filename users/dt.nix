@@ -6,6 +6,7 @@ _: {
     extraGroups = [
       "wheel"
       "networkmanager"
+      "netbird-wt0"
     ];
 
     # Custom metadata for Home Manager

@@ -44,6 +44,11 @@ in
         enable = true;
         inherit (cfg) setupKeyFile;
       };
+      config = {
+        SSHConfig = {
+          DisableSSHAuth = true;
+        };
+      };
 
       ui.enable = cfg.ui.enable;
       # Port used to listen to wireguard connections
