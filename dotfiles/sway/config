@@ -122,6 +122,8 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+d exec $menu
     # Start your file explorer
     bindsym $mod+e exec $term -e yazi
+    # Open web-browser window
+    bindsym $mod+g exec $web-browser
     # Fullscreen
     bindsym $mod+f fullscreen
     # Close window
