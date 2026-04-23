@@ -3,6 +3,10 @@
   ...
 }:
 with config.myUsers;
+
+let
+  netbirdIp = "100.74.131.159";
+in
 {
   imports = [
     ./hardware-configuration.nix

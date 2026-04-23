@@ -56,7 +56,7 @@ in
 
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
-        openFirewall = mkIf (cfg.ssh == "server") true;
+        openFirewall = if (cfg.ssh == "server") then true else false;
       };
 
       environment.systemPackages = with pkgs; [

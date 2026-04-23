@@ -106,7 +106,7 @@ set $workroom 1
 # exec swaymsg "workspace 21; exec $term"
 exec swaymsg "workspace 11; exec firefox"
 
-### Key bindings
+### Keybindings
 #
   # Basics:
   #
@@ -124,6 +124,8 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+e exec $term -e yazi
     # Open web-browser window
     bindsym $mod+g exec $web-browser
+    # Screenshots
+    bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
     # Fullscreen
     bindsym $mod+f fullscreen
     # Close window
