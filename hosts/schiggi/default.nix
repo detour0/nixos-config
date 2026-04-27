@@ -37,7 +37,7 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      firewall.disable = true;
+      firewall.disable = false;
       ssh = "server";
     };
 
