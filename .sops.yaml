@@ -1,8 +1,7 @@
 keys:
-  - &primary age1redactedprimary
+  - &dt age1redacteddt
 creation_rules:
   - path_regex: secrets/secrets.yaml
     key_groups:
     - age:
-      - *primary
-  - path_regex: secrets/
+      - *dt
