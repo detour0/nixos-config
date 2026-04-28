@@ -5,12 +5,17 @@
   ...
 }:
 let
+  workrooms-repo = pkgs.fetchFromGitHub {
+    owner = "detour0";
+    repo = "sway-workrooms";
+    rev = "c1af25956a06efcea6cdd297324460e4cf3c9592";
+    sha256 = "sha256-+iRfi/BaEMTWgv40wSAGWs8l6w0OM5swH9IEHV40fVA="; # Nix will complain about this and provide the correct hash
+  };
   workrooms-pkg = pkgs.rustPlatform.buildRustPackage {
     pname = "workrooms";
-    version = "1.0.1";
-    src = ./scripts/workrooms;
-    cargoLock.lockFile = ./scripts/workrooms/Cargo.lock;
-    # cargoHash = "sha256-GJnP9T8ds+++dkjVSFZNrVDzBdCEH16QDrQcKSN2gHE=";
+    version = "0.1.0";
+    src = workrooms-repo;
+    cargoLock.lockFile = "${workrooms-repo}/Cargo.lock";
   };
 in
 {
@@ -55,7 +60,7 @@ in
 
   # Enables using the workrooms script from the nix-store without an environment var
   xdg.configFile."sway/script-vars.conf".text = ''
-    set $workrooms_bin ${workrooms-pkg}/bin/workrooms
+    set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
     set $wallpaper ${config.wallpaper}
   '';
 
