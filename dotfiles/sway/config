@@ -33,6 +33,7 @@ seat seat0 xcursor_theme Catppuccin-Mocha-Dark-Cursors 16
 ### Window Rules
 
 for_window [app_id="firefox" title="Extension:.*"] floating enable
+for_window [app_id="org.speedcrunch." title="SpeedCrunch"] floating enable
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -47,6 +48,7 @@ set $term wezterm
 set $menu rofi -show drun
 set $file-manager yazi
 set $web-browser firefox
+set $calculator speedcrunch
 
 # lock screen
 set $lock swaylock
@@ -124,6 +126,8 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+e exec $term -e yazi
     # Open web-browser window
     bindsym $mod+g exec $web-browser
+    # Open (floating) calculator
+    bindsym XF86Tools exec $calculator
     # Screenshots
     bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
     # Fullscreen
