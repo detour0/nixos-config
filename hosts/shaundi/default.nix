@@ -60,6 +60,12 @@ in
       enable = true;
       users = [ dt.name ];
       environment = "sway";
+      browsers = [
+        "firefox"
+        "librewolf" # TODO: implement
+        "brave"
+      ];
+      office = true;
     };
 
     peripherals = {
