@@ -1,7 +1,12 @@
 keys:
+- &users;
   - &dt age1redacteddt
+- &hosts:
+  - &shaundi age1redactedshaundi
+
 creation_rules:
   - path_regex: secrets/secrets.yaml
     key_groups:
     - age:
       - *dt
+      - *shaundi

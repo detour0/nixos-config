@@ -17,14 +17,6 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # nvchad = {
-    #   url = "github:nix-community/nix4nvchad";
-    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # };
-    # nix-vscode-extensions = {
-    #   url = "github:nix-community/nix-vscode-extensions";
-    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
-    # };
   };
 
   outputs =
@@ -43,6 +35,7 @@
         shaundi = nixpkgs.lib.nixosSystem {
           modules = [
             ./hosts/shaundi
+            sops-nix.nixosModules.sops
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
 
@@ -57,6 +50,7 @@
         schiggi = nixpkgs.lib.nixosSystem {
           modules = [
             ./hosts/schiggi
+            sops-nix.nixosModules.sops
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
           specialArgs = {
