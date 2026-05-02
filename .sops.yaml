@@ -1,7 +1,12 @@
 keys:
+- &users;
   - &dt age1y87suv4jguysg55dfu899ua4wpk7lfla52599090e6ecf4dxxvusc4evxm
+- &hosts:
+  - &shaundi age1uehuz9e3yfwedhr67uerrdgu8233xxrq28qe3nsph763qdrwmaqq6qxllt
+
 creation_rules:
   - path_regex: secrets/secrets.yaml
     key_groups:
     - age:
       - *dt
+      - *shaundi
