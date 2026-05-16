@@ -15,14 +15,17 @@ return {
 			bufferline.setup({
 				options = {
 					-- mode = "tabs",
-					separator_style = "slant",
+					separator_style = "thin",
 					-- Use devicons for file type identification
 					show_buffer_icons = true,
-					show_buffer_close_icons = true,
-					show_close_icon = false,
+					show_buffer_close_icons = false,
+					show_close_icon = true,
 					-- Only show the bar if you have more than one buffer open | false
 					always_show_bufferline = true,
-					-- Diagnostics integration (Gold Standard)
+					-- keep buffers visible
+					truncate_names = true,
+					max_prefix_length = 6,
+					-- Diagnostics integration
 					diagnostics = "nvim_lsp",
 					offsets = {
 						{
