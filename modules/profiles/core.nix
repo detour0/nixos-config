@@ -78,7 +78,6 @@ in
       ];
     }
 
-    # --- Specific Logic for VPN ---
     (mkIf (cfg.vpn.enable && cfg.vpn.vendor == "mullvad") {
       features.mullvad.enable = true;
     })

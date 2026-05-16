@@ -29,7 +29,7 @@ in
 
   profile = {
     monitor = {
-      enable = false;
+      enable = true;
       localhost = true;
       listenAddress = netbirdIp;
     };

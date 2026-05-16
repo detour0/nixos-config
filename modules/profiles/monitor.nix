@@ -38,7 +38,7 @@ in
       listenAddress = mkIf cfg.localhost localhost;
     };
     loki = {
-      enable = true;
+      enable = false;
       listenAddress = mkIf cfg.localhost localhost;
     };
   };
