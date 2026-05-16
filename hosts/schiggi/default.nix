@@ -37,14 +37,12 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      firewall.disable = false;
       ssh = "server";
     };
 
     dev = {
       enable = true;
       users = [ dt.name ];
-      vm = true;
     };
 
     peripherals = {

@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
@@ -22,7 +23,8 @@ in
       type = types.enum [ "nvim" ];
       default = "nvim";
     };
-    vm = mkEnableOption "virtualisation packges/service";
+    vm.enable = mkEnableOption "virtualisation packges/service";
+    deploy.enable = mkEnableOption "Deploy software locally/remotely";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -32,9 +34,8 @@ in
         enable = true;
         # runtime = "podman";
       };
-      features.vm.enable = true;
+      features.vm.enable = cfg.vm.enable;
       environment.variables.EDITOR = cfg.editor;
-
     }
 
     # 2. Home-manager features
@@ -51,13 +52,14 @@ in
         ])
         ++ (with pkgsUnstable; [
           devenv
-        ]);
+        ])
+        ++ (optionals cfg.deploy.enable [ inputs.deploy-rs.packages.${pkgs.system}.default ]);
     }))
 
     # 3. Assign additional user profiles
     {
       users.users = genAttrs cfg.users (user: {
-        extraGroups = optional cfg.vm "kvm";
+        extraGroups = optional cfg.vm.enable "kvm";
       });
     }
   ]);

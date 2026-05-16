@@ -46,7 +46,7 @@ in
       features.sway.enable = mkIf (cfg.environment == "sway") true;
     }
 
-    (mkProfileHome config "dev" (user: {
+    (mkProfileHome config "desktop" (user: {
       imports = flatten [
         (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
         (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)
