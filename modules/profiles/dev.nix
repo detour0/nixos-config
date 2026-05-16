@@ -53,7 +53,11 @@ in
         ++ (with pkgsUnstable; [
           devenv
         ])
-        ++ (optionals cfg.deploy.enable [ inputs.deploy-rs.packages.${pkgs.system}.default ]);
+        ++ (optionals cfg.deploy.enable [
+          inputs.deploy-rs.packages.${pkgs.system}.default
+          pkgs.sops
+          pkgs.age
+        ]);
     }))
 
     # 3. Assign additional user profiles
