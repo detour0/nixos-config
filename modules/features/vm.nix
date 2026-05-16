@@ -8,7 +8,7 @@ let
   cfg = config.features.vm;
 in
 {
-  options.features.vm.enable = lib.mkEnableOption "vm";
+  options.features.vm.enable = lib.mkEnableOption "qemu and virt vm";
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

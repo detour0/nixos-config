@@ -57,6 +57,7 @@ in
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
         openFirewall = if (cfg.ssh == "server") then true else false;
+        PermitRootLogin = mkIf (cfg.ssh == "server") "prohibit-password";
       };
 
       environment.systemPackages = with pkgs; [

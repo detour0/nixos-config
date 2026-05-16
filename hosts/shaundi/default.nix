@@ -43,7 +43,8 @@ in
     dev = {
       enable = true;
       users = [ dt.name ];
-      vm = true;
+      vm.enable = true;
+      deploy.enable = true;
     };
 
     media = {

@@ -17,6 +17,7 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
   outputs =
@@ -24,6 +25,7 @@
       self,
       nixpkgs,
       sops-nix,
+      deploy-rs,
       ...
     }:
     let
@@ -59,7 +61,19 @@
             stateVersionH = "25.11";
           };
         };
-
       };
+
+      deploy.nodes = {
+        schiggi = {
+          hostname = "192.168.178.117";
+          profiles.system = {
+            sshUser = "root";
+            remoteBuild = true;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.schiggi;
+          };
+        };
+      };
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };
 }
