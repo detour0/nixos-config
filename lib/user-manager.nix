@@ -74,11 +74,13 @@ in
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "bak";
+      # Makes pkgsUnstable available inside HM
       extraSpecialArgs = {
         inherit inputs stateVersionH pkgsUnstable;
       };
     };
 
+    # Makes pkgsUnstable available in system-level modules
     _module.args = {
       inherit pkgsUnstable;
     };
@@ -86,7 +88,6 @@ in
     # B. Setup the OS System Users dynamically
     users.users = mapAttrs (username: userCfg: {
       isNormalUser = true;
-      # Use inherit for these because names match
       inherit (userCfg) description extraGroups;
       initialPassword = "";
     }) activeUsers;
@@ -94,8 +95,6 @@ in
     # C. Setup the Home Manager base dynamically
     home-manager.users = mapAttrs (username: userCfg: {
       home.stateVersion = stateVersionH;
-      # programs.home-manager.enable = true;
-
       # Use the user's data to configure their basics
       programs.git = mkIf (userCfg.gitName != "") {
         enable = true;

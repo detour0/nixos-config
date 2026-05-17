@@ -19,7 +19,7 @@ return {
 					enable = true,
 					-- Optional: disable for very large files to maintain performance
 					disable = function(lang, buf)
-						local max_filesize = 300 * 1024 -- 300 KB
+						local max_filesize = 1024 * 1024 -- 1 mb
 						local ok, stats = pcall(v.loop.fs_stat, v.api.nvim_buf_get_name(buf))
 						if ok and stats and stats.size > max_filesize then
 							return true

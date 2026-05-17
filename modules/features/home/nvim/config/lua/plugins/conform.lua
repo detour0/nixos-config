@@ -19,11 +19,10 @@ return {
 
 			conform.setup({
 				formatters_by_ft = {
-					-- 1. Lua: stylua is the standard
+					-- 1. Lua
 					lua = { "stylua" },
 
-					-- 2. Python: Using the Gold Standard (Ruff)
-					-- We run organize_imports then format
+					-- 2. Python
 					python = { "ruff_organize_imports", "ruff_format" },
 
 					-- 3. Web Development: Using the "daemon" version for speed

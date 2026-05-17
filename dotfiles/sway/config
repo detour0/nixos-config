@@ -120,6 +120,8 @@ exec swaymsg "workspace 11; exec firefox"
     floating_modifier $mod normal
     # Start a terminal
     bindsym $mod+Return exec $term
+    # Open Neovim
+    bindsym $mod+Shift+Return exec $term -e nvim
     # Start your launcher
     bindsym $mod+d exec $menu
     # Start your file explorer
