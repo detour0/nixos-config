@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-secrets.url = "git+ssh://git@github.com/detour0/nix-secrets.git";
     nurpkgs.url = "github:nix-community/NUR";
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -68,7 +69,7 @@
           hostname = "192.168.178.117";
           profiles.system = {
             sshUser = "root";
-            remoteBuild = true;
+            remoteBuild = false;
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.schiggi;
           };
         };

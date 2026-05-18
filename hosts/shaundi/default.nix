@@ -2,10 +2,8 @@
   config,
   ...
 }:
-with config.myUsers;
-
 let
-  netbirdIp = "100.74.131.159";
+  inherit (config.myUsers) dt;
 in
 {
   imports = [
@@ -21,6 +19,9 @@ in
     ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
   ];
+
+  myUsers.dt.enable = true;
+  sops.age.keyFile = "/home/dt/.config/sops/age/key.txt";
 
   netbird-wt0 = {
     enable = true;
@@ -78,7 +79,7 @@ in
     };
   };
 
-  networking.hostName = "shaundy";
+  networking.hostName = "shaundi";
 
   # Do not change from 25-05!
   system.stateVersion = "25.05";

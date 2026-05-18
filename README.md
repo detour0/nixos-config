@@ -10,6 +10,12 @@ TODO:
 
 Issues:
 
+Nix-secrets:
+
+- Pulling the secrets repo from github uses password protected user ssh-key
+  -> running rebuild as sudo only sees /etc/ssh/...
+  - sudo -E env SSH_AUTH_SOCK=$SSH_AUTH_SOCK -> ssh-agent still can't ask for pw
+
 Neovim:
 
 - Telescope live grep does not highlight in the preview buffer

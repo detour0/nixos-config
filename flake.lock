@@ -100,6 +100,21 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "locked": {
+        "lastModified": 1779143074,
+        "narHash": "sha256-i8u446kpYO2xnsfVTYlPBcXRvdn7+QB3kE04+aV1LgA=",
+        "ref": "refs/heads/main",
+        "rev": "916c513c0ce84b725eadcc4d09c27a28023c842c",
+        "revCount": 6,
+        "type": "git",
+        "url": "ssh://git@github.com/detour0/nix-secrets.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/detour0/nix-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1743014863,
@@ -188,6 +203,7 @@
         "deploy-rs": "deploy-rs",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
+        "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nurpkgs": "nurpkgs",

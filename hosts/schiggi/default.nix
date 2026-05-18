@@ -1,11 +1,10 @@
 {
   config,
+  inputs,
   ...
 }:
-with config.myUsers;
-
 let
-  netbirdIp = "100.74.11.59";
+  inherit (config.myUsers) dt;
 in
 {
   imports = [
@@ -22,6 +21,9 @@ in
     ../../modules/profiles/monitor.nix
   ];
 
+  myUsers.dt.enable = true;
+  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
   netbird-wt0 = {
     enable = true;
     setupKeyFile = "/etc/netbird-wt0/setup-key";
@@ -31,7 +33,7 @@ in
     monitor = {
       enable = true;
       localhost = true;
-      listenAddress = netbirdIp;
+      listenAddress = inputs.nix-secrets.networking.schiggi.netbirdIp;
     };
 
     core = {
