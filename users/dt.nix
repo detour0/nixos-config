@@ -1,7 +1,9 @@
-_: {
+{ config, inputs, ... }:
+{
   myUsers.dt = {
-    enable = true;
+    # enable = true;
     name = "dt";
+    hashedPasswordFile = config.sops.secrets.dt_password.path;
     description = "detour0";
     extraGroups = [
       "wheel"
@@ -10,7 +12,6 @@ _: {
     ];
 
     # Custom metadata for Home Manager
-    gitName = "detour0";
-    gitEmail = "35782618+detour0@users.noreply.github.com";
+    inherit (inputs.nix-secrets.users.dt.github) gitName gitEmail;
   };
 }

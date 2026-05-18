@@ -18,8 +18,9 @@ return {
 					separator_style = "thin",
 					-- Use devicons for file type identification
 					show_buffer_icons = true,
-					show_buffer_close_icons = false,
-					show_close_icon = true,
+					show_buffer_close_icons = true,
+					-- Shomethis line does nothing
+					-- show_close_icon = true,
 					-- Only show the bar if you have more than one buffer open | false
 					always_show_bufferline = true,
 					-- keep buffers visible

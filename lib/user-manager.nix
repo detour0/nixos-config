@@ -42,6 +42,10 @@ in
             type = types.str;
             default = "";
           };
+          hashedPasswordFile = mkOption {
+            type = types.str;
+            default = "";
+          };
           description = mkOption {
             type = types.str;
             default = "";
