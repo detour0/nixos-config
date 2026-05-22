@@ -90,6 +90,7 @@ in
     };
 
     # B. Setup the OS System Users dynamically
+    users.mutableUsers = false;
     users.users = mapAttrs (username: userCfg: {
       isNormalUser = true;
       inherit (userCfg) description extraGroups;
