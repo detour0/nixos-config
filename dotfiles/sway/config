@@ -22,7 +22,7 @@ default_floating_border pixel 3
 # Hide borders if only one window in workspace
 # smart_borders on
 # Repeating workspace switch switches back to prior workspace
-workspace_auto_back_and_forth no
+workspace_auto_back_and_forth yes
 # Whether mouse hovering will change window focus 'yes|no|always'
 focus_follows_mouse no
 # Mouse movement upon workspace change 'output|container|none'
@@ -107,6 +107,7 @@ set $workroom 1
 
 # exec swaymsg "workspace 21; exec $term"
 exec swaymsg "workspace 11; exec firefox"
+# exec swaymsg "workspace n; exec keepassxc" && $workrooms_bin move_workspace 1
 
 ### Keybindings
 #

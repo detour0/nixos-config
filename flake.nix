@@ -59,6 +59,7 @@
           specialArgs = {
             inherit inputs;
             lib = myLib;
+            # Do not change from 25-11!
             stateVersionH = "25.11";
           };
         };
@@ -66,7 +67,8 @@
 
       deploy.nodes = {
         schiggi = {
-          hostname = "192.168.178.117";
+          hostname = "192.168.68.131";
+          # hostname = inputs.nix-secrets.networking.schiggi.ip;
           profiles.system = {
             sshUser = "root";
             remoteBuild = false;
