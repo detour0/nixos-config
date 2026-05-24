@@ -2,6 +2,7 @@
   lib,
   config,
   pkgsUnstable,
+  pkgs,
   ...
 }:
 let
@@ -49,6 +50,10 @@ in
           DisableSSHAuth = true;
         };
       };
+      environment = {
+        NETBIRD_SSH_DIR = "/var/lib/netbird";
+      };
+      hardened = false;
 
       ui.enable = cfg.ui.enable;
       # Port used to listen to wireguard connections
