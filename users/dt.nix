@@ -1,8 +1,14 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   myUsers.dt = {
     # enable = true;
     name = "dt";
+    shell = pkgs.zsh;
     hashedPasswordFile = config.sops.secrets.dt_password.path;
     description = "detour0";
     extraGroups = [

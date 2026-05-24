@@ -42,6 +42,10 @@ in
             type = types.str;
             default = "";
           };
+          shell = mkOption {
+            type = types.package;
+            default = pkgs.bash;
+          };
           hashedPasswordFile = mkOption {
             type = types.str;
             default = "";
@@ -93,8 +97,12 @@ in
     users.mutableUsers = false;
     users.users = mapAttrs (username: userCfg: {
       isNormalUser = true;
-      inherit (userCfg) description extraGroups;
-      initialPassword = "";
+      inherit (userCfg)
+        shell
+        hashedPasswordFile
+        description
+        extraGroups
+        ;
     }) activeUsers;
 
     # C. Setup the Home Manager base dynamically

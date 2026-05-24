@@ -52,7 +52,7 @@ in
 
       # GDM only shows users with their default shell in /etc/shells
       environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
-      users.defaultUserShell = pkgs.${cfg.shell};
+      users.defaultUserShell = if (cfg.shell == "zsh") then pkgs.zsh else pkgs.bash;
 
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
