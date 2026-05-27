@@ -62,6 +62,16 @@ in
         };
       };
 
+      # networking.firewall.interfaces."nb-wt0".allowedTCPPorts = [ 22 ];
+      # users.users = {
+      #   root.openssh.authorizedKeys.keys = [
+      #     "ssh-ed25519 AAAA...redacted"
+      #   ];
+      #   dt.openssh.authorizedKeys.keys = [
+      #     "ssh-ed25519 AAAA...redacted"
+      #   ];
+      # };
+      #
       environment.systemPackages = with pkgs; [
         wget
         curl
