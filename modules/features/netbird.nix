@@ -25,11 +25,11 @@ in
         example = "/etc/netbird/setup-key";
       };
 
-      interfaceName = mkOption {
-        type = types.str;
-        default = "nb0";
-        description = "Name for the netbird network interface";
-      };
+      # interfaceName = mkOption {
+      #   type = types.str;
+      #   default = "nb0";
+      #   description = "Name for the netbird network interface";
+      # };
     };
 
   config = mkIf cfg.enable {
@@ -42,11 +42,13 @@ in
         enable = true;
         inherit (cfg) setupKeyFile;
       };
-      config = {
-        SSHConfig = {
-          DisableSSHAuth = true;
-        };
-      };
+
+      # Needed when using the Netbird SSH Server
+      # config = {
+      #   SSHConfig = {
+      #     DisableSSHAuth = true;
+      #   };
+      # };
       environment = {
         NETBIRD_SSH_DIR = "/var/lib/netbird";
       };
@@ -62,6 +64,7 @@ in
       # This opens necessary firewall ports in the Netbird client's network interface
       openInternalFirewall = true;
     };
+    # Needed when using the Netbird SSH Server
     systemd.services.netbird-wt0.path = [ pkgs.shadow ];
 
     # systemd.services.netbird.postStart = lib.optionalString (cfg.setupKeyFile != null) ''

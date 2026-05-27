@@ -62,6 +62,16 @@ in
         };
       };
 
+      # networking.firewall.interfaces."nb-wt0".allowedTCPPorts = [ 22 ];
+      # users.users = {
+      #   root.openssh.authorizedKeys.keys = [
+      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2ZdjsVwH0cc89YdXe2raJNN6+CmGblB0fBO4k3SwnQ"
+      #   ];
+      #   dt.openssh.authorizedKeys.keys = [
+      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2ZdjsVwH0cc89YdXe2raJNN6+CmGblB0fBO4k3SwnQ"
+      #   ];
+      # };
+      #
       environment.systemPackages = with pkgs; [
         wget
         curl

@@ -67,8 +67,8 @@
 
       deploy.nodes = {
         schiggi = {
-          hostname = "192.168.68.131";
-          # hostname = inputs.nix-secrets.networking.schiggi.ip;
+          # hostname = "100.74.11.59";
+          hostname = inputs.nix-secrets.networking.schiggi.ip;
           profiles.system = {
             sshUser = "root";
             remoteBuild = false;
