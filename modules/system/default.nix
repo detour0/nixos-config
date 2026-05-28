@@ -5,7 +5,6 @@
     ./settings.nix
     ./fonts.nix
     ./dns.nix
-    ./sops.nix
   ];
 
   # Allow unfree packages

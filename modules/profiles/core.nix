@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -12,6 +13,7 @@ let
 in
 {
   imports = [ ../features/networking.nix ];
+
   options.profile.core = mkProfileOptions "core profile" {
     firewall.disable = mkEnableOption "Disable firewall for testing";
     shell = mkOption {
@@ -21,15 +23,30 @@ in
       ];
       default = "zsh";
     };
-    ssh = mkOption {
-      type = types.enum [
-        "client"
-        "server"
-        null
-      ];
-      default = null;
-      description = "Enable ssh as client or server with port 22 open";
+
+    ssh = {
+      state = mkOption {
+        type = types.nullOr (
+          types.enum [
+            "client"
+            "server"
+          ]
+        );
+        default = null;
+        description = "Enable ssh as client or server with port 22 open";
+      };
+      rootKey = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Pub key for root access";
+      };
+      userKey = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Pub key for user account access";
+      };
     };
+
     vpn = {
       enable = mkEnableOption "VPN support";
       vendor = mkOption {
@@ -52,25 +69,36 @@ in
 
       # GDM only shows users with their default shell in /etc/shells
       environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
-      users.defaultUserShell = if (cfg.shell == "zsh") then pkgs.zsh else pkgs.bash;
+      users = {
+        defaultUserShell = if (cfg.shell == "zsh") then pkgs.zsh else pkgs.bash;
+      };
 
+      # ==========================================
+      # SYSTEM SSH SERVER CONFIGURATION
+      # ==========================================
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
         openFirewall = false;
         settings = {
-          PermitRootLogin = if (cfg.ssh == "server") then "prohibit-password" else "no";
+          PermitRootLogin = if (cfg.ssh.state == "server") then "prohibit-password" else "no";
+          PasswordAuthentication = false;
         };
       };
 
-      # networking.firewall.interfaces."nb-wt0".allowedTCPPorts = [ 22 ];
-      # users.users = {
-      #   root.openssh.authorizedKeys.keys = [
-      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2ZdjsVwH0cc89YdXe2raJNN6+CmGblB0fBO4k3SwnQ"
-      #   ];
-      #   dt.openssh.authorizedKeys.keys = [
-      #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2ZdjsVwH0cc89YdXe2raJNN6+CmGblB0fBO4k3SwnQ"
-      #   ];
-      # };
+      programs.ssh = mkIf (cfg.ssh.state == "server") {
+        # This injects custom configuration text directly into /etc/ssh/ssh_config
+        # or root's matching profile context.
+        extraConfig = ''
+          Host github.com
+            IdentityFile /var/lib/ssh_automation/id_ed25519_read
+            IdentitiesOnly yes
+        '';
+      };
+
+      users.users = {
+        root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKey;
+        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
+      };
 
       environment.systemPackages = with pkgs; [
         wget
@@ -92,26 +120,68 @@ in
       features.mullvad.enable = true;
     })
 
-    (mkProfileHome config "core" (user: {
-      imports = [
-        ../features/home/starship.nix
-        ../features/home/yazi.nix
-      ]
-      ++ optional (cfg.shell == "zsh") ../features/home/zsh.nix;
+    # ==========================================
+    # HOME MANAGER CONFIGURATION
+    # ==========================================
+    (mkProfileHome config "core" (
+      user:
+      { config, ... }@hmConfig:
+      {
+        imports = [
+          ../features/home/starship.nix
+          ../features/home/yazi.nix
+        ]
+        ++ optional (cfg.shell == "zsh") ../features/home/zsh.nix;
 
-      home.packages = with pkgs; [
-        jq
-        tree
-        plocate
-      ];
-      programs = {
-        fzf = {
-          enable = true;
-          enableZshIntegration = mkIf (cfg.shell == "zsh") true;
-          enableBashIntegration = mkIf (cfg.shell == "bash") true;
+        home.packages = with pkgs; [
+          jq
+          tree
+          plocate
+        ];
+
+        programs = {
+          fzf = {
+            enable = true;
+            enableZshIntegration = mkIf (cfg.shell == "zsh") true;
+            enableBashIntegration = mkIf (cfg.shell == "bash") true;
+          };
+
+          # Setup SSH Client configs only if this machine is an admin/client
+          ssh = mkIf (cfg.ssh.state == "client") {
+            enable = true;
+            matchBlocks = {
+              "github.com" = {
+                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_github";
+                extraOptions = {
+                  # AddKeysToAgent = "yes";
+                };
+              };
+
+              "schiggi" = {
+                host = inputs.nix-secrets.networking.schiggi.netbirdIp;
+                user = "root";
+                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
+                extraOptions = {
+                  # AddKeysToAgent = "yes";
+                };
+              };
+
+              "schiggi.dt" = {
+                host = inputs.nix-secrets.networking.schiggi.netbirdIp;
+                user = "dt";
+                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
+                extraOptions = {
+                  # AddKeysToAgent = "yes";
+                };
+              };
+            };
+          };
         };
-      };
 
-    }))
+        # Start ssh-agent to cache your passphrase-protected keys
+        services.ssh-agent.enable = mkIf (cfg.ssh.state == "client") true;
+
+      }
+    ))
   ]);
 }

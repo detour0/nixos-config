@@ -1,12 +1,21 @@
 { lib }:
+let
+  inherit (lib)
+    types
+    mkOption
+    mkIf
+    genAttrs
+    mkEnableOption
+    ;
+in
 {
   # Helper to generate the common profile schema
   mkProfileOptions =
     description: extraOptions:
     {
-      enable = lib.mkEnableOption description;
-      users = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
+      enable = mkEnableOption description;
+      users = mkOption {
+        type = types.listOf types.str;
         default = [ ];
       };
     }
@@ -14,8 +23,8 @@
 
   mkProfileHome =
     config: profileName: homeConfig:
-    lib.mkIf config.profile.${profileName}.enable {
-      home-manager.users = lib.genAttrs config.profile.${profileName}.users homeConfig;
+    mkIf config.profile.${profileName}.enable {
+      home-manager.users = genAttrs config.profile.${profileName}.users homeConfig;
     };
 
   # Helper to link a System Feature to a Home Manager Module

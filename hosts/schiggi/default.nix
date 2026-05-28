@@ -12,6 +12,7 @@ in
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
+    ../../modules/system/sops-server.nix
     ../../modules/profiles/dev.nix
     ../../modules/profiles/core.nix
     ../../modules/profiles/peripherals.nix
@@ -22,11 +23,10 @@ in
   ];
 
   myUsers.dt.enable = true;
-  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   netbird-wt0 = {
     enable = true;
-    setupKeyFile = "/etc/netbird-wt0/setup-key";
+    setupKeyFile = config.sops.secrets.nb_server_setup_key.path;
   };
 
   profile = {
@@ -39,7 +39,11 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      ssh = "server";
+      ssh = {
+        state = "server";
+        rootKey = inputs.nix-secrets.server.deployPub;
+        userKey = inputs.nix-secrets.users.dt.sshPub;
+      };
     };
 
     dev = {
