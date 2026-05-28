@@ -56,7 +56,7 @@ in
 
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
-        openFirewall = if (cfg.ssh == "server") then true else false;
+        openFirewall = false;
         settings = {
           PermitRootLogin = if (cfg.ssh == "server") then "prohibit-password" else "no";
         };
@@ -71,7 +71,7 @@ in
       #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2ZdjsVwH0cc89YdXe2raJNN6+CmGblB0fBO4k3SwnQ"
       #   ];
       # };
-      #
+
       environment.systemPackages = with pkgs; [
         wget
         curl
