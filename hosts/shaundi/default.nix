@@ -11,6 +11,7 @@ in
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
+    (import ../../modules/system/sops-admin.nix dt.name)
     ../../modules/profiles/dev.nix
     ../../modules/profiles/desktop.nix
     ../../modules/profiles/core.nix
@@ -21,20 +22,20 @@ in
   ];
 
   myUsers.dt.enable = true;
-  sops.age.keyFile = "/home/dt/.config/sops/age/key.txt";
 
   netbird-wt0 = {
     enable = true;
     ui.enable = true;
-    setupKeyFile = "/etc/netbird-wt0/setup-key";
+    setupKeyFile = config.sops.secrets.nb_admin_setup_key.path;
   };
 
   profile = {
     core = {
       enable = true;
       users = [ dt.name ];
-      firewall.disable = false;
-      ssh = "client";
+      ssh = {
+        state = "client";
+      };
       vpn = {
         enable = true;
         vendor = "mullvad";
