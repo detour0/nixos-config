@@ -2,12 +2,11 @@
   lib,
   config,
   pkgsUnstable,
-  pkgs,
   ...
 }:
 let
   cfg = config.netbird-wt0;
-  inherit (lib) mkIf optionals;
+  inherit (lib) mkIf optional;
 in
 {
   options.netbird-wt0 =
@@ -33,7 +32,7 @@ in
     };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = optionals cfg.ui.enable [ pkgsUnstable.netbird-ui ];
+    environment.systemPackages = optional cfg.ui.enable pkgsUnstable.netbird-ui;
     services.netbird.package = pkgsUnstable.netbird;
     services.netbird.clients.wt0 = {
       # Login does nothing atm, might be because the grep "Connected" in the script
@@ -49,10 +48,10 @@ in
       #     DisableSSHAuth = true;
       #   };
       # };
-      environment = {
-        NETBIRD_SSH_DIR = "/var/lib/netbird";
-      };
-      hardened = false;
+      # environment = {
+      #   NETBIRD_SSH_DIR = "/var/lib/netbird";
+      # };
+      # hardened = false;
 
       ui.enable = cfg.ui.enable;
       # Port used to listen to wireguard connections
@@ -64,8 +63,12 @@ in
       # This opens necessary firewall ports in the Netbird client's network interface
       openInternalFirewall = true;
     };
-    # Needed when using the Netbird SSH Server
-    systemd.services.netbird-wt0.path = [ pkgs.shadow ];
+
+    # Needed when using the Netbird SSH Server with hardened = false.
+    # systemd = {
+    #   services.netbird-wt0.path = [ pkgs.shadow ];
+    #   services.netbird-wt0-login.serviceConfig.User = lib.mkForce "root";
+    # };
 
     # systemd.services.netbird.postStart = lib.optionalString (cfg.setupKeyFile != null) ''
     #   set -x
