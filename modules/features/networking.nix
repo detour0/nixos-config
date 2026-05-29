@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     # Enable networking
     networking = {
+      nftables.enable = true;
       networkmanager.enable = true;
       firewall = {
         inherit (cfg.firewall) enable;

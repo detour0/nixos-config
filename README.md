@@ -1,20 +1,29 @@
 Very much a work in progress
 
+DOC:
+
+- SSH:
+  - Admin clients:
+    - Clients only
+    - Main user has one key each for decrypting all sops files and server root deployment,
+      github read/write, connecting to server-user account.
+    - Host-ssh key is for sops decrypting only
+  - Server:
+    - Only key for accessing private github 'Nix-secrets' repo.
+    - Public admin keys are written in authorized key files for root and user.
+
+- Stuff so obvious, nobody tells you:
+  - Run 'nix-collect-garbage -d' as 'sudo', then rebuild the system to remove previous generations
+    from the bootloader
+
 TODO:
 
 - Create central variables for [ theme desktop-environment ]
-- atm all users get assigned the same git-email
 - Main output variable (kanshi) | show waybar, focus after wr switch
 - configure rofi, integrate cliphist
   - exclude passwords from history
 
 Issues:
-
-Nix-secrets:
-
-- Pulling the secrets repo from github uses password protected user ssh-key
-  -> running rebuild as sudo only sees /etc/ssh/...
-  - sudo -E env SSH_AUTH_SOCK=$SSH_AUTH_SOCK -> ssh-agent still can't ask for pw
 
 Neovim:
 
@@ -23,11 +32,6 @@ Neovim:
 Theming:
 
 - setting a cursor package does nothing
-
-Overlays:
-
-- very unelegant solution, importing module.args/pkgsUnstable
-  and the overlays from one file directly in the host config file
 
 Gnome:
 
@@ -48,7 +52,3 @@ Firefox:
 Vscode:
 
 - Codeium ai plugin not working:
-
-Stuff so obvious, nobody tells you:
-
-- Run 'nix-collect-garbage -d' as 'sudo', then rebuild the system.
