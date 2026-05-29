@@ -70,7 +70,7 @@
           hostname = inputs.nix-secrets.networking.schiggi.netbirdIp;
           profiles.system = {
             sshUser = "root";
-            remoteBuild = false;
+            remoteBuild = true;
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.schiggi;
           };
         };

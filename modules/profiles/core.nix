@@ -74,7 +74,7 @@ in
       };
 
       # ==========================================
-      # SYSTEM SSH SERVER CONFIGURATION
+      # SYSTEM SSH CONFIGURATION
       # ==========================================
       services.openssh = {
         enable = mkIf (cfg.ssh != null) true;
@@ -97,7 +97,7 @@ in
 
       users.users = {
         root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKey;
-        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
+        # dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
       };
 
       environment.systemPackages = with pkgs; [
@@ -124,9 +124,7 @@ in
     # HOME MANAGER CONFIGURATION
     # ==========================================
     (mkProfileHome config "core" (
-      user:
-      { config, ... }@hmConfig:
-      {
+      user: hmConfig: {
         imports = [
           ../features/home/starship.nix
           ../features/home/yazi.nix
@@ -146,7 +144,10 @@ in
             enableBashIntegration = mkIf (cfg.shell == "bash") true;
           };
 
-          # Setup SSH Client configs only if this machine is an admin/client
+          # ==========================================
+          # USER SSH CONFIGURATION
+          # ==========================================
+          # Admin client ssh setup
           ssh = mkIf (cfg.ssh.state == "client") {
             enable = true;
             matchBlocks = {
@@ -162,7 +163,8 @@ in
                 user = "root";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
                 extraOptions = {
-                  # AddKeysToAgent = "yes";
+                  # Needed for deploy-rs, otherwise breaks on 2. password input
+                  AddKeysToAgent = "yes";
                 };
               };
 
@@ -176,6 +178,11 @@ in
               };
             };
           };
+        };
+
+        # Server ssh setup
+        home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKey != null) {
+          text = "${cfg.ssh.userKey}\n";
         };
 
         # Start ssh-agent to cache your passphrase-protected keys
