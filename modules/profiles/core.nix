@@ -147,14 +147,13 @@ in
           # ==========================================
           # USER SSH CONFIGURATION
           # ==========================================
-          # Admin client ssh setup
           ssh = mkIf (cfg.ssh.state == "client") {
             enable = true;
             matchBlocks = {
               "github.com" = {
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_github";
                 extraOptions = {
-                  # AddKeysToAgent = "yes";
+                  # addkeystoagent = "yes";
                 };
               };
 
@@ -163,8 +162,8 @@ in
                 user = "root";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
                 extraOptions = {
-                  # Needed for deploy-rs, otherwise breaks on 2. password input
-                  AddKeysToAgent = "yes";
+                  # needed for deploy-rs, otherwise breaks on 2. password input
+                  addkeystoagent = "yes";
                 };
               };
 
@@ -173,7 +172,7 @@ in
                 user = "dt";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
                 extraOptions = {
-                  # AddKeysToAgent = "yes";
+                  # addkeystoagent = "yes";
                 };
               };
             };
@@ -182,7 +181,11 @@ in
 
         # Server ssh setup
         home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKey != null) {
-          text = "${cfg.ssh.userKey}\n";
+          text = "${cfg.ssh.userKey}";
+          onChange = ''
+            cat ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.tmp && mv ~/.ssh/authorized_keys.tmp ~/.ssh/authorized_keys
+            chmod 600 ~/.ssh/authorized_keys
+          '';
         };
 
         # Start ssh-agent to cache your passphrase-protected keys
