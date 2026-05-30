@@ -20,6 +20,7 @@ in
     ../../modules/profiles/desktop.nix
 
     ../../modules/profiles/monitor.nix
+    ../../modules/server/postgres.nix
   ];
 
   myUsers.dt.enable = true;

@@ -43,11 +43,30 @@ in
 
       inherit (cfg) retentionTime listenAddress port;
 
-      # Basic scrape config for Prometheus to scrape itself (health check)
+      # Machine metrics exporter
+      exporters.node = {
+        enable = true;
+        enabledCollectors = [
+          "systemd"
+          "diskstats"
+          "filesystem"
+          "netdev"
+          "meminfo"
+          "cpu"
+        ];
+        inherit (cfg) listenAddress;
+        port = 9100;
+      };
+
       scrapeConfigs = [
         {
+          # Basic scrape config for Prometheus to scrape itself (health check)
           job_name = "prometheus";
           static_configs = [ { targets = [ "localhost:${toString cfg.port}" ]; } ];
+        }
+        {
+          job_name = "node-machine-wide";
+          static_configs = [ { targets = [ "${cfg.listenAddress}:9100" ]; } ];
         }
       ];
     };
