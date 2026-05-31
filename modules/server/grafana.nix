@@ -10,7 +10,7 @@ let
     mkEnableOption
     mkOption
     types
-    optionals
+    optional
     ;
   promCfg = config.prometheus;
   lokiCfg = config.loki;
@@ -51,23 +51,19 @@ in
       # Declarative datasource provisioning
       provision = {
         datasources.settings.datasources =
-          (optionals promCfg.enable [
-            {
-              name = "Prometheus";
-              type = "prometheus";
-              access = "proxy";
-              url = "http://${promCfg.listenAddress}:${toString promCfg.port}";
-              isDefault = true;
-            }
-          ])
-          ++ (optionals lokiCfg.enable [
-            {
-              name = "Loki";
-              type = "loki";
-              access = "proxy";
-              url = "http://${lokiCfg.listenAddress}:${toString lokiCfg.port}";
-            }
-          ]);
+          (optional promCfg.enable {
+            name = "Prometheus";
+            type = "prometheus";
+            access = "proxy";
+            url = "http://${promCfg.listenAddress}:${toString promCfg.port}";
+            isDefault = true;
+          })
+          ++ (optional lokiCfg.enable {
+            name = "Loki";
+            type = "loki";
+            access = "proxy";
+            url = "http://${lokiCfg.listenAddress}:${toString lokiCfg.port}";
+          });
       };
     };
   };

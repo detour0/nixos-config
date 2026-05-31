@@ -8,6 +8,12 @@
     postgresql = {
       enable = true;
       # ... database setups, databases for nextcloud, paperless, etc.
+      ensureUsers = [
+        {
+          inherit (config.myUsers.dt) name;
+          ensureClauses.createdb = true;
+        }
+      ];
     };
 
     # Dedicated PostgreSQL stats exporter

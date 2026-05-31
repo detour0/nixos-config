@@ -110,7 +110,7 @@
             markdown_inline
             yaml
             json
-            jsonc
+            # jsonc #removed with version 26.05?
             jq
             kcl
             kconfig
