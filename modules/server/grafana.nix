@@ -35,6 +35,7 @@ in
       enable = true;
 
       settings = {
+        security.secret_key = "$__file{${config.sops.secrets.grafana_key.path}}";
         server = {
           http_addr = cfg.listenAddress;
           http_port = cfg.port;

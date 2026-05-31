@@ -18,6 +18,10 @@
     vimdiffAlias = true;
     withNodeJs = true;
 
+    # Default changed 25.11 to 26.05
+    withPython3 = false;
+    withRuby = false;
+
     extraPackages = with pkgs; [
       ripgrep
       fd
@@ -33,7 +37,7 @@
       nixd
       statix
       nix
-      nixfmt-rfc-style
+      nixfmt
 
       typescript-language-server
       eslint_d
@@ -143,7 +147,7 @@
         blink-cmp
       ]);
 
-    extraLuaConfig = ''
+    initLua = ''
       require("config.opts")
       require("config.keys")
       require("lazy").setup({
