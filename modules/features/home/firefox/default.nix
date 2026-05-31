@@ -252,6 +252,9 @@ in
     firefox = {
       enable = true;
       package = pkgs.firefox;
+      # Standard Path changed 25.11 to 26.05
+      configPath = ".mozilla/firefox"; # old one to silence warning
+      # configPath = "${config.xdg.configHome}/mozilla/firefox";
       profiles.${config.home.username} = {
         id = 0;
         search = {

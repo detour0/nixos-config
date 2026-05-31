@@ -15,6 +15,7 @@ in
         neededForUsers = true;
       };
       nb_server_setup_key = { };
+      grafana_key = { };
       ssh_secrets_read = {
         path = "/var/lib/ssh_automation/id_ed25519_read";
         mode = "0600";

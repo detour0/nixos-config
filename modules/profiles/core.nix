@@ -97,7 +97,7 @@ in
 
       users.users = {
         root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKey;
-        # dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
+        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
       };
 
       environment.systemPackages = with pkgs; [
@@ -149,44 +149,44 @@ in
           # ==========================================
           ssh = mkIf (cfg.ssh.state == "client") {
             enable = true;
-            matchBlocks = {
+            # Silence warning about default value drops 25.11 to 26.05
+            enableDefaultConfig = false;
+            settings = {
+              "*" = {
+                # Add any global options here
+              };
+
               "github.com" = {
+                host = "github.com";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_github";
-                extraOptions = {
-                  # addkeystoagent = "yes";
-                };
               };
 
               "schiggi" = {
                 host = inputs.nix-secrets.networking.schiggi.netbirdIp;
                 user = "root";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
-                extraOptions = {
-                  # needed for deploy-rs, otherwise breaks on 2. password input
-                  addkeystoagent = "yes";
-                };
+                # extraOptions are flat values now; note the upstream OpenSSH casing:
+                AddKeysToAgent = "yes";
               };
 
               "schiggi.dt" = {
                 host = inputs.nix-secrets.networking.schiggi.netbirdIp;
                 user = "dt";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
-                extraOptions = {
-                  # addkeystoagent = "yes";
-                };
               };
             };
           };
         };
 
-        # Server ssh setup
-        home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKey != null) {
-          text = "${cfg.ssh.userKey}";
-          onChange = ''
-            cat ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.tmp && mv ~/.ssh/authorized_keys.tmp ~/.ssh/authorized_keys
-            chmod 600 ~/.ssh/authorized_keys
-          '';
-        };
+        # Server ssh setup, was supposed to write the file with proper permissions so OpenSsh wouldn't drop
+        # it, but can break on rebuild, when content stays the same, there is no trigger to overwrite the symlink.
+        # home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKey != null) {
+        #   text = "${cfg.ssh.userKey}";
+        #   onChange = ''
+        #     cat ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.tmp && mv ~/.ssh/authorized_keys.tmp ~/.ssh/authorized_keys
+        #     chmod 600 ~/.ssh/authorized_keys
+        #   '';
+        # };
 
         # Start ssh-agent to cache your passphrase-protected keys
         services.ssh-agent.enable = mkIf (cfg.ssh.state == "client") true;

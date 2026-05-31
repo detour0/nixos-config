@@ -51,10 +51,6 @@
       unzip
       p7zip
 
-      # Nix Language Server
-      nil
-      nixfmt-rfc-style
-
       docker-compose
       docker-compose-language-service
     ])
