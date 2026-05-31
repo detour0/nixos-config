@@ -17,6 +17,7 @@
       mpv
       # smplayer
       jq
+      lazydocker
 
       libreoffice-fresh
       hunspell
