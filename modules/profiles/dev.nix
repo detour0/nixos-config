@@ -25,6 +25,7 @@ in
     };
     vm.enable = mkEnableOption "virtualisation packges/service";
     deploy.enable = mkEnableOption "Deploy software locally/remotely";
+    dockerRootless = mkEnableOption "Rootful/Rootless Docker daemon";
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -32,7 +33,7 @@ in
     {
       features.container = {
         enable = true;
-        # runtime = "podman";
+        rootless = cfg.dockerRootless;
       };
       features.vm.enable = cfg.vm.enable;
       environment.variables.EDITOR = cfg.editor;
@@ -63,7 +64,7 @@ in
     # 3. Assign additional user profiles
     {
       users.users = genAttrs cfg.users (user: {
-        extraGroups = optional cfg.vm.enable "kvm";
+        extraGroups = (optional cfg.vm.enable "kvm") ++ (optional (!cfg.dockerRootless) "docker");
       });
     }
   ]);

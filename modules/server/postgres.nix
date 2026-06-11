@@ -14,6 +14,13 @@
           ensureClauses.createdb = true;
         }
       ];
+      authentication = ''
+        host paperless paperless 172.18.0.0/16 scram-sha-256
+        host n8n n8n 172.18.0.0/16 scram-sha-256
+      '';
+      settings = {
+        listen_addresses = lib.mkForce "*";
+      };
     };
 
     # Dedicated PostgreSQL stats exporter

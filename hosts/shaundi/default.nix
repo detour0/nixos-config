@@ -47,6 +47,7 @@ in
       users = [ dt.name ];
       vm.enable = true;
       deploy.enable = true;
+      dockerRootless = true;
     };
 
     media = {

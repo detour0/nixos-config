@@ -11,7 +11,7 @@ let
     vimium
     darkreader
     unpaywall
-    tabliss
+    tablissng
     # languagetool Unfree licence error despite: allowUnfree in system.nix
     # video-downloadhelper same licence error
     link-cleaner
