@@ -40,6 +40,7 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
+      # firewall.disable = true;
       ssh = {
         state = "server";
         rootKey = inputs.nix-secrets.server.deployPub;
@@ -50,6 +51,7 @@ in
     dev = {
       enable = true;
       users = [ dt.name ];
+      dockerRootless = false;
     };
 
     peripherals = {

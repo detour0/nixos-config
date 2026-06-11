@@ -152,26 +152,23 @@ in
             # Silence warning about default value drops 25.11 to 26.05
             enableDefaultConfig = false;
             settings = {
-              "*" = {
-                # Add any global options here
-              };
 
               "github.com" = {
-                host = "github.com";
+                HostName = "github.com";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_github";
               };
 
               "schiggi" = {
-                host = inputs.nix-secrets.networking.schiggi.netbirdIp;
-                user = "root";
+                HostName = inputs.nix-secrets.networking.schiggi.netbirdIp;
+                User = "root";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
                 # extraOptions are flat values now; note the upstream OpenSSH casing:
                 AddKeysToAgent = "yes";
               };
 
               "schiggi.dt" = {
-                host = inputs.nix-secrets.networking.schiggi.netbirdIp;
-                user = "dt";
+                HostName = inputs.nix-secrets.networking.schiggi.netbirdIp;
+                User = "dt";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
               };
             };

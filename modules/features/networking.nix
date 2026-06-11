@@ -19,12 +19,13 @@ in
   config = mkIf cfg.enable {
     # Enable networking
     networking = {
-      nftables.enable = true;
+      # nftables.enable = true;
       networkmanager.enable = true;
       firewall = {
         inherit (cfg.firewall) enable;
         allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
         allowedUDPPorts = [ ];
+        logRefusedPackets = true;
       };
     };
   };

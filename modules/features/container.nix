@@ -30,6 +30,7 @@ in
       default = true;
       description = "Include docker-compose/podman-compose";
     };
+
     rootless = mkOption {
       type = types.bool;
       default = true;
@@ -72,9 +73,15 @@ in
     environment.systemPackages = optionals cfg.compose (
       (optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.docker-compose)
       ++ (optional (cfg.runtime == "podman" || cfg.runtime == "both") pkgs.podman-compose)
+      ++ (optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.lazydocker)
     );
 
-    # Groups for socket access
+    # Access rules
+    networking.firewall.trustedInterfaces = mkIf (!cfg.rootless) [
+      "docker0"
+      "br-+"
+    ];
+
     # users.groups.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") { };
   };
 }

@@ -17,7 +17,7 @@
       mpv
       # smplayer
       jq
-      lazydocker
+      qimgv
 
       libreoffice-fresh
       hunspell
@@ -30,6 +30,9 @@
       # nvchad
     ]);
 
+  programs = {
+    lazydocker.enable = true;
+  };
   services = {
     # syncthing.enable = true;
 

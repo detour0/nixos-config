@@ -77,7 +77,6 @@
         nui-nvim
         nvim-navbuddy
         trouble-nvim
-        nvim-treesitter-context
 
         blink-compat
         colorful-menu-nvim
@@ -91,8 +90,11 @@
         telescope-nvim
         plenary-nvim
 
+        nvim-treesitter-context
         nvim-treesitter-textobjects
-        # nvim-treesitter.withAllGrammars
+
+        nvim-treesitter # got archived with neovim v0.12
+        nvim-treesitter.withAllGrammars
         # This is for if you only want some of the grammars
         (nvim-treesitter.withPlugins (
           plugins: with plugins; [
@@ -114,7 +116,6 @@
             markdown_inline
             yaml
             json
-            # jsonc #removed with version 26.05?
             jq
             kcl
             kconfig
@@ -126,7 +127,6 @@
             csv
             gitignore
             gpg
-            regex
             toml
             nginx
             bash
