@@ -17,6 +17,7 @@ in
 
     environment.systemPackages = with pkgs; [
       nemo
+      qimgv
     ];
 
     # In case swaylock cannot be unlocked with correct password:

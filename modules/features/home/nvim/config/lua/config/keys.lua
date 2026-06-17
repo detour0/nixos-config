@@ -12,8 +12,8 @@ v.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
 -- v.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll Up" })
 
 -- Resize windows with arrow keys
-v.keymap.set("n", "<Down>", ":resize +2<CR>", { desc = "Increase window height" })
-v.keymap.set("n", "<Up>", ":resize -2<CR>", { desc = "Decrease window height" })
+v.keymap.set("n", "<Down>", ":resize -2<CR>", { desc = "Increase window height" })
+v.keymap.set("n", "<Up>", ":resize +2<CR>", { desc = "Decrease window height" })
 v.keymap.set("n", "<Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 v.keymap.set("n", "<Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
 
@@ -38,15 +38,12 @@ v.keymap.set({ "n", "v", "x" }, "<leader>Y", '"+yy', { noremap = true, silent = 
 
 v.keymap.set({ "n", "v", "x" }, "<C-a>", "gg0vG$", { noremap = true, silent = true, desc = "Select all" })
 v.keymap.set({ "n", "v", "x" }, "<leader>p", '"+p', { noremap = true, silent = true, desc = "Paste from clipboard" })
--- v.keymap.set(
---   "i",
---   "<C-p>",
---   "<C-r><C-p>+",
---   { noremap = true, silent = true, desc = "Paste from clipboard from within insert mode" }
--- )
 v.keymap.set(
 	"x",
 	"<leader>P",
 	'"_dP',
 	{ noremap = true, silent = true, desc = "Paste over selection without erasing unnamed register" }
 )
+
+-- Escape terminal input
+v.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true, noremap = true })

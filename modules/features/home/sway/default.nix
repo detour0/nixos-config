@@ -58,16 +58,33 @@ in
     };
   };
 
-  # Enables using the workrooms script from the nix-store without an environment var
-  xdg.configFile."sway/script-vars.conf".text = ''
-    set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
-    set $wallpaper ${config.wallpaper}
-  '';
+  xdg = {
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "image/jpeg" = [ "qimgv.desktop" ];
+        "image/png" = [ "qimgv.desktop" ];
+        "image/gif" = [ "qimgv.desktop" ];
+        "image/webp" = [ "qimgv.desktop" ];
+        "image/bmp" = [ "qimgv.desktop" ];
+        "image/tiff" = [ "qimgv.desktop" ];
+        "image/svg+xml" = [ "qimgv.desktop" ];
+        "image/vnd.adobe.photoshop" = [ "qimgv.desktop" ];
+        "image/x-xcf" = [ "qimgv.desktop" ];
+      };
+    };
 
-  # This creates the link from your home directory to your dotfiles
-  xdg.configFile."sway/config".source = lib.mkForce (
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config"
-  );
+    # Enables using the workrooms script from the nix-store without an environment var
+    configFile."sway/script-vars.conf".text = ''
+      set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
+      set $wallpaper ${config.wallpaper}
+    '';
+
+    # This creates the link from your home directory to your dotfiles
+    configFile."sway/config".source = lib.mkForce (
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config"
+    );
+  };
   # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
   # xdg.configFile."sway/config".source = lib.mkForce ../../../../dotfiles/sway/config;
 }
