@@ -17,7 +17,6 @@
       mpv
       # smplayer
       jq
-      qimgv
 
       libreoffice-fresh
       hunspell

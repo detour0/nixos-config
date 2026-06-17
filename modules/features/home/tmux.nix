@@ -15,9 +15,9 @@
 
       extraConfig = ''
         # Set prefix
-        unbind C-b
-        set -g prefix C-Space
-        bind C-Space send-prefix
+        # unbind C-b
+        # set -g prefix C-Space
+        # bind C-Space send-prefix
 
         # Shift Alt vim Keys to switch windows
         bind -n M-H previous-window
