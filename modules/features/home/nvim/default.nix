@@ -63,6 +63,7 @@
       with pkgs.vimPlugins;
       [
         catppuccin-nvim
+        kanagawa-nvim
         lualine-nvim
         bufferline-nvim
         snacks-nvim
