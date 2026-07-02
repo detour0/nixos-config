@@ -62,6 +62,7 @@
     plugins =
       with pkgs.vimPlugins;
       [
+        everforest
         catppuccin-nvim
         kanagawa-nvim
         lualine-nvim

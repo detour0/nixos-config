@@ -89,8 +89,8 @@ pcall(function()
 end)
 
 return {
-	"telescope-nvim", -- Matches the Nix folder name
-	dev = true, -- Tells Lazy to look in your Nix dev path
+	"telescope.nvim", -- Matches the Nix folder name
+	dev = true, -- Tells Lazy to look in the Nix dev path
 	dependencies = {
 		{ "plenary.nvim", dev = true },
 		{ "telescope-fzf-native.nvim", dev = true },
@@ -117,7 +117,6 @@ return {
 		{
 			"<leader>/",
 			function()
-				-- Slightly advanced example of overriding default behavior and theme
 				-- You can pass additional configuration to telescope to change theme, layout, etc.
 				require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 					winblend = 10,
