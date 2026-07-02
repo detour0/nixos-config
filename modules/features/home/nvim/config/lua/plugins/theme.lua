@@ -11,14 +11,18 @@ return {
 	--        vim.cmd("colorscheme catppuccin")
 	--    end,
 	--    },
-	require("kanagawa").load("wave"),
+	-- require("everforest").load("hard"),
 	{
-		"kanagawa-nvim",
+		"everforest",
 		dev = true,
 		lazy = false,
 		priority = 1000,
 		config = function()
-			require("kanagawa").load("dragon")
+			-- Set your configuration options before loading the colorscheme
+			vim.g.everforest_background = "hard"
+
+			-- Load the colorscheme natively via Vim's runtime path
+			vim.cmd([[colorscheme everforest]])
 		end,
 	},
 }

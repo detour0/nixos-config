@@ -13,6 +13,15 @@
           inherit (config.myUsers.dt) name;
           ensureClauses.createdb = true;
         }
+        {
+          name = "n8n";
+          # This automatically makes the 'n8n' user the owner of the 'n8n' database
+          ensureDBOwnership = true;
+        }
+      ];
+      ensureDatabases = [
+        "n8n"
+        "paperless"
       ];
       authentication = ''
         host paperless paperless 172.18.0.0/16 scram-sha-256
