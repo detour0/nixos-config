@@ -51,8 +51,14 @@
       vscode-langservers-extracted
       stylelint
 
+      # Markdown extra
+      markdownlint-cli2
+      marksman
+
       tailwindcss-language-server
       yamlfmt
+      yaml-language-server
+
       dockerfile-language-server
       hadolint
       sqlfluff
@@ -65,6 +71,7 @@
         everforest
         catppuccin-nvim
         kanagawa-nvim
+
         lualine-nvim
         bufferline-nvim
         snacks-nvim
@@ -173,6 +180,8 @@
           },
       })
     '';
+
+    # initLua = "require('lazy').setup()";
   };
 
   xdg.configFile."nvim/lua" = {

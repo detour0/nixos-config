@@ -129,6 +129,7 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+e exec $term -e yazi
     # Open web-browser window
     bindsym $mod+g exec $web-browser
+    bindsym $mod+Shift+g exec $web-browser -private-window
     # Open (floating) calculator
     bindsym XF86Tools exec $calculator
     # Screenshots
