@@ -18,14 +18,24 @@
           # This automatically makes the 'n8n' user the owner of the 'n8n' database
           ensureDBOwnership = true;
         }
+        {
+          name = "paperless";
+          ensureDBOwnership = true;
+        }
+        {
+          name = "nextcloud";
+          ensureDBOwnership = true;
+        }
       ];
       ensureDatabases = [
         "n8n"
         "paperless"
+        "nextcloud"
       ];
       authentication = ''
         host paperless paperless 172.18.0.0/16 scram-sha-256
         host n8n n8n 172.18.0.0/16 scram-sha-256
+        host nextcloud nextcloud 172.18.0.0/16 scram-sha-256
       '';
       settings = {
         listen_addresses = lib.mkForce "*";

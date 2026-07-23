@@ -25,6 +25,11 @@ in
         mode = "0600";
         owner = "root";
       };
+      hermes_env = {
+        owner = "hermes";
+        group = "hermes";
+        mode = "0400";
+      };
     };
   };
 

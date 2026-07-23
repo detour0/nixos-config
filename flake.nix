@@ -19,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs.url = "github:serokell/deploy-rs";
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs =
@@ -27,6 +28,7 @@
       nixpkgs,
       sops-nix,
       deploy-rs,
+      hermes-agent,
       ...
     }:
     let
@@ -53,6 +55,7 @@
         schiggi = nixpkgs.lib.nixosSystem {
           modules = [
             ./hosts/schiggi
+            hermes-agent.nixosModules.default
             sops-nix.nixosModules.sops
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
