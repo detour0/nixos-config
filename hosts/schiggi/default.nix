@@ -20,10 +20,10 @@ in
     ../../modules/profiles/peripherals.nix
     ../../modules/profiles/desktop.nix
     ../../modules/profiles/monitor.nix
+    ../../modules/profiles/agents.nix
 
     ../../modules/server/postgres.nix
     ../../modules/features/netbird.nix
-    ../../modules/features/hermes.nix
   ];
 
   myUsers.dt.enable = true;
@@ -55,6 +55,11 @@ in
       enable = true;
       users = [ dt.name ];
       dockerRootless = false;
+    };
+
+    agents = {
+      users = [ dt.name ];
+      hermes.enable = true;
     };
 
     peripherals = {
