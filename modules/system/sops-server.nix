@@ -26,9 +26,7 @@ in
         owner = "root";
       };
       hermes_env = {
-        owner = "hermes";
-        group = "hermes";
-        mode = "0400";
+        format = "yaml";
       };
     };
   };

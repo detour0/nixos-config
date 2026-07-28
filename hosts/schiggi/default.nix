@@ -9,18 +9,21 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+
     ../../lib/user-manager.nix
     ../../users/dt.nix
     ../../modules/system
     ../../modules/system/sops-server.nix
+
     ../../modules/profiles/dev.nix
     ../../modules/profiles/core.nix
     ../../modules/profiles/peripherals.nix
-    ../../modules/features/netbird.nix
     ../../modules/profiles/desktop.nix
-
     ../../modules/profiles/monitor.nix
+
     ../../modules/server/postgres.nix
+    ../../modules/features/netbird.nix
+    ../../modules/features/hermes.nix
   ];
 
   myUsers.dt.enable = true;
