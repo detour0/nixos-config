@@ -57,11 +57,6 @@ in
       dockerRootless = false;
     };
 
-    agents = {
-      users = [ dt.name ];
-      hermes.enable = true;
-    };
-
     peripherals = {
       enable = true;
       users = [ dt.name ];

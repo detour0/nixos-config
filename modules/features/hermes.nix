@@ -11,6 +11,13 @@ with lib;
 let
   cfg = config.features.hermes;
 in
+
+# ── Provider Login ────────────────────────────────────────────────────────
+# nous-free --> 'hermes auth add nous'
+# fallback doesn't use key_env or api_key and complains about empty
+# OPENROUTER_API_KEY instead, once this is set, it works for the first message
+# and then fails again.
+
 {
   # 1. OPTIONS: what this feature exposes
   options.features.hermes = {
@@ -26,17 +33,18 @@ in
       settings = {
         model = {
           provider = "nous";
-          default = "tencent/hy3"; # hy3 from Nous as the standard model
+          default = "tencent/hy3:free"; # hy3 from Nous as the standard model
         };
 
-        fallback_providers = [
-          {
-            provider = "custom";
-            model = "mistral-medium";
-            base_url = "http://${inputs.nix-secrets.networking.schiggi.netbirdIp}:4000";
-            key_env = "LITELLM_KEY";
-          }
-        ];
+        # fallback_providers = [
+        #   {
+        #     provider = "custom";
+        #     model = "mistral-medium-latest";
+        #     base_url = "http://${inputs.nix-secrets.networking.schiggi.netbirdIp}:4000/v1";
+        #     key_env = "LITELLM_KEY";
+        #     api_key = LITELLM_KEY;
+        #   }
+        # ];
 
         # ── Documents ──────────────────────────────────────────────────────
         documents = {
