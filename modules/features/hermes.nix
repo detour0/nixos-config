@@ -55,10 +55,6 @@
       };
     };
 
-    # Free-plan Portal auth needs no API key. Add a key later via an
-    # env file rather than inlining it:
-    # environmentFiles = [ /var/lib/hermes/env ];
-
     # ── Service tuning ─────────────────────────────────────────────────
     addToSystemPackages = true;
     extraArgs = [ ]; # e.g. [ "--verbose" ]
