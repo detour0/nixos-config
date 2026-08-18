@@ -31,6 +31,13 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    sops.secrets.grafana_key = {
+      owner = "grafana";
+      group = "grafana";
+      mode = "0440";
+    };
+
     services.grafana = {
       enable = true;
 
