@@ -26,16 +26,22 @@
           name = "nextcloud";
           ensureDBOwnership = true;
         }
+        {
+          name = "authentik";
+          ensureDBOwnership = true;
+        }
       ];
       ensureDatabases = [
         "n8n"
         "paperless"
         "nextcloud"
+        "authentik"
       ];
       authentication = ''
         host paperless paperless 172.18.0.0/16 scram-sha-256
         host n8n n8n 172.18.0.0/16 scram-sha-256
         host nextcloud nextcloud 172.18.0.0/16 scram-sha-256
+        host authentik authentik 172.18.0.0/16 scram-sha-256
       '';
       settings = {
         listen_addresses = lib.mkForce "*";

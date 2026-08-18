@@ -50,6 +50,7 @@ in
       home.packages =
         (with pkgs; [
           git-filter-repo
+          openssl
         ])
         ++ (with pkgsUnstable; [
           devenv

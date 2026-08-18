@@ -66,6 +66,20 @@
             stateVersionH = "25.11";
           };
         };
+
+        # digda = nixpkgs.lib.nixosSystem {
+        #   modules = [
+        #     ./hosts/digda
+        #     sops-nix.nixosModules.sops
+        #     { nixpkgs.hostPlatform = "x86_64-linux"; }
+        #   ];
+        #   specialArgs = {
+        #     inherit inputs;
+        #     lib = myLib;
+        #     # Do not change from 26.05!
+        #     stateVersionH = "26.05";
+        #   };
+        # };
       };
 
       deploy.nodes = {
