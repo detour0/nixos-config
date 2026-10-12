@@ -44,6 +44,7 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       features.sway.enable = mkIf (cfg.environment == "sway") true;
+      environment.systemPackages = [ pkgs.usbutils ];
     }
 
     (mkProfileHome config "desktop" (user: {

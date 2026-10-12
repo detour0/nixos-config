@@ -12,7 +12,10 @@ let
   cfg = config.profile.core;
 in
 {
-  imports = [ ../features/networking.nix ];
+  imports = [
+    ../features/networking.nix
+    ../features/mullvad.nix
+  ];
 
   options.profile.core = mkProfileOptions "core profile" {
     firewall.disable = mkEnableOption "Disable firewall for testing";
@@ -61,7 +64,9 @@ in
       features.networking = {
         enable = true;
         firewall.enable = mkIf (!cfg.firewall.disable) true;
+
       };
+      services.resolved.enable = true;
       # login/default shell can only be set system wide
       programs = {
         zsh.enable = mkIf (cfg.shell == "zsh") true;

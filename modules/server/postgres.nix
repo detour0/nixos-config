@@ -1,12 +1,14 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 {
   services = {
     postgresql = {
       enable = true;
+      package = pkgs.postgresql_17;
       # ... database setups, databases for nextcloud, paperless, etc.
       ensureUsers = [
         {

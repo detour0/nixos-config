@@ -19,6 +19,7 @@ in
     ../../modules/profiles/game.nix
     ../../modules/profiles/peripherals.nix
     ../../modules/features/netbird.nix
+    ../../modules/profiles/android.nix
   ];
 
   myUsers.dt.enable = true;
@@ -42,12 +43,21 @@ in
       };
     };
 
+    android = {
+      enable = true;
+      users = [ dt.name ];
+    };
+
     dev = {
       enable = true;
       users = [ dt.name ];
       vm.enable = true;
       deploy.enable = true;
-      dockerRootless = true;
+      containers = {
+        enable = true;
+        runtime = "docker";
+        dockerRootless = false;
+      };
     };
 
     media = {
