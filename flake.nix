@@ -18,7 +18,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
@@ -67,19 +70,19 @@
           };
         };
 
-        # digda = nixpkgs.lib.nixosSystem {
-        #   modules = [
-        #     ./hosts/digda
-        #     sops-nix.nixosModules.sops
-        #     { nixpkgs.hostPlatform = "x86_64-linux"; }
-        #   ];
-        #   specialArgs = {
-        #     inherit inputs;
-        #     lib = myLib;
-        #     # Do not change from 26.05!
-        #     stateVersionH = "26.05";
-        #   };
-        # };
+        digda = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/digda
+            sops-nix.nixosModules.sops
+            { nixpkgs.hostPlatform = "x86_64-linux"; }
+          ];
+          specialArgs = {
+            inherit inputs;
+            lib = myLib;
+            # Do not change from 26.05!
+            stateVersionH = "26.05";
+          };
+        };
       };
 
       deploy.nodes = {

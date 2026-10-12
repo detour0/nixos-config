@@ -25,21 +25,32 @@ in
     };
     vm.enable = mkEnableOption "virtualisation packges/service";
     deploy.enable = mkEnableOption "Deploy software locally/remotely";
-    dockerRootless = mkEnableOption "Rootful/Rootless Docker daemon";
+    containers = {
+      enable = mkEnableOption "Install container runtime";
+      runtime = mkOption {
+        type = types.enum [
+          "docker"
+          "podman"
+          "both"
+        ];
+        default = "docker";
+        description = "Container runtime to enable";
+      };
+      dockerRootless = mkEnableOption "Rootful/Rootless Docker daemon";
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
-    # 1. System-wide features
     {
       features.container = {
-        enable = true;
-        rootless = cfg.dockerRootless;
+        enable = cfg.containers.enable;
+        runtime = cfg.containers.runtime;
+        rootless = cfg.containers.dockerRootless;
       };
       features.vm.enable = cfg.vm.enable;
       environment.variables.EDITOR = cfg.editor;
     }
 
-    # 2. Home-manager features
     (mkProfileHome config "dev" (user: {
       imports = [
         ../features/home/tmux.nix
@@ -65,7 +76,8 @@ in
     # 3. Assign additional user profiles
     {
       users.users = genAttrs cfg.users (user: {
-        extraGroups = (optional cfg.vm.enable "kvm") ++ (optional (!cfg.dockerRootless) "docker");
+        extraGroups =
+          (optional cfg.vm.enable "kvm") ++ (optional (!cfg.containers.dockerRootless) "docker");
       });
     }
   ]);

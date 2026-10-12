@@ -55,7 +55,11 @@ in
     dev = {
       enable = true;
       users = [ dt.name ];
-      dockerRootless = false;
+      containers = {
+        enable = true;
+        runtime = "docker";
+        dockerRootless = false;
+      };
     };
 
     peripherals = {

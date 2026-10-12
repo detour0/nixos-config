@@ -13,7 +13,6 @@ in
   imports = [
     ../features/pipewire.nix
     ../features/bluetooth.nix
-    ../features/mullvad.nix
     ../features/printing.nix
   ];
 
