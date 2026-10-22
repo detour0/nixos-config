@@ -23,6 +23,7 @@ in
   ];
 
   myUsers.dt.enable = true;
+  bootloader.type = "dedicated";
 
   netbird-wt0 = {
     enable = true;
