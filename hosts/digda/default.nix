@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   ...
 }:
 let
@@ -9,6 +10,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ./disk-config.nix
 
     ../../lib/user-manager.nix
     ../../users/dt.nix
@@ -23,9 +25,24 @@ in
 
   myUsers.dt.enable = true;
 
+  # Pangolin with Newt
+  networking.firewall = {
+    allowedTCPPorts = [
+      80
+      443
+    ];
+    allowedUDPPorts = [
+      21820
+      51820
+    ];
+  };
+
+  # Enable non-Netbird SSH access
+  services.openssh.openFirewall = lib.mkForce true;
+
   netbird-wt0 = {
     enable = true;
-    setupKeyFile = config.sops.secrets.nb_server_setup_key.path;
+    # setupKeyFile = config.sops.secrets.nb_server_setup_key.path;
   };
 
   profile = {
@@ -35,8 +52,8 @@ in
       # firewall.disable = true;
       ssh = {
         state = "server";
-        rootKey = inputs.nix-secrets.server.deployPub;
-        userKey = inputs.nix-secrets.users.dt.sshPub;
+        rootKeyPub = inputs.nix-secrets.server.deployPub;
+        userKeyPub = inputs.nix-secrets.users.dt.sshPub;
       };
     };
 

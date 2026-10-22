@@ -36,14 +36,14 @@ in
           ]
         );
         default = null;
-        description = "Enable ssh as client or server with port 22 open";
+        description = "Enable ssh as client or server with access over netbird loopback";
       };
-      rootKey = mkOption {
+      rootKeyPub = mkOption {
         type = types.nullOr types.str;
         default = null;
         description = "Pub key for root access";
       };
-      userKey = mkOption {
+      userKeyPub = mkOption {
         type = types.nullOr types.str;
         default = null;
         description = "Pub key for user account access";
@@ -101,8 +101,8 @@ in
       };
 
       users.users = {
-        root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKey;
-        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKey;
+        root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKeyPub;
+        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKeyPub;
       };
 
       environment.systemPackages = with pkgs; [
@@ -182,15 +182,15 @@ in
 
         # Server ssh setup, was supposed to write the file with proper permissions so OpenSsh wouldn't drop
         # it, but can break on rebuild, when content stays the same, there is no trigger to overwrite the symlink.
-        # home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKey != null) {
-        #   text = "${cfg.ssh.userKey}";
+        # home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKeyPub != null) {
+        #   text = "${cfg.ssh.userKeyPub}";
         #   onChange = ''
         #     cat ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.tmp && mv ~/.ssh/authorized_keys.tmp ~/.ssh/authorized_keys
         #     chmod 600 ~/.ssh/authorized_keys
         #   '';
         # };
 
-        # Start ssh-agent to cache your passphrase-protected keys
+        # Start ssh-agent to cache passphrase-protected keys
         services.ssh-agent.enable = mkIf (cfg.ssh.state == "client") true;
 
       }
