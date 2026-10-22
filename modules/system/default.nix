@@ -1,6 +1,6 @@
 {
   imports = [
-    ./systemd-boot.nix
+    ./boot.nix
     ./locale.nix
     ./settings.nix
     ./fonts.nix

@@ -24,6 +24,7 @@ in
   ];
 
   myUsers.dt.enable = true;
+  bootloader.type = "vServer";
 
   # Pangolin with Newt
   networking.firewall = {
