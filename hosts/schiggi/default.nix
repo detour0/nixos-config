@@ -47,8 +47,8 @@ in
       # firewall.disable = true;
       ssh = {
         state = "server";
-        rootKey = inputs.nix-secrets.server.deployPub;
-        userKey = inputs.nix-secrets.users.dt.sshPub;
+        rootKeyPub = inputs.nix-secrets.server.deployPub;
+        userKeyPub = inputs.nix-secrets.users.dt.sshPub;
       };
     };
 

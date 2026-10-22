@@ -9,17 +9,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-secrets.url = "git+ssh://git@github.com/detour0/nix-secrets.git";
-    nurpkgs.url = "github:nix-community/NUR";
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nurpkgs.url = "github:nix-community/NUR";
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hermes-agent.url = "github:NousResearch/hermes-agent";
@@ -31,6 +35,7 @@
       nixpkgs,
       sops-nix,
       deploy-rs,
+      disko,
       hermes-agent,
       ...
     }:
@@ -74,6 +79,7 @@
           modules = [
             ./hosts/digda
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
           specialArgs = {
@@ -92,6 +98,14 @@
             sshUser = "root";
             remoteBuild = true;
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.schiggi;
+          };
+        };
+        digda = {
+          hostname = "45.131.109.61";
+          profiles.system = {
+            sshUser = "root";
+            remoteBuild = true;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.digda;
           };
         };
       };

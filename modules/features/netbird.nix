@@ -37,10 +37,10 @@ in
     services.netbird.clients.wt0 = {
       # Login does nothing atm, might be because the grep "Connected" in the script
       # ${client.service.name}-login returns 0 when finding "Disconnected"
-      login = {
-        enable = true;
-        inherit (cfg) setupKeyFile;
-      };
+      # login = {
+      #   enable = true;
+      #   inherit (cfg) setupKeyFile;
+      # };
 
       # Needed when using the Netbird SSH Server
       # config = {
