@@ -102,8 +102,10 @@ in
 
       users.users = {
         root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKeyPub;
-        dt.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKeyPub;
-      };
+      }
+      // genAttrs cfg.users (_: {
+        openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKeyPub;
+      });
 
       environment.systemPackages = with pkgs; [
         wget
@@ -192,7 +194,6 @@ in
 
         # Start ssh-agent to cache passphrase-protected keys
         services.ssh-agent.enable = mkIf (cfg.ssh.state == "client") true;
-
       }
     ))
   ]);
