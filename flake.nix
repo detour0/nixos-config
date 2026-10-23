@@ -104,7 +104,7 @@
           hostname = "45.131.109.61";
           profiles.system = {
             sshUser = "root";
-            remoteBuild = true;
+            remoteBuild = false;
             path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.digda;
           };
         };

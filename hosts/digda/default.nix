@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (config.myUsers) dt;
+  inherit (config.myUsers) keeper;
 in
 {
   imports = [
@@ -13,9 +13,9 @@ in
     ./disk-config.nix
 
     ../../lib/user-manager.nix
-    ../../users/dt.nix
+    ../../users/keeper.nix
     ../../modules/system
-    ../../modules/system/sops-server.nix
+    ../../modules/system/sops-digda.nix
 
     ../../modules/profiles/dev.nix
     ../../modules/profiles/core.nix
@@ -23,7 +23,7 @@ in
     ../../modules/features/netbird.nix
   ];
 
-  myUsers.dt.enable = true;
+  myUsers.keeper.enable = true;
   bootloader.type = "vServer";
 
   # Pangolin with Newt
@@ -49,7 +49,7 @@ in
   profile = {
     core = {
       enable = true;
-      users = [ dt.name ];
+      users = [ keeper.name ];
       # firewall.disable = true;
       ssh = {
         state = "server";
@@ -60,7 +60,7 @@ in
 
     dev = {
       enable = true;
-      users = [ dt.name ];
+      users = [ keeper.name ];
       containers = {
         enable = true;
         runtime = "docker";

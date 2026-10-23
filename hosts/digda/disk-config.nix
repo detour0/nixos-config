@@ -2,7 +2,7 @@
 {
   disko.devices.disk.main = {
     type = "disk";
-    device = "/dev/vda"; # adjust after the lsblk check
+    device = "/dev/vda";
     content = {
       type = "gpt";
       partitions = {
