@@ -13,7 +13,6 @@ in
 {
   options.features.networking = {
     enable = mkEnableOption "networking";
-    firewall.enable = mkEnableOption "firewall";
   };
 
   config = mkIf cfg.enable {
@@ -21,12 +20,19 @@ in
     networking = {
       # nftables.enable = true;
       networkmanager.enable = true;
+
       firewall = {
-        inherit (cfg.firewall) enable;
-        allowedTCPPorts = [ ]; # 80 HTTP/ 443 HTTPS
+        enable = lib.mkDefault true;
+        allowedTCPPorts = [ ];
         allowedUDPPorts = [ ];
         logRefusedPackets = true;
       };
+    };
+
+    services.resolved.enable = true;
+    services.resolved.settings.Resolve = {
+      LLMNR = false;
+      MulticastDNS = false;
     };
   };
 }

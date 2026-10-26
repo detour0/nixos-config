@@ -45,7 +45,6 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      # firewall.disable = true;
       ssh = {
         state = "server";
         rootKeyPub = inputs.nix-secrets.server.deployPub;

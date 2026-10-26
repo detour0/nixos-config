@@ -18,7 +18,6 @@ in
   ];
 
   options.profile.core = mkProfileOptions "core profile" {
-    firewall.disable = mkEnableOption "Disable firewall for testing";
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -63,10 +62,8 @@ in
     {
       features.networking = {
         enable = true;
-        firewall.enable = mkIf (!cfg.firewall.disable) true;
-
       };
-      services.resolved.enable = true;
+
       # login/default shell can only be set system wide
       programs = {
         zsh.enable = mkIf (cfg.shell == "zsh") true;

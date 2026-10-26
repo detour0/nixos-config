@@ -5,7 +5,6 @@
   ...
 }:
 let
-  cfg = config.grafana;
   inherit (lib)
     mkIf
     mkEnableOption
@@ -13,6 +12,7 @@ let
     types
     optional
     ;
+  cfg = config.grafana;
   promCfg = config.prometheus;
   lokiCfg = config.loki;
 in
