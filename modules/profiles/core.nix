@@ -112,6 +112,7 @@ in
         htop
         man-pages
         man-pages-posix
+        wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
 
         # Archive
         zip
@@ -173,6 +174,18 @@ in
               "schiggi.dt" = {
                 HostName = inputs.nix-secrets.networking.schiggi.netbirdIp;
                 User = "dt";
+                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
+              };
+
+              "digda" = {
+                HostName = inputs.nix-secrets.networking.digda.netbirdIp;
+                User = "root";
+                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
+              };
+
+              "digda.keeper" = {
+                HostName = inputs.nix-secrets.networking.digda.netbirdIp;
+                User = "keeper";
                 identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
               };
             };
