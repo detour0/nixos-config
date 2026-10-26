@@ -101,7 +101,7 @@
           };
         };
         digda = {
-          hostname = "203.0.113.10";
+          hostname = inputs.nix-secrets.networking.digda.netbirdIp;
           profiles.system = {
             sshUser = "root";
             remoteBuild = false;

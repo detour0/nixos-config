@@ -1,7 +1,6 @@
 {
   config,
   inputs,
-  lib,
   ...
 }:
 let
@@ -25,21 +24,20 @@ in
 
   myUsers.keeper.enable = true;
   bootloader.type = "vServer";
+  services.journald.storage = "persistent";
 
   # Pangolin with Newt
-  networking.firewall = {
-    allowedTCPPorts = [
-      80
-      443
-    ];
-    allowedUDPPorts = [
-      21820
-      51820
-    ];
-  };
-
-  # Enable non-Netbird SSH access
-  services.openssh.openFirewall = lib.mkForce true;
+  # networking.firewall = {
+  #   allowedTCPPorts = [
+  #     80
+  #     443
+  #   ];
+  #   allowedUDPPorts = [
+  #     21820
+  #     51820
+  #   ];
+  # };
+  #
 
   netbird-wt0 = {
     enable = true;
@@ -50,7 +48,6 @@ in
     core = {
       enable = true;
       users = [ keeper.name ];
-      # firewall.disable = true;
       ssh = {
         state = "server";
         rootKeyPub = inputs.nix-secrets.server.deployPub;
