@@ -32,7 +32,6 @@ in
   home.packages = with pkgs; [
     grim # screenshot functionality
     slurp # screenshot functionality, region selection
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     mako # notification system developed by swaywm maintainer
     wdisplays
     speedcrunch
