@@ -15,6 +15,7 @@ in
     ../../users/keeper.nix
     ../../modules/system
     ../../modules/system/sops-digda.nix
+    ../../modules/system/crowdsec-firewall-bouncer.nix
 
     ../../modules/profiles/dev.nix
     ../../modules/profiles/core.nix
@@ -27,17 +28,16 @@ in
   services.journald.storage = "persistent";
 
   # Pangolin with Newt
-  # networking.firewall = {
-  #   allowedTCPPorts = [
-  #     80
-  #     443
-  #   ];
-  #   allowedUDPPorts = [
-  #     21820
-  #     51820
-  #   ];
-  # };
-  #
+  networking.firewall = {
+    allowedTCPPorts = [
+      80
+      443
+    ];
+    allowedUDPPorts = [
+      21820
+      51820
+    ];
+  };
 
   netbird-wt0 = {
     enable = true;

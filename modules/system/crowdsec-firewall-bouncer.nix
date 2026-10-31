@@ -16,7 +16,7 @@
 
       prometheus = {
         enabled = true;
-        listen_addr = "0.0.0.0";
+        listen_addr = "100.64.0.4";
         listen_port = 60601;
       };
     };
