@@ -59,6 +59,11 @@ in
           "1.1.1.1"
           "9.9.9.9"
         ];
+        log-driver = "json-file";
+        log-opts = {
+          max-size = "300m";
+          max-file = "5";
+        };
       };
     };
 

@@ -20,6 +20,10 @@ in
         mode = "0600";
         owner = "root";
       };
+      crowdsecBouncerKey = {
+        mode = "0600";
+        owner = "root";
+      };
     };
   };
 

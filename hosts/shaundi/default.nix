@@ -25,6 +25,9 @@ in
   myUsers.dt.enable = true;
   bootloader.type = "dedicated";
 
+  # For pangolin setup
+  networking.hosts."45.131.109.61" = [ "pangolin.fflaig.de" ];
+
   netbird-wt0 = {
     enable = true;
     ui.enable = true;

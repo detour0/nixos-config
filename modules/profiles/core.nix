@@ -112,7 +112,6 @@ in
         htop
         man-pages
         man-pages-posix
-        wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
 
         # Archive
         zip
