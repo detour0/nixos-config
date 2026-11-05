@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   ...
 }:
 let
@@ -27,6 +28,8 @@ in
 
   # For pangolin setup
   networking.hosts."203.0.113.10" = [ "pangolin.example.com" ];
+
+  environment.systemPackages = [ pkgs.pangolin-cli ];
 
   netbird-wt0 = {
     enable = true;
