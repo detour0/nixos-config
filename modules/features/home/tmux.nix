@@ -5,11 +5,11 @@
     tmux = {
       enable = true;
       mouse = true;
-      # For whatever reason Plugins need to be installed with <Prefix + i>
       plugins = with pkgs.tmuxPlugins; [
         sensible
         vim-tmux-navigator
-        catppuccin
+        # catppuccin
+        power-theme
         yank
       ];
 
@@ -47,7 +47,8 @@
         bind '"' split-window -v -c "#{pane_current_path}"
         bind % split-window -h -c "#{pane_current_path}"
 
-        set -g @catppuccin_flavour 'macchiato'
+        # set -g @catppuccin_flavour 'macchiato'
+        set -g @tmux_power_theme 'forest'
       '';
     };
   };
