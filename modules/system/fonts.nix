@@ -1,5 +1,13 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.machine;
+in
+lib.mkIf (cfg.type == "client") {
   fonts = {
     packages =
       with pkgs;
@@ -39,4 +47,4 @@
       emoji = [ "Noto Color Emoji" ];
     };
   };
-  }
+}

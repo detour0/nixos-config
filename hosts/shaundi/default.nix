@@ -24,7 +24,10 @@ in
   ];
 
   myUsers.dt.enable = true;
-  bootloader.type = "dedicated";
+  machine = {
+    type = "client";
+    bootloader.type = "dedicated";
+  };
 
   # For pangolin setup
   networking.hosts."203.0.113.10" = [ "pangolin.example.com" ];

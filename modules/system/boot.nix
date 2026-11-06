@@ -1,42 +1,23 @@
 { config, lib, ... }:
-
 let
-  cfg = config.bootloader;
+  inherit (lib) mkIf mkMerge;
+  cfg = config.machine.bootloader;
 in
 {
-  options.bootloader = {
-    type = lib.mkOption {
-      type = lib.types.enum [
-        "dedicated"
-        "vServer"
-      ];
-      description = ''
-        dedicated:    UEFI machine, systemd-boot
-        vServer:   BIOS VPS, GRUB on a GPT disk (needs an EF02 partition)
-      '';
-    };
-
-    configurationLimit = lib.mkOption {
-      type = lib.types.int;
-      default = 5;
-      description = "How many generations to keep in the boot menu.";
-    };
-  };
-
-  config = lib.mkMerge [
-    (lib.mkIf (cfg.type == "dedicated") {
+  config = mkMerge [
+    (mkIf (cfg.type == "dedicated") {
       boot.loader.systemd-boot = {
         enable = true;
         inherit (cfg) configurationLimit;
-        consoleMode = lib.mkIf (cfg.type == "dedicated") "max";
+        consoleMode = "max";
       };
       boot.loader.efi.canTouchEfiVariables = true;
     })
-
-    (lib.mkIf (cfg.type == "vServer") {
+    (mkIf (cfg.type == "vServer") {
       boot.loader.grub = {
         enable = true;
         inherit (cfg) configurationLimit;
+        efiSupport = false;
       };
       assertions = [
         {
