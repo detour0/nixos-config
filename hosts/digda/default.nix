@@ -24,8 +24,11 @@ in
   ];
 
   myUsers.keeper.enable = true;
-  bootloader.type = "vServer";
   services.journald.storage = "persistent";
+  machine = {
+    type = "headless";
+    bootloader.type = "vServer";
+  };
 
   # Pangolin with Newt
   networking.firewall = {

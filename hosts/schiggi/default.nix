@@ -28,7 +28,10 @@ in
   ];
 
   myUsers.dt.enable = true;
-  bootloader.type = "dedicated";
+  machine = {
+    type = "headless";
+    bootloader.type = "dedicated";
+  };
 
   netbird-wt0 = {
     enable = true;
