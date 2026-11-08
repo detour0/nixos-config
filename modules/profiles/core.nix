@@ -112,6 +112,7 @@ in
         htop
         man-pages
         man-pages-posix
+        eza
 
         # Archive
         zip

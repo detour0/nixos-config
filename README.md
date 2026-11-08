@@ -25,9 +25,12 @@ TODO:
 
 Issues:
 
-Neovim:
-
-- Telescope live grep does not highlight in the preview buffer
+-     # eza as a drop-in replacement for ls
+      # Something is implicitly generating an ls alias
+      unalias ls 2>/dev/null
+      ls() {
+        eza --icons=auto --color=auto "$@"
+      }
 
 Theming:
 
@@ -48,7 +51,3 @@ Firefox:
 - addon permissions need to be set manually
 - ublock lists need to be set manually
 - sync needs to be logged in manually
-
-Vscode:
-
-- Codeium ai plugin not working:

@@ -21,7 +21,6 @@ in
         "client"
         "headless"
       ];
-      default = "headless";
       description = "client = graphical session (fonts, X); headless = server.";
     };
 
