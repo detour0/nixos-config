@@ -89,6 +89,7 @@ in
         "librewolf" # TODO: implement
         "brave"
       ];
+      agent = "hermes";
       office = true;
     };
 
@@ -98,6 +99,7 @@ in
       bluetooth = true;
       audio = true;
       printing = true;
+      scanning = true;
     };
   };
 

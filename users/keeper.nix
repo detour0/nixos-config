@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -13,7 +14,9 @@
     extraGroups = [
       "wheel"
       # "networkmanager"
-      "netbird-wt0"
+      # "netbird-wt0"
     ];
+    # Custom metadata for Home Manager
+    inherit (inputs.nix-secrets.users.dt.github) gitName gitEmail;
   };
 }

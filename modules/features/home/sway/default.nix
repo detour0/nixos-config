@@ -36,6 +36,8 @@ in
     wdisplays
     speedcrunch
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    zathura.override
+    { useMupdf = false; }
     # swaybg
 
     autotiling
@@ -71,6 +73,7 @@ in
         "image/svg+xml" = [ "qimgv.desktop" ];
         "image/vnd.adobe.photoshop" = [ "qimgv.desktop" ];
         "image/x-xcf" = [ "qimgv.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
       };
     };
 

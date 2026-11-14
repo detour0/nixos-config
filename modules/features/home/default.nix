@@ -13,10 +13,10 @@
     ./zsh.nix
     ./wezterm.nix
     ./git.nix
-    ./fzf.nix
     ./starship.nix
     ./direnv.nix
 
+    # ./fzf.nix
     # ./plasma.nix
     # ./nvim.nix
     # ./bash.nix

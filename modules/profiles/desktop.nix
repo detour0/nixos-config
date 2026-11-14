@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  hermes-agent,
   ...
 }:
 
@@ -17,7 +18,7 @@ in
     environment = mkOption {
       type = types.enum [
         "sway"
-        "none"
+        "None"
       ];
       default = "sway";
     };
@@ -39,6 +40,13 @@ in
       ];
     };
     office = mkEnableOption "libre office with language packs";
+    agent = mkOption {
+      type = types.enum [
+        "hermes"
+        "None"
+      ];
+      default = "None";
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -52,7 +60,13 @@ in
         (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
         (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)
         (optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix)
+        (optional (cfg.agent == "hermes") hermes-agent.homeManagerModules.default)
       ];
+
+      programs.hermes-agent = {
+        enable = true;
+        desktop.enable = true;
+      };
 
       home.packages =
         with pkgs;

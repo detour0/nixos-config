@@ -36,7 +36,6 @@
     completionInit = ''
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
       zstyle ':completion:*' menu no
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color=always $realpath'
     '';
 
     initContent = ''
@@ -48,6 +47,24 @@
       ls() {
         eza --icons=auto --color=auto "$@"
       }
+
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons=always --color=always $realpath'
+      zstyle ':fzf-tab:complete:cd:*' fzf-flags --preview-window=right:50%
+      zstyle ':fzf-tab:complete:*:*' fzf-preview '[[ -d "$realpath" ]] && eza --icons=auto --color=always "$realpath"'
+      # Something overwrites completions with normal fzf
+      # bindkey '^I' fzf-tab-complete
+
+      # Ctrl+T: file and directory selection
+      export FZF_CTRL_T_OPTS="
+        --walker file,dir,follow
+        --walker-skip .git,.cache,.local/share/Trash,node_modules,target,dist,.venv,__pycache__
+      "
+
+      # Alt+C: directory navigation
+      export FZF_ALT_C_OPTS="
+        --walker dir,follow
+        --walker-skip .git,.cache,.local/share/Trash,node_modules,target,dist,.venv,__pycache__
+      "
 
       # Keybindings
       bindkey "^p" history-search-backward

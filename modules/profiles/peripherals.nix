@@ -14,25 +14,22 @@ in
     ../features/pipewire.nix
     ../features/bluetooth.nix
     ../features/printing.nix
+    ../features/scanning.nix
   ];
 
   options.profile.peripherals = mkProfileOptions "peripherals profile" {
     bluetooth = mkEnableOption "bluetooth support";
     audio = mkEnableOption "pipewire audio support";
     printing = mkEnableOption "CUPS printing support";
+    scanning = mkEnableOption "SANE scanning support";
   };
 
-  config = mkIf cfg.enable (mkMerge [
-    # --- System-wide Feature Toggles ---
-    {
-      features = {
-
-        # Conditionally enable based on options
-        bluetooth.enable = cfg.bluetooth;
-        pipewire.enable = cfg.audio;
-        printing.enable = cfg.printing;
-      };
-    }
-
-  ]);
+  config = mkIf cfg.enable {
+    features = {
+      bluetooth.enable = cfg.bluetooth;
+      pipewire.enable = cfg.audio;
+      printing.enable = cfg.printing;
+      scanning.enable = cfg.scanning;
+    };
+  };
 }
