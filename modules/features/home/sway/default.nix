@@ -36,8 +36,7 @@ in
     wdisplays
     speedcrunch
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    zathura.override
-    { useMupdf = false; }
+    (zathura.override { useMupdf = false; })
     # swaybg
 
     autotiling
