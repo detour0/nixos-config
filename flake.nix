@@ -55,6 +55,7 @@
           specialArgs = {
             inherit inputs;
             lib = myLib;
+            inherit hermes-agent;
             # Do not change from 25-05!
             stateVersionH = "25.05";
           };

@@ -5,10 +5,11 @@ _: {
     shellWrapperName = "y";
     theme = {
       flavor = {
-        dark = "catppuccin-mocha";
+        dark = "everforest-medium";
       };
     };
-    flavors."catppuccin-mocha" = ../../../dotfiles/yazi/flavors/catppuccin-mocha;
+    # flavors."catppuccin-mocha" = ../../../dotfiles/yazi/flavors/catppuccin-mocha;
+    flavors."everforest-medium" = ../../../dotfiles/yazi/flavors/everforest-medium;
     settings = {
       manager = {
         ratio = [
