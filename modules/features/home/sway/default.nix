@@ -25,6 +25,18 @@ let
     ];
     text = builtins.readFile ./scripts/urgent-focus.sh;
   };
+  window-picker = pkgs.writeShellApplication {
+    name = "sway-window-picker";
+    runtimeInputs = with pkgs; [
+      sway
+      jq
+      coreutils
+    ];
+    text = ''
+      workrooms_bin=${workrooms-pkg}/bin/sway-workrooms
+    ''
+    + builtins.readFile ./scripts/window-picker.sh;
+  };
 in
 {
   imports = [
@@ -60,6 +72,14 @@ in
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
   };
 
+  # Only two rofi modes: apps and the window picker (script mode).
+  # $mod+d opens drun, $mod+Tab opens windows; the switcher at the bottom toggles between them.
+  programs.rofi.extraConfig = {
+    modi = "drun,windows:${window-picker}/bin/sway-window-picker";
+    matching = "fuzzy";
+    sort = true;
+  };
+
   services.cliphist.enable = true;
 
   dconf.enable = true;
@@ -90,8 +110,7 @@ in
     configFile."sway/script-vars.conf".text = ''
       set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
       set $wallpaper ${config.wallpaper}
-      set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus
-    '';
+      set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus    '';
 
     # This creates the link from your home directory to your dotfiles
     configFile."sway/config".source = lib.mkForce (

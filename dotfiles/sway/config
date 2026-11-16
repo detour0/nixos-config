@@ -223,6 +223,9 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+slash exec $workrooms_bin swap true
     bindsym $mod+period exec $workrooms_bin swap false
 
+    # Fuzzy window picker: jumps to the window's workroom, then focuses it
+    bindsym $mod+Tab exec rofi -show windows -theme-str 'window { width: 900px; } listview { lines: 12; }'
+
   # Modes
 
     # Resizing containers:

@@ -1,0 +1,127 @@
+/* Squared theme after newmanls/rofi-themes-collection (squared-everforest.rasi),
+ * recoloured to everforest dark hard (neanias/everforest-nvim), mode switcher at the bottom.
+ * Complete theme, inherits nothing from rofi's default. Scripts only override sizes or @accent. */
+
+* {
+    font:   "JetBrainsMono Nerd Font Medium 12";
+
+    bg0:     #272e33;
+    bg1:     #2e383c;
+    fg0:     #d3c6aa;
+    grey1:   #859289;
+
+    accent:  #a7c080;
+    urgent:  #dbbc7f;
+
+    background-color:   transparent;
+    text-color:         @fg0;
+
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+window {
+    location:   center;
+    width:      480;
+
+    background-color:   @bg0;
+}
+
+mainbox {
+    children:   [ inputbar, message, listview, mode-switcher ];
+}
+
+inputbar {
+    spacing:    8px;
+    padding:    8px;
+
+    background-color:   @bg1;
+}
+
+prompt, entry, element-icon, element-text {
+    vertical-align: 0.5;
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    cursor:             text;
+    placeholder:        "";
+    placeholder-color:  @grey1;
+}
+
+textbox {
+    padding:            8px;
+    background-color:   @bg1;
+}
+
+listview {
+    padding:    4px 0;
+    lines:      8;
+    columns:    1;
+
+    fixed-height:   false;
+    scrollbar:      false;
+}
+
+element {
+    padding:    8px;
+    spacing:    8px;
+    cursor:     pointer;
+}
+
+element normal normal {
+    text-color: @fg0;
+}
+
+element normal urgent {
+    text-color: @urgent;
+}
+
+element normal active {
+    text-color: @accent;
+}
+
+element alternate active {
+    text-color: @accent;
+}
+
+element selected {
+    text-color: @bg0;
+}
+
+element selected normal, element selected active {
+    background-color:   @accent;
+}
+
+element selected urgent {
+    background-color:   @urgent;
+}
+
+element-icon {
+    size:   1em;
+}
+
+element-text {
+    text-color: inherit;
+    /* matched characters; no colour so it reads on the accent-filled selected row too */
+    highlight:  bold underline;
+}
+
+/* Mode switcher (drun / run / window …), pinned below the list */
+mode-switcher {
+    background-color:   @bg1;
+}
+
+button {
+    padding:    8px;
+    text-color: @grey1;
+}
+
+button selected {
+    background-color:   @accent;
+    text-color:         @bg0;
+}
