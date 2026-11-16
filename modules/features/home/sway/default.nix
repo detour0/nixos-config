@@ -17,6 +17,14 @@ let
     src = workrooms-repo;
     cargoLock.lockFile = "${workrooms-repo}/Cargo.lock";
   };
+  urgent-focus = pkgs.writeShellApplication {
+    name = "sway-urgent-focus";
+    runtimeInputs = with pkgs; [
+      sway
+      jq
+    ];
+    text = builtins.readFile ./scripts/urgent-focus.sh;
+  };
 in
 {
   imports = [
@@ -24,6 +32,7 @@ in
     ./swaylock.nix
     ./rofi.nix
     ./kanshi.nix
+    ./dunst.nix
     ../wallpapers.nix
     ../nemo.nix
     ../gtkTheme.nix
@@ -32,7 +41,6 @@ in
   home.packages = with pkgs; [
     grim # screenshot functionality
     slurp # screenshot functionality, region selection
-    mako # notification system developed by swaywm maintainer
     wdisplays
     speedcrunch
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
@@ -80,6 +88,7 @@ in
     configFile."sway/script-vars.conf".text = ''
       set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
       set $wallpaper ${config.wallpaper}
+      set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus
     '';
 
     # This creates the link from your home directory to your dotfiles

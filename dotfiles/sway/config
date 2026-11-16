@@ -91,8 +91,9 @@ exec autotiling -l 2
 exec wl-paste --type text --watch cliphist store &
 exec wl-paste --type image --watch cliphist store &
 exec nm-applet
-exec mako
 exec waybar
+# Notification clicks only mark the app urgent; this pulls it to the focused output
+exec $urgent_focus_bin
 # Restart kanshi to avoid sway config reload messing up screen positions
 exec_always systemctl --user restart kanshi
 # exec kanshi
@@ -148,6 +149,20 @@ exec swaymsg "workspace 11; exec firefox"
     bindsym $mod+Shift+space floating toggle
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
+
+  # Notifications (dunst):
+  #
+    # Dismiss newest / dismiss all
+    bindsym $mod+BackSpace exec dunstctl close
+    bindsym $mod+Shift+BackSpace exec dunstctl close-all
+    # Run the default action of the newest notification ("enter")
+    bindsym $mod+a exec dunstctl action 0
+    # Pick an action or URL from a rofi menu
+    bindsym $mod+Shift+a exec dunstctl context
+    # Bring back the last dismissed notification (repeat to walk history)
+    bindsym $mod+grave exec dunstctl history-pop
+    # Toggle do-not-disturb
+    bindsym $mod+Shift+grave exec dunstctl set-paused toggle
 
   # Moving around:
 

@@ -18,19 +18,25 @@ DOC:
 
 TODO:
 
+- neovim: git status/diffs, working lsp reference/definition
+  - enable creating comments in git diffs to sent back to agent
+  - diffview.nvim?
+  - markdown reader
+  - debugger
+  - strg + backspace for word deletion in write mode
+  - something to show notification history
+  - yank history
+
+- notifications:
+  - keyboard shortcuts pop, enter, view history
+  - change to workspace/workroom? on enter
+
 - Create central variables for [ theme desktop-environment ]
 - Main output variable (kanshi) | show waybar, focus after wr switch
 - configure rofi, integrate cliphist
   - exclude passwords from history
 
 Issues:
-
--     # eza as a drop-in replacement for ls
-      # Something is implicitly generating an ls alias
-      unalias ls 2>/dev/null
-      ls() {
-        eza --icons=auto --color=auto "$@"
-      }
 
 Theming:
 
