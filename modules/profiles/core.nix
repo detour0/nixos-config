@@ -66,7 +66,17 @@ in
 
       # login/default shell can only be set system wide
       programs = {
-        zsh.enable = mkIf (cfg.shell == "zsh") true;
+        zsh = mkIf (cfg.shell == "zsh") {
+          enable = true;
+          # Home-manager's zsh (oh-my-zsh) runs its own compinit, so the global one in
+          # /etc/zshrc only doubles startup time. Keep it for users without a .zshrc (root).
+          enableGlobalCompInit = false;
+          interactiveShellInit = ''
+            if [[ ! -f ''${ZDOTDIR:-$HOME}/.zshrc ]]; then
+              autoload -U compinit && compinit
+            fi
+          '';
+        };
       };
 
       # GDM only shows users with their default shell in /etc/shells
