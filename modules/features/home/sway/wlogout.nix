@@ -36,14 +36,10 @@ let
       if echo "$1" | rofi -dmenu -no-custom -i \
         -p "confirm" -mesg "Enter to $1, Esc to cancel" \
         -theme-str '
-          * { background-color: ${c.bg0}; text-color: ${c.fg}; font: "JetBrainsMono Nerd Font Bold 12"; }
-          window { width: 360px; border: 2px; border-color: ${c.red}; border-radius: 8px; padding: 12px; }
-          inputbar { enabled: false; }
-          message { border: 0; padding: 0 0 8px 0; }
-          textbox { text-color: ${c.grey1}; }
-          listview { lines: 1; fixed-height: false; scrollbar: false; border: 0; }
-          element { padding: 6px; border-radius: 6px; }
-          element selected.normal { background-color: ${c.bg_red}; text-color: ${c.red}; }
+          * { accent: ${c.red}; }
+          window { width: 360px; }
+          mainbox { children: [ message, listview ]; }
+          listview { lines: 1; }
         ' >/dev/null; then
         "''${cmd[@]}"
       fi
