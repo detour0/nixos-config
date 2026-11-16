@@ -32,7 +32,11 @@ in
   # For pangolin setup
   networking.hosts."203.0.113.10" = [ "pangolin.example.com" ];
 
-  environment.systemPackages = [ pkgs.pangolin-cli ];
+  environment = {
+    systemPackages = [ pkgs.pangolin-cli ];
+    localBinInPath = true;
+  };
+  programs.nix-ld.enable = true;
 
   netbird-wt0 = {
     enable = true;
