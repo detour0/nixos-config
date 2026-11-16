@@ -22,6 +22,10 @@
   xdg.configFile."waybar/style.css".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/style.css";
 
+  # NixOS logo for the launcher button, loaded by style.css with a relative url
+  xdg.configFile."waybar/nixos.svg".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/nixos.svg";
+
   # Copy the config files in the nixos for testing in vm:
   # xdg.configFile."waybar/config.jsonc".source = ../../../../dotfiles/waybar/config.jsonc;
   # xdg.configFile."waybar/style.css".source = ../../../../dotfiles/waybar/style.css;

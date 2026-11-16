@@ -85,8 +85,9 @@ needs from the Nix store goes through that file. The wallpaper is the custom hom
 
 **What starts what.** Sway `exec`s waybar and mako. Waybar's systemd unit is off on purpose, since having both
 loads it twice. Kanshi is a systemd user service that the sway config restarts with `exec_always`.
-`kanshi-profile <name>` appends the current output layout to `dotfiles/kanshi/config`. The lock-screen colours
-are passed inline in the `swayidle` command, separately from the store-copied `dotfiles/swaylock/mocha.conf`.
+`kanshi-profile <name>` appends the current output layout to `dotfiles/kanshi/config`. All lock-screen styling
+lives in the store-copied `dotfiles/swaylock/everforest.conf`; `$lock`, `swayidle` and wlogout call plain
+`swaylock` without colour flags.
 
 **Workrooms.** A workroom is a set of workspaces, one per output. The workspace number is
 `workroom * 10 + output position`, counting outputs left to right from 1, so workroom 2 is workspaces 21, 22, 23.

@@ -31,23 +31,25 @@
         mouse_right_click = "close_current";
       };
 
-      # catppuccin mocha
+      # everforest dark hard (neanias/everforest-nvim)
       urgency_low = {
-        background = "#1e1e2e";
-        foreground = "#cdd6f4";
-        frame_color = "#45475a";
+        background = "#272e33";
+        foreground = "#d3c6aa";
+        frame_color = "#414b50";
         timeout = 4;
       };
       urgency_normal = {
-        background = "#1e1e2e";
-        foreground = "#cdd6f4";
-        frame_color = "#89b4fa";
+        background = "#272e33";
+        foreground = "#d3c6aa";
+        frame_color = "#a7c080";
+        highlight = "#a7c080";
         timeout = 8;
       };
       urgency_critical = {
-        background = "#1e1e2e";
-        foreground = "#cdd6f4";
-        frame_color = "#f38ba8";
+        background = "#272e33";
+        foreground = "#d3c6aa";
+        frame_color = "#e67e80";
+        highlight = "#e67e80";
         timeout = 0;
       };
     };

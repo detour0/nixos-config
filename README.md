@@ -27,10 +27,6 @@ TODO:
   - something to show notification history
   - yank history
 
-- notifications:
-  - keyboard shortcuts pop, enter, view history
-  - change to workspace/workroom? on enter
-
 - Create central variables for [ theme desktop-environment ]
 - Main output variable (kanshi) | show waybar, focus after wr switch
 - configure rofi, integrate cliphist

@@ -1,174 +1,242 @@
-/* Kanagawa Dragon Palette */
-@define-color base      #181616;
-@define-color surface0  #1f1f1f;
-@define-color surface1  #2a2a2a;
-@define-color text      #dcd7ba;
-@define-color blue      #7e9cd8;
-@define-color lavender  #938aa9;
-@define-color sapphire  #658594;
-@define-color teal      #6a9585;
-@define-color green     #98bb6c;
-@define-color yellow    #e6c384;
-@define-color peach     #ffa066;
-@define-color red       #c34043;
-@define-color mauve     #957fb8;
-@define-color flamingo  #d27e99;
+/* Layout after HANCORE-linux/waybar-themes V1.7.
+ * Black base, everforest dark hard (neanias/everforest-nvim) accents. */
+@define-color black     #0c0e0f;
+@define-color black_alt #161a1c;
+@define-color bg_dim    #1e2326;
+@define-color bg2       #374145;
+@define-color fg        #d3c6aa;
+@define-color grey1     #859289;
+@define-color red       #e67e80;
+@define-color orange    #e69875;
+@define-color yellow    #dbbc7f;
+@define-color green     #a7c080;
+@define-color aqua      #83c092;
+@define-color blue      #7fbbb3;
+@define-color bg_red    #493b40;
+@define-color bg_green  #3c4841;
 
-/* Global Reset */
 * {
   border: none;
   border-radius: 0;
-  font-family: "JetBrainsMono Nerd Font", monospace;
+  padding: 0;
+  font-family:
+    "JetBrainsMono Nerd Font Propo", "JetBrainsMono Nerd Font", monospace;
+  font-size: 13.5px;
   font-weight: bold;
-  font-size: 13px;
   min-height: 0;
+  transition: background-color 0.3s ease-out;
 }
+
+/* --- Bar: transparent window, one floating black box --- */
 
 window#waybar {
-  background: @base;
-  color: @text;
+  background-color: transparent;
+  color: @fg;
 }
 
-/* -----------------------------------------------------------------------------
- * Module Standard Styling (Pill/Modern Style)
- * -------------------------------------------------------------------------- */
-
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#bluetooth,
-#pulseaudio,
-#tray,
-#mode,
-#idle_inhibitor,
-#language,
-#custom-power,
-#custom-trayicon {
-  background: @surface0;
-  color: @text;
-  margin: 4px 2px;
-  padding: 2px 4px;
-  border-radius: 5px;
+window#waybar > box {
+  margin: 3px 8px 3px 8px;
+  border-radius: 3px;
+  background-color: @black;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+  min-height: 23px;
 }
 
-/* -----------------------------------------------------------------------------
- * Dynamic Size Management
- * Prevents the bar from jumping when values change (e.g., 9% to 10%)
- * -------------------------------------------------------------------------- */
-
-#memory,
-#cpu,
-#battery,
-#disk {
-  min-width: 55px;
-}
-#temperature {
-  min-width: 60px;
-}
-#pulseaudio,
-#backlight {
-  min-width: 60px;
-}
-#clock {
-  min-width: 140px;
+window#waybar.hidden {
+  opacity: 0.2;
 }
 
-/* -----------------------------------------------------------------------------
- * Workspaces
- * -------------------------------------------------------------------------- */
+/* --- Workspaces --- */
+
+button {
+  box-shadow: inset 0 -3px transparent;
+  border: none;
+  border-radius: 0;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: inherit;
+}
+
+#workspaces {
+  margin: 0 4px 0 0;
+}
 
 #workspaces button {
-  background: @surface0;
-  color: @text;
-  border: none;
-  border-radius: 10px;
-  margin: 4px 2px;
-  padding: 2px 10px;
+  color: @grey1;
+  background-color: @black;
+  padding: 2px 7px;
+  margin: 3px 1px;
+  border-radius: 2px;
+}
+
+#workspaces button.visible {
+  color: @fg;
 }
 
 #workspaces button.focused {
-  background: @lavender;
-  color: @base;
+  color: @black;
+  background-color: @green;
 }
 
 #workspaces button.urgent {
-  background: @red;
-  color: @base;
+  color: @black;
+  background-color: @red;
 }
 
 #workspaces button:hover {
-  background: @surface1;
-  color: @text;
+  color: @black;
+  background-color: @fg;
 }
 
-/* -----------------------------------------------------------------------------
- * Specific Module Adjustments
- * -------------------------------------------------------------------------- */
+#mode {
+  color: @black;
+  background-color: @orange;
+  padding: 0 8px;
+  margin: 3px 0;
+  border-radius: 2px;
+}
+
+/* --- Modules --- */
+
+#custom-trayicon,
+#tray,
+#idle_inhibitor,
+#language,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#network,
+#cpu,
+#memory,
+#temperature,
+#battery,
+#disk,
+#clock,
+#custom-power {
+  color: @fg;
+  min-width: 14px;
+  padding: 0 5px;
+  margin: 0 3px;
+}
 
 #clock {
-  background: @surface1;
-  color: @blue;
+  color: @fg;
+  font-size: 14.5px;
 }
 
+/* NixOS logo, file sits next to this stylesheet */
 #custom-trayicon {
-  font-size: 16px;
-  color: @mauve;
-  background: @surface1;
-  min-width: 20px;
-  padding: 2px 10px;
-  margin-left: 4px;
+  background-image: url("nixos.svg");
+  background-size: 17px 17px;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 25px;
+  margin: 0 4px 0 6px;
 }
 
-/* Module specific text colors */
-#bluetooth {
-  color: @mauve;
-}
-#pulseaudio {
-  color: @blue;
-}
-#network {
-  color: @sapphire;
-}
-#cpu {
-  color: @teal;
-}
-#memory {
-  color: @green;
-}
-#disk {
-  color: @flamingo;
-}
-#temperature {
-  color: @peach;
-}
-#battery {
-  color: @yellow;
-}
-#idle_inhibitor {
-  color: @flamingo;
-}
-
-#custom-power {
-  color: @base;
-  background: @red;
-  margin-right: 6px;
-  margin-left: 6px;
-}
-
-#battery.critical:not(.charging) {
-  background: @red;
-  color: @base;
-}
-
-#bluetooth.disabled {
-  color: @lavender;
+#custom-trayicon:hover {
+  background-color: @black_alt;
 }
 
 #tray {
-  color: @text;
+  margin-right: 4px;
+}
+
+#tray > .needs-attention {
+  background-color: @bg_red;
+}
+
+#idle_inhibitor.deactivated {
+  color: @grey1;
+}
+
+#idle_inhibitor.activated {
+  color: @yellow;
+}
+
+#bluetooth.connected {
+  color: @blue;
+}
+
+#bluetooth.disabled,
+#bluetooth.off {
+  color: @grey1;
+}
+
+#pulseaudio.muted {
+  color: @grey1;
+}
+
+/* Fixed widths for modules whose content is an icon or a state, so the bar never shifts.
+ * Numeric modules are padded in config.jsonc ({usage:>3}, {bandwidthDownBytes:>} ...). */
+#bluetooth {
+  min-width: 42px;
+}
+#idle_inhibitor {
+  min-width: 18px;
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @green;
+}
+
+#memory.warning,
+#disk.warning,
+#battery.warning:not(.charging) {
+  color: @orange;
+}
+
+#memory.critical,
+#disk.critical,
+#temperature.critical {
+  color: @red;
+}
+
+@keyframes blink-critical {
+  to {
+    color: @black;
+    background-color: @red;
+  }
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink-critical;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#custom-power {
+  color: @red;
+  padding: 0 10px;
+  margin: 0 0 0 4px;
+  border-radius: 0 3px 3px 0;
+}
+
+#custom-power:hover {
+  color: @black;
+  background-color: @red;
+}
+
+/* --- Tooltips --- */
+
+tooltip {
+  padding: 6px;
+  background: @black;
+  border: 1px solid alpha(@green, 0.6);
+  border-radius: 6px;
+}
+
+tooltip label {
+  color: @fg;
+  font-weight: normal;
 }
