@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.netbird-wt0;
-  inherit (lib) mkIf optional;
+  inherit (lib) mkIf;
 in
 {
   options.netbird-wt0 =
@@ -15,7 +15,6 @@ in
     in
     {
       enable = mkEnableOption "NetBird setup";
-      ui.enable = mkEnableOption "NetBird UI";
 
       setupKeyFile = mkOption {
         type = types.nullOr types.str;
@@ -32,36 +31,38 @@ in
     };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = optional cfg.ui.enable pkgsUnstable.netbird-ui;
-    services.netbird.package = pkgsUnstable.netbird;
-    services.netbird.clients.wt0 = {
-      # Login does nothing atm, might be because the grep "Connected" in the script
-      # ${client.service.name}-login returns 0 when finding "Disconnected"
-      # login = {
-      #   enable = true;
-      #   inherit (cfg) setupKeyFile;
-      # };
+    services.netbird = {
+      package = pkgsUnstable.netbird;
+      # Daemon only; the module would add a UI and menu entry on any machine with a desktop session.
+      ui.enable = false;
+      clients.wt0 = {
+        # Login does nothing atm, might be because the grep "Connected" in the script
+        # ${client.service.name}-login returns 0 when finding "Disconnected"
+        # login = {
+        #   enable = true;
+        #   inherit (cfg) setupKeyFile;
+        # };
 
-      # Needed when using the Netbird SSH Server
-      # config = {
-      #   SSHConfig = {
-      #     DisableSSHAuth = true;
-      #   };
-      # };
-      # environment = {
-      #   NETBIRD_SSH_DIR = "/var/lib/netbird";
-      # };
-      # hardened = false;
+        # Needed when using the Netbird SSH Server
+        # config = {
+        #   SSHConfig = {
+        #     DisableSSHAuth = true;
+        #   };
+        # };
+        # environment = {
+        #   NETBIRD_SSH_DIR = "/var/lib/netbird";
+        # };
+        # hardened = false;
 
-      ui.enable = cfg.ui.enable;
-      # Port used to listen to wireguard connections
-      port = 51821;
-      # Name of the network interface managed by this client. Default: "nb-‹name›"
-      # interface = cfg.interfaceName;
-      # This opens ports required for direct connection without a relay
-      openFirewall = true;
-      # This opens necessary firewall ports in the Netbird client's network interface
-      openInternalFirewall = true;
+        # Port used to listen to wireguard connections
+        port = 51821;
+        # Name of the network interface managed by this client. Default: "nb-‹name›"
+        # interface = cfg.interfaceName;
+        # This opens ports required for direct connection without a relay
+        openFirewall = true;
+        # This opens necessary firewall ports in the Netbird client's network interface
+        openInternalFirewall = true;
+      };
     };
 
     # Needed when using the Netbird SSH Server with hardened = false.
