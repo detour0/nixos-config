@@ -20,8 +20,41 @@ in
       qimgv
     ];
 
-    # In case swaylock cannot be unlocked with correct password:
-    # security.pam.services.swaylock = {};
+    # swaylock: no delay after a wrong password, 60 s lockout after 5 failures.
+    # Standard faillock stack: preauth, unix (skips authfail on success), authfail, authsucc.
+    # swaylock runs as the user, so the tally lives in a user-owned dir instead of /run/faillock.
+    security.pam.services.swaylock =
+      let
+        unixOrder = config.security.pam.services.swaylock.rules.auth.unix.order;
+        faillock = settings: {
+          control = "required";
+          modulePath = "${pkgs.pam}/lib/security/pam_faillock.so";
+          settings = {
+            dir = "/run/swaylock-faillock";
+            deny = 5;
+            unlock_time = 60;
+          }
+          // settings;
+        };
+      in
+      {
+        nodelay = true;
+        rules.auth = {
+          unix.control = lib.mkForce "[success=1 default=ignore]";
+          faillock-preauth = faillock { preauth = true; } // {
+            order = unixOrder - 10;
+          };
+          faillock-authfail = faillock { authfail = true; } // {
+            order = unixOrder + 10;
+            control = "[default=die]";
+          };
+          faillock-authsucc = faillock { authsucc = true; } // {
+            order = unixOrder + 20;
+            control = "sufficient";
+          };
+        };
+      };
+    systemd.tmpfiles.rules = [ "d /run/swaylock-faillock 0700 dt users -" ];
 
     # security.polkit.enable = true;
 

@@ -33,6 +33,7 @@ in
     ./rofi.nix
     ./kanshi.nix
     ./dunst.nix
+    ./wlogout.nix
     ../wallpapers.nix
     ../nemo.nix
     ../gtkTheme.nix
@@ -49,6 +50,7 @@ in
 
     autotiling
     pavucontrol
+    brightnessctl # laptop backlight, used by sway keys and the waybar backlight module
     overskride
 
   ];

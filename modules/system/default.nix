@@ -51,6 +51,10 @@ in
     # Set your time zone.
     time.timeZone = "Europe/Berlin";
 
+    # No ~2 s pause after a wrong sudo password; sudo still allows 3 tries per run.
+    # Guessing via sudo needs a shell as the user already, and yescrypt hashing keeps it slow.
+    security.pam.services.sudo.nodelay = true;
+
     # Configure keymap in X11
     services.xserver.xkb = {
       layout = "us,de";
