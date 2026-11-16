@@ -40,7 +40,6 @@ in
 
   netbird-wt0 = {
     enable = true;
-    ui.enable = true;
     setupKeyFile = config.sops.secrets.nb_admin_setup_key.path;
   };
 
