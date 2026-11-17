@@ -1,6 +1,9 @@
-{ config, ... }:
+{ config, inputs, ... }:
 {
-  sops.secrets.crowdsecBouncerKey = { };
+  sops.secrets.crowdsecBouncerKey = {
+    mode = "0600";
+    owner = "root";
+  };
 
   services.crowdsec-firewall-bouncer = {
     enable = true;
@@ -16,7 +19,7 @@
 
       prometheus = {
         enabled = true;
-        listen_addr = "100.64.0.4";
+        listen_addr = inputs.nix-secrets.networking.digda.netbirdIp;
         listen_port = 60601;
       };
     };

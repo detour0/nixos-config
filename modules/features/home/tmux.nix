@@ -8,17 +8,11 @@
       plugins = with pkgs.tmuxPlugins; [
         sensible
         vim-tmux-navigator
-        # catppuccin
         power-theme
         yank
       ];
 
       extraConfig = ''
-        # Set prefix
-        # unbind C-b
-        # set -g prefix C-Space
-        # bind C-Space send-prefix
-
         # Shift Alt vim Keys to switch windows
         bind -n M-H previous-window
         bind -n M-L next-window
@@ -28,7 +22,6 @@
         bind -n C-j select-pane -D
         bind -n C-k select-pane -U
         bind -n C-l select-pane -R
-
 
         # Start windows and panes at 1, not 0
         set -g base-index 1
@@ -47,7 +40,6 @@
         bind '"' split-window -v -c "#{pane_current_path}"
         bind % split-window -h -c "#{pane_current_path}"
 
-        # set -g @catppuccin_flavour 'macchiato'
         set -g @tmux_power_theme 'forest'
       '';
     };

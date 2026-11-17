@@ -1,66 +1,46 @@
 return {
-	{
-		"conform.nvim",
-		dev = true,
-		event = { "BufWritePre" },
-		cmd = { "ConformInfo" },
-		keys = {
-			{
-				"<leader>F",
-				function()
-					require("conform").format({ async = true, lsp_fallback = true })
-				end,
-				mode = { "n", "v" },
-				desc = "[F]ormat [F]ile",
+	"conform.nvim",
+	dev = true,
+	event = "BufWritePre",
+	cmd = "ConformInfo",
+	keys = {
+		{
+			"<leader>F",
+			function()
+				require("conform").format({ async = true, lsp_format = "fallback" })
+			end,
+			mode = { "n", "v" },
+			desc = "[F]ormat [F]ile",
+		},
+	},
+	opts = {
+		formatters_by_ft = {
+			lua = { "stylua" },
+			python = { "ruff_organize_imports", "ruff_format" },
+			nix = { "nixfmt" },
+			go = { "goimports", "gofmt" },
+			yaml = { "yamlfmt" },
+			sql = { "sqlfluff" },
+
+			-- prettierd: the daemon, for speed
+			javascript = { "prettierd" },
+			typescript = { "prettierd" },
+			css = { "prettierd" },
+			html = { "prettierd" },
+			json = { "prettierd" },
+			markdown = { "prettierd" },
+		},
+		formatters = {
+			yamlfmt = {
+				args = { "-formatter", "retain_line_breaks_single=true" },
 			},
 		},
-		config = function()
-			local conform = require("conform")
-
-			conform.setup({
-				formatters_by_ft = {
-					-- 1. Lua
-					lua = { "stylua" },
-
-					-- 2. Python
-					python = { "ruff_organize_imports", "ruff_format" },
-
-					-- 3. Web Development: Using the "daemon" version for speed
-					javascript = { "prettierd" },
-					typescript = { "prettierd" },
-					css = { "prettierd" },
-					html = { "prettierd" },
-					json = { "prettierd" },
-					markdown = { "prettierd" },
-
-					-- 4. Nix
-					nix = { "nixfmt" },
-
-					-- 5. Others
-					yaml = { "yamlfmt" },
-					sql = { "sqlfluff" },
-					go = { "goimports", "gofmt" },
-				},
-
-				-- Setup format_on_save
-				format_on_save = function(bufnr)
-					-- Disable with a global or buffer-local variable
-					if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-						return
-					end
-					return { timeout_ms = 500, lsp_fallback = true }
-				end,
-				-- Custom formatter configurations
-				formatters = {
-					yamlfmt = {
-						args = { "-formatter", "retain_line_breaks_single=true" },
-					},
-					-- If sqlfluff is too slow, you can tweak it here
-					-- sqlfluff = {
-					--   args = { "format", "--dialect", "ansi", "-" },
-					-- },
-				},
-			})
+		-- Switch off with vim.g.disable_autoformat or vim.b.disable_autoformat
+		format_on_save = function(bufnr)
+			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+				return
+			end
+			return { timeout_ms = 500, lsp_format = "fallback" }
 		end,
 	},
 }

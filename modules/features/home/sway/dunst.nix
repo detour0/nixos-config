@@ -1,4 +1,13 @@
 { pkgs, ... }:
+let
+  c = import ./everforest.nix;
+  urgency = frame: timeout: {
+    background = c.bg0;
+    foreground = c.fg;
+    frame_color = frame;
+    inherit timeout;
+  };
+in
 {
   # D-Bus activated user service: starts on the first notification, no `exec` in the sway config.
   # Keyboard control lives in dotfiles/sway/config via `dunstctl`.
@@ -31,26 +40,12 @@
         mouse_right_click = "close_current";
       };
 
-      # everforest dark hard (neanias/everforest-nvim)
-      urgency_low = {
-        background = "#272e33";
-        foreground = "#d3c6aa";
-        frame_color = "#414b50";
-        timeout = 4;
+      urgency_low = urgency c.bg3 4;
+      urgency_normal = urgency c.green 8 // {
+        highlight = c.green;
       };
-      urgency_normal = {
-        background = "#272e33";
-        foreground = "#d3c6aa";
-        frame_color = "#a7c080";
-        highlight = "#a7c080";
-        timeout = 8;
-      };
-      urgency_critical = {
-        background = "#272e33";
-        foreground = "#d3c6aa";
-        frame_color = "#e67e80";
-        highlight = "#e67e80";
-        timeout = 0;
+      urgency_critical = urgency c.red 0 // {
+        highlight = c.red;
       };
     };
   };

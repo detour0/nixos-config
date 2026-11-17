@@ -11,7 +11,7 @@
 
     "modules-left": ["custom/trayicon", "sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["tray", "idle_inhibitor", "sway/language", "bluetooth", "pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "disk", "custom/power"],
+    "modules-right": ["tray", "idle_inhibitor", "sway/language", "bluetooth", "pulseaudio", "backlight", "network", "cpu", "memory", "temperature", "battery", "custom/power"],
 
     "sway/workspaces": {
         "all-outputs": true,
@@ -50,15 +50,6 @@
         "format": "⏻",
         "tooltip-format": "Power menu",
         "on-click": "wlogout -b 3"
-    },
-
-    "custom/playerctl": {
-        "format": " 󰐊 {}",
-        "return-type": "json",
-        "max-length": 40,
-        "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl next"
     },
 
     "clock": {
@@ -158,16 +149,6 @@
         "format": "<span size='7pt' foreground='#859289'>BRI </span>{percent:>3}%",
         "on-scroll-up": "brightnessctl set +5%",
         "on-scroll-down": "brightnessctl set 5%-"
-    },
-
-    "disk": {
-        "interval": 16,
-        "format": "<span size='7pt' foreground='#859289'>DSK </span>{percentage_used:>3}%",
-        "tooltip-format": "Free {free}",
-        "states": {
-            "warning": 85,
-            "critical": 95
-        }
     },
 
     "tray": {

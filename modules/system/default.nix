@@ -1,17 +1,16 @@
-{ lib, ... }:
+{ inputs, lib, ... }:
 let
   inherit (lib)
+    genAttrs
     mkOption
     types
     ;
 in
-
 {
   imports = [
+    inputs.sops-nix.nixosModules.sops
+    ../../lib/user-manager.nix
     ./boot.nix
-    ./locale.nix
-    ./settings.nix
-    ./dns.nix
     ./fonts.nix
   ];
 
@@ -25,8 +24,8 @@ in
     };
 
     bootloader = {
-      type = lib.mkOption {
-        type = lib.types.enum [
+      type = mkOption {
+        type = types.enum [
           "dedicated"
           "vServer"
         ];
@@ -36,29 +35,62 @@ in
         '';
       };
 
-      configurationLimit = lib.mkOption {
+      configurationLimit = mkOption {
         type = types.ints.positive;
         default = 5;
         description = "How many generations to keep in the boot menu.";
       };
     };
-
   };
+
   config = {
-    # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
 
-    # Set your time zone.
+    nix.settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      extra-substituters = [
+        "https://devenv.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://nixpkgs-python.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU="
+      ];
+      # 500 MiB
+      download-buffer-size = 524288000;
+    };
+
+    # Every role decrypts with the host's SSH key; the role module (sops-*.nix) picks the file and the secrets
+    sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
     time.timeZone = "Europe/Berlin";
 
-    # No ~2 s pause after a wrong sudo password; sudo still allows 3 tries per run.
-    # Guessing via sudo needs a shell as the user already, and yescrypt hashing keeps it slow.
-    security.pam.services.sudo.nodelay = true;
+    # English UI, German formats
+    i18n.defaultLocale = "en_US.UTF-8";
+    i18n.extraLocaleSettings = genAttrs [
+      "LC_ADDRESS"
+      "LC_IDENTIFICATION"
+      "LC_MEASUREMENT"
+      "LC_MONETARY"
+      "LC_NAME"
+      "LC_NUMERIC"
+      "LC_PAPER"
+      "LC_TELEPHONE"
+      "LC_TIME"
+    ] (_: "de_DE.UTF-8");
 
-    # Configure keymap in X11
     services.xserver.xkb = {
       layout = "us,de";
       variant = "altgr-intl,";
     };
+
+    # No ~2 s pause after a wrong sudo password; sudo still allows 3 tries per run.
+    # Guessing via sudo needs a shell as the user already, and yescrypt hashing keeps it slow.
+    security.pam.services.sudo.nodelay = true;
   };
 }

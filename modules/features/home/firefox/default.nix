@@ -1,11 +1,12 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
 }:
 let
-  extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+  extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
     ublock-origin
     privacy-badger
     vimium
@@ -282,7 +283,8 @@ in
     defaultApplications = {
       "x-scheme-handler/http" = [ "firefox.desktop" ];
       "x-scheme-handler/https" = [ "firefox.desktop" ];
-      "application/pdf" = [ "firefox.desktop" ];
+      # Fallback only: a dedicated viewer (zathura under sway) goes first
+      "application/pdf" = lib.mkAfter [ "firefox.desktop" ];
     };
   };
 }

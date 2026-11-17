@@ -1,48 +1,30 @@
 { lib }:
 let
   inherit (lib)
-    types
-    mkOption
-    mkIf
+    attrNames
     genAttrs
     mkEnableOption
+    mkOption
+    types
     ;
 in
 {
-  # Helper to generate the common profile schema
+  # The options every profile has, plus its own
   mkProfileOptions =
-    description: extraOptions:
+    config: description: extraOptions:
     {
       enable = mkEnableOption description;
       users = mkOption {
         type = types.listOf types.str;
-        default = [ ];
+        default = attrNames config.myUsers;
+        defaultText = "every user in myUsers";
+        description = "Users the profile applies to.";
       };
     }
-    // extraOptions; # Merge common options with profile-specific ones
+    // extraOptions;
 
-  mkProfileHome =
-    config: profileName: homeConfig:
-    mkIf config.profile.${profileName}.enable {
-      home-manager.users = genAttrs config.profile.${profileName}.users homeConfig;
-    };
-
-  # Helper to link a System Feature to a Home Manager Module
-  # It injects the specific user's settings into the module's scope
-  mkFeatureBridge =
-    path:
-    (
-      {
-        config,
-        osConfig,
-        ...
-      }:
-      {
-        imports = [ path ];
-
-        # We define a local 'config' extension that modules can use
-        # to find their data without typing the whole osConfig path
-        _module.args.userSettings = osConfig.myUsers.${config.home.username} or { };
-      }
-    );
+  # A home-manager module for every user of a profile
+  mkProfileHome = cfg: module: {
+    home-manager.users = genAttrs cfg.users (_: module);
+  };
 }

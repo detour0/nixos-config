@@ -1,188 +1,138 @@
-# https://nixalted.com/lazynvim-nixos.html
-
+# Nix installs every plugin and tool, lazy.nvim only loads the plugins (https://nixalted.com/lazynvim-nixos.html)
 {
-  pkgs,
   config,
-  pkgsUnstable,
+  lib,
+  pkgs,
   ...
 }:
+let
+  # The plugins below as home-manager packs them: one directory per plugin
+  pack = "${config.xdg.dataFile."nvim/site/pack/hm".source}/start";
+in
 {
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-
   programs.neovim = {
     enable = true;
-    # package = pkgs.neovim;
     vimAlias = true;
     vimdiffAlias = true;
-    withNodeJs = true;
 
-    # Default changed 25.11 to 26.05
+    # No remote plugins, so no provider hosts
     withPython3 = false;
     withRuby = false;
 
+    # On nvim's PATH only. A language is wired up in config/lua/plugins/{lsp,conform,lint}.lua.
     extraPackages = with pkgs; [
+      # telescope
       ripgrep
       fd
-      gcc
 
+      # lua
       lua-language-server
       stylua
       luajitPackages.luacheck
 
+      # nix
+      nixd
+      nixfmt
+      statix
+
+      # python
       pyright
       ruff
 
-      nixd
-      statix
-      nix
-      nixfmt
-
+      # javascript, typescript, html, css, json, markdown
       typescript-language-server
+      vscode-langservers-extracted
       eslint_d
       prettierd
+      htmlhint
 
-      rust-analyzer
+      # go
       gopls
       go
       gotools
 
-      vscode-langservers-extracted
-      stylelint
+      # rust
+      rust-analyzer
 
-      # Markdown extra
-      markdownlint-cli2
-      marksman
-
-      tailwindcss-language-server
-      yamlfmt
+      # yaml, docker, sql
       yaml-language-server
-
+      yamlfmt
       dockerfile-language-server
       hadolint
       sqlfluff
-
     ];
 
-    plugins =
-      with pkgs.vimPlugins;
-      [
-        everforest
-        catppuccin-nvim
-        kanagawa-nvim
+    # Each plugin needs a spec with `dev = true` in config/lua/plugins, named after its directory in the pack
+    plugins = with pkgs.vimPlugins; [
+      lazy-nvim
 
-        lualine-nvim
-        bufferline-nvim
-        snacks-nvim
-        yazi-nvim
+      # look
+      everforest
+      catppuccin-nvim
+      kanagawa-nvim
+      lualine-nvim
+      bufferline-nvim
+      nvim-web-devicons
+      mini-icons
+      indent-blankline-nvim
+      snacks-nvim
+      which-key-nvim
 
-        lazy-nvim
-        which-key-nvim
-        conform-nvim
+      # navigation
+      telescope-nvim
+      telescope-fzf-native-nvim
+      telescope-ui-select-nvim
+      plenary-nvim
+      yazi-nvim
+      trouble-nvim
+      nvim-navbuddy
+      nvim-navic
+      nui-nvim
 
-        nvim-lint
-        nvim-navic
-        nui-nvim
-        nvim-navbuddy
-        trouble-nvim
+      # code
+      nvim-lspconfig
+      conform-nvim
+      nvim-lint
+      blink-cmp
+      colorful-menu-nvim
 
-        blink-compat
-        colorful-menu-nvim
-        luasnip
-        cmp-cmdline
-
-        nvim-lspconfig
-
-        telescope-fzf-native-nvim
-        telescope-ui-select-nvim
-        telescope-nvim
-        plenary-nvim
-
-        nvim-treesitter-context
-        nvim-treesitter-textobjects
-
-        nvim-treesitter # got archived with neovim v0.12
-        nvim-treesitter.withAllGrammars
-        # This is for if you only want some of the grammars
-        (nvim-treesitter.withPlugins (
-          plugins: with plugins; [
-            c
-            python
-            nix
-            lua
-            rust
-            javascript
-            typescript
-            go
-            sql
-            query
-            html
-            http
-            css
-            xml
-            markdown
-            markdown_inline
-            yaml
-            json
-            jq
-            kcl
-            kconfig
-            helm
-            angular
-            graphql
-            arduino
-            dockerfile
-            csv
-            gitignore
-            gpg
-            toml
-            nginx
-            bash
-            zsh
-            sway
-            vim
-            tmux
-            ssh-config
-            latex
-          ]
-        ))
-
-        mini-icons
-        nvim-web-devicons
-      ]
-      ++ (with pkgsUnstable.vimPlugins; [
-        indent-blankline-nvim
-        blink-cmp
-      ]);
+      # Parsers and queries for every language, merged into one directory (nvim-treesitter-grammars)
+      nvim-treesitter.withAllGrammars
+      nvim-treesitter-textobjects
+      nvim-treesitter-context
+    ];
 
     initLua = ''
+      vim.loader.enable()
       require("config.opts")
       require("config.keys")
+      require("config.autocmds")
+
+      local pack = "${pack}"
+      vim.opt.rtp:prepend(pack .. "/lazy.nvim")
       require("lazy").setup({
-          rocks = { enabled = false },
-          pkg = { enabled = false },
-          performance = {
-              reset_packpath = false,
-              rtp = {
-                  reset = false,
-              }
+        spec = { import = "plugins" },
+        -- Plugins come from the Nix pack and nowhere else: nothing is downloaded, built or updated
+        dev = { path = pack },
+        install = { missing = false },
+        pkg = { enabled = false },
+        rocks = { enabled = false },
+        readme = { enabled = false },
+        change_detection = { enabled = false },
+        -- A spec loads on its event, cmd, keys or ft, on require(), or with lazy = false
+        defaults = { lazy = true },
+        performance = {
+          rtp = {
+            -- Not a plugin, only parser/ and queries/
+            paths = { pack .. "/nvim-treesitter-grammars" },
           },
-          dev = {
-              path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
-          },
-          install = {
-              -- Safeguard in case we forget to install a plugin with Nix
-              missing = false,
-          },
-          spec = {
-              { import = "plugins" },
-          },
+        },
       })
     '';
-
-    # initLua = "require('lazy').setup()";
   };
+
+  # lazy.nvim reads the pack from the store, so Neovim must not find a second copy on its packpath
+  xdg.dataFile."nvim/site/pack/hm".enable = lib.mkForce false;
 
   xdg.configFile."nvim/lua" = {
     recursive = true;

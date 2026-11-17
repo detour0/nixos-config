@@ -4,9 +4,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkEnableOption mkIf mkProfileOptions;
   cfg = config.profile.peripherals;
 in
 {
@@ -17,7 +16,7 @@ in
     ../features/scanning.nix
   ];
 
-  options.profile.peripherals = mkProfileOptions "peripherals profile" {
+  options.profile.peripherals = mkProfileOptions config "peripherals profile" {
     bluetooth = mkEnableOption "bluetooth support";
     audio = mkEnableOption "pipewire audio support";
     printing = mkEnableOption "CUPS printing support";

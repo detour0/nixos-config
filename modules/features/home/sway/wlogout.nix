@@ -5,17 +5,7 @@
   ...
 }:
 let
-  # everforest dark hard (neanias/everforest-nvim)
-  c = {
-    bg_dim = "#1e2326";
-    bg0 = "#272e33";
-    bg_red = "#493b40";
-    bg_green = "#3c4841";
-    fg = "#d3c6aa";
-    red = "#e67e80";
-    green = "#a7c080";
-    grey1 = "#859289";
-  };
+  c = import ./everforest.nix;
 
   # Destructive actions go through a one-entry rofi prompt: Enter runs it, Esc cancels.
   power-confirm = pkgs.writeShellApplication {
@@ -53,35 +43,8 @@ let
   background =
     pkgs.runCommand "wlogout-background.png" { nativeBuildInputs = [ pkgs.imagemagick ]; }
       ''
-        # everforest dark hard: backgrounds, accents, greys
-        magick ${
-          lib.concatMapStringsSep " " (x: "xc:'${x}'") [
-            "#1e2326"
-            "#272e33"
-            "#2e383c"
-            "#374145"
-            "#414b50"
-            "#495156"
-            "#4f5b58"
-            "#4c3743"
-            "#493b40"
-            "#3c4841"
-            "#384b55"
-            "#45443c"
-            "#463f48"
-            "#d3c6aa"
-            "#e67e80"
-            "#e69875"
-            "#dbbc7f"
-            "#a7c080"
-            "#83c092"
-            "#7fbbb3"
-            "#d699b6"
-            "#7a8478"
-            "#859289"
-            "#9da9a0"
-          ]
-        } +append palette.png
+        # One pixel per palette colour
+        magick ${lib.concatMapStringsSep " " (x: "xc:'${x}'") (lib.attrValues c)} +append palette.png
         # 320x180, dimmed, snapped to the palette without dithering: flat pixel-art blocks
         magick ${config.wallpaper} -resize 320x180^ -gravity center -extent 320x180 \
           -fill "${c.bg_dim}" -colorize 45 -dither None -remap palette.png small.png

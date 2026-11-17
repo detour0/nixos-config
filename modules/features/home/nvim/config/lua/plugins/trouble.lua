@@ -2,44 +2,18 @@ return {
 	"trouble.nvim",
 	dev = true,
 	cmd = "Trouble",
-	opts = {
-		-- Best for modern displays: use icons and fancy formatting
-		use_diagnostic_signs = true,
-	},
+	opts = {},
 	keys = {
-		-- Diagnostics [D]
-		{
-			"<leader>dd",
-			"<cmd>Trouble diagnostics toggle<cr>",
-			desc = "Project [D]iagnostics (Trouble)",
-		},
-		{
-			"<leader>db",
-			"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-			desc = "[B]uffer Diagnostics (Trouble)",
-		},
-
-		-- Symbols & LSP (Code [C] context)
-		{
-			"<leader>ds",
-			"<cmd>Trouble symbols toggle focus=false<cr>",
-			desc = "Code [S]ymbols (Trouble)",
-		},
+		{ "<leader>dd", "<Cmd>Trouble diagnostics toggle<CR>", desc = "Project [D]iagnostics (Trouble)" },
+		{ "<leader>db", "<Cmd>Trouble diagnostics toggle filter.buf=0<CR>", desc = "[B]uffer Diagnostics (Trouble)" },
+		-- Capital S: <leader>ds is the document symbol picker (plugins/lsp.lua)
+		{ "<leader>dS", "<Cmd>Trouble symbols toggle focus=false<CR>", desc = "Code [S]ymbols (Trouble)" },
 		{
 			"<leader>dl",
-			"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+			"<Cmd>Trouble lsp toggle focus=false win.position=right<CR>",
 			desc = "LSP [L]ist (Definitions/References)",
 		},
-
-		{
-			"<leader>do",
-			"<cmd>Trouble loclist toggle<cr>",
-			desc = "Location List (Trouble)",
-		},
-		{
-			"<leader>dq",
-			"<cmd>Trouble qflist toggle<cr>",
-			desc = "Quickfix List (Trouble)",
-		},
+		{ "<leader>do", "<Cmd>Trouble loclist toggle<CR>", desc = "Location List (Trouble)" },
+		{ "<leader>dq", "<Cmd>Trouble qflist toggle<CR>", desc = "Quickfix List (Trouble)" },
 	},
 }

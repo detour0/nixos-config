@@ -50,34 +50,25 @@ set $file-manager yazi
 set $web-browser firefox
 set $calculator speedcrunch
 
-# lock screen
-set $lock swaylock
-
 ### Idle configuration
 #
+# Lock after 15 minutes, displays off 5 minutes later and back on at the next input,
+# lock before the machine goes to sleep. Styling comes from ~/.config/swaylock/config.
 exec swayidle -w \
     timeout 900 'swaylock -f' \
     timeout 1200 'swaymsg output "*" power off' \
     resume 'swaymsg output "*" power on' \
     before-sleep 'swaylock -f'
 
-
-# This will lock your screen after 900 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
 ### Autostart
 #
 exec autotiling -l 2
-exec wl-paste --type text --watch cliphist store &
-exec wl-paste --type image --watch cliphist store &
-exec nm-applet
 exec waybar
+# Clipboard history (cliphist), kanshi and dunst are systemd user services from home-manager
 # Notification clicks only mark the app urgent; this pulls it to the focused output
 exec $urgent_focus_bin
 # Restart kanshi to avoid sway config reload messing up screen positions
 exec_always systemctl --user restart kanshi
-# exec kanshi
 
 output * bg $wallpaper fill
 
@@ -85,11 +76,9 @@ output * bg $wallpaper fill
 #
 # Set up initial workroom
 exec sleep 1 && $workrooms_bin setup 1
-set $workroom 1 
+set $workroom 1
 
-# exec swaymsg "workspace 21; exec $term"
-exec swaymsg "workspace 11; exec firefox"
-# exec swaymsg "workspace n; exec keepassxc" && $workrooms_bin move_workspace 1
+exec swaymsg "workspace 11; exec $web-browser"
 
 ### Keybindings
 #
@@ -108,7 +97,7 @@ exec swaymsg "workspace 11; exec firefox"
     # Start your launcher
     bindsym $mod+d exec $menu
     # Start your file explorer
-    bindsym $mod+e exec $term -e yazi
+    bindsym $mod+e exec $term -e $file-manager
     # Open web-browser window
     bindsym $mod+g exec $web-browser
     bindsym $mod+Shift+g exec $web-browser -private-window
@@ -265,7 +254,8 @@ exec swaymsg "workspace 11; exec firefox"
     }
     bindsym $mod+r mode "resize"
 
-# Not sure if need, should be handled by Nixos/Home-Manager
+# Hands the session to systemd (graphical-session.target and the user services bound to it).
+# Home-manager's generated sway config would do this, but this file replaces it.
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec systemctl --user start sway-session.target

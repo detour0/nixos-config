@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }:
@@ -9,28 +10,23 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../lib/user-manager.nix
-    ../../users/dt.nix
     ../../modules/system
-    (import ../../modules/system/sops-admin.nix dt.name)
-    ../../modules/profiles/dev.nix
-    ../../modules/profiles/desktop.nix
-    ../../modules/profiles/core.nix
-    ../../modules/profiles/media.nix
-    ../../modules/profiles/game.nix
-    ../../modules/profiles/peripherals.nix
-    ../../modules/features/netbird.nix
-    ../../modules/profiles/android.nix
+    ../../modules/system/sops-admin.nix
+    ../../modules/profiles
+    ../../users/dt.nix
   ];
 
-  myUsers.dt.enable = true;
+  networking.hostName = "shaundi";
+
   machine = {
     type = "client";
     bootloader.type = "dedicated";
   };
 
   # For pangolin setup
-  networking.hosts."203.0.113.10" = [ "pangolin.example.com" ];
+  networking.hosts.${inputs.nix-secrets.networking.digda.ip} = [
+    "pangolin.${inputs.nix-secrets.domain}"
+  ];
 
   environment = {
     systemPackages = [ pkgs.pangolin-cli ];
@@ -38,7 +34,7 @@ in
   };
   programs.nix-ld.enable = true;
 
-  netbird-wt0 = {
+  features.netbird = {
     enable = true;
     setupKeyFile = config.sops.secrets.nb_admin_setup_key.path;
   };
@@ -47,9 +43,7 @@ in
     core = {
       enable = true;
       users = [ dt.name ];
-      ssh = {
-        state = "client";
-      };
+      ssh.state = "client";
       vpn = {
         enable = true;
         vendor = "mullvad";
@@ -106,8 +100,6 @@ in
     };
   };
 
-  networking.hostName = "shaundi";
-
-  # Do not change from 25-05!
+  # Do not change from 25.05!
   system.stateVersion = "25.05";
 }

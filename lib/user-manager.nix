@@ -3,131 +3,112 @@
   lib,
   pkgs,
   inputs,
-  stateVersionH,
   ...
 }:
-
 let
   inherit (lib)
-    mkOption
-    mkEnableOption
-    types
-    mkIf
     mapAttrs
-    filterAttrs
-    mkMerge
+    mkIf
+    mkOption
+    types
     ;
 
-  # Grab all users defined under our custom option
   cfg = config.myUsers;
+  inherit (config.system) stateVersion;
 
-  # Filter to only users where 'enable = true'
-  activeUsers = filterAttrs (name: userCfg: userCfg.enable) cfg;
+  str = mkOption {
+    type = types.str;
+    default = "";
+  };
 
   pkgsUnstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     inherit (config.nixpkgs) config;
   };
-
 in
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
 
+  # Importing users/<name>.nix is what creates a user: system account plus home-manager profile
   options.myUsers = mkOption {
-    type = types.attrsOf (
-      types.submodule {
-        options = {
-          enable = mkEnableOption "this user";
-          name = mkOption {
-            type = types.str;
-            default = "";
-          };
-          shell = mkOption {
-            type = types.package;
-            default = pkgs.bash;
-          };
-          hashedPasswordFile = mkOption {
-            type = types.str;
-            default = "";
-          };
-          description = mkOption {
-            type = types.str;
-            default = "";
-          };
-          extraGroups = mkOption {
-            type = types.listOf types.str;
-            default = [ ];
-          };
-
-          # Metadata that profiles or HM can use later
-          gitName = mkOption {
-            type = types.str;
-            default = "";
-          };
-          gitEmail = mkOption {
-            type = types.str;
-            default = "";
-          };
-        };
-      }
-    );
     default = { };
+    type = types.attrsOf (
+      types.submodule (
+        { name, ... }:
+        {
+          options = {
+            # The attribute name, for referring to a user in host files: users = [ dt.name ]
+            name = mkOption {
+              type = types.str;
+              default = name;
+              readOnly = true;
+            };
+            shell = mkOption {
+              type = types.package;
+              default = pkgs.bash;
+            };
+            hashedPasswordFile = str;
+            description = str;
+            extraGroups = mkOption {
+              type = types.listOf types.str;
+              default = [ ];
+            };
+            gitName = str;
+            gitEmail = str;
+          };
+        }
+      )
+    );
   };
 
-  # 2. APPLY THE DATA
-  config = mkMerge [
+  config = {
+    # pkgsUnstable as a module argument, in NixOS modules and (below) in home-manager modules
+    _module.args = { inherit pkgsUnstable; };
 
-    {
-      # Makes pkgsUnstable available in system-level modules
-      _module.args = {
-        inherit pkgsUnstable;
-      };
-    }
+    users.mutableUsers = false;
+    users.users = mapAttrs (_: user: {
+      isNormalUser = true;
+      inherit (user)
+        shell
+        hashedPasswordFile
+        description
+        extraGroups
+        ;
+    }) cfg;
 
-    (mkIf (activeUsers != { }) {
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "bak";
+      extraSpecialArgs = { inherit inputs pkgsUnstable; };
 
-      # A. System-wide Home Manager Settings (Applied exactly ONCE per system)
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "bak";
-        # Makes pkgsUnstable available inside HM
-        extraSpecialArgs = {
-          inherit inputs stateVersionH pkgsUnstable;
-        };
-      };
+      users = mapAttrs (
+        _: user:
+        { config, ... }:
+        {
+          # Both are pinned per host and never change
+          home.stateVersion = stateVersion;
 
-      # B. Setup the OS System Users dynamically
-      users.mutableUsers = false;
-      users.users = mapAttrs (username: userCfg: {
-        isNormalUser = true;
-        inherit (userCfg)
-          shell
-          hashedPasswordFile
-          description
-          extraGroups
-          ;
-      }) activeUsers;
-
-      # C. Setup the Home Manager base dynamically
-      home-manager.users = mapAttrs (username: userCfg: {
-        home.stateVersion = stateVersionH;
-        # Use the user's data to configure their basics
-        programs.git = mkIf (userCfg.gitName != "") {
-          enable = true;
-          settings = {
-            user = {
-              name = userCfg.gitName;
-              email = userCfg.gitEmail;
-            };
-            init.defaultBranch = "main";
+          # Live symlink into dotfiles/: edits apply without a rebuild, and the repo has to stay at this path.
+          # `nixos-rebuild build-vm` cannot follow these; to test in a VM, link the store copy instead:
+          #   link = path: ../dotfiles + "/${path}";
+          lib.dotfiles = rec {
+            dir = "${config.home.homeDirectory}/workspace/nixos-config/dotfiles";
+            link = path: config.lib.file.mkOutOfStoreSymlink "${dir}/${path}";
           };
-        };
-        # };
-      }) activeUsers;
 
-    })
-  ];
+          programs.git = mkIf (user.gitName != "") {
+            enable = true;
+            settings = {
+              user = {
+                name = user.gitName;
+                email = user.gitEmail;
+              };
+              init.defaultBranch = "main";
+            };
+          };
+        }
+      ) cfg;
+    };
+  };
 }

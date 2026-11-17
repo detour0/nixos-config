@@ -1,34 +1,27 @@
-{
-  config,
-  inputs,
-  ...
-}:
+{ config, inputs, ... }:
 let
   inherit (config.myUsers) keeper;
 in
 {
   imports = [
+    inputs.disko.nixosModules.disko
     ./hardware-configuration.nix
     ./disk-config.nix
-
-    ../../lib/user-manager.nix
-    ../../users/keeper.nix
     ../../modules/system
     ../../modules/system/sops-digda.nix
     ../../modules/system/crowdsec-firewall-bouncer.nix
-
-    ../../modules/profiles/dev.nix
-    ../../modules/profiles/core.nix
-
-    ../../modules/features/netbird.nix
+    ../../modules/profiles
+    ../../users/keeper.nix
   ];
 
-  myUsers.keeper.enable = true;
-  services.journald.storage = "persistent";
+  networking.hostName = "digda";
+
   machine = {
     type = "headless";
     bootloader.type = "vServer";
   };
+
+  services.journald.storage = "persistent";
 
   # Pangolin with Newt
   networking.firewall = {
@@ -42,10 +35,7 @@ in
     ];
   };
 
-  netbird-wt0 = {
-    enable = true;
-    # setupKeyFile = config.sops.secrets.nb_server_setup_key.path;
-  };
+  features.netbird.enable = true;
 
   profile = {
     core = {
@@ -69,8 +59,6 @@ in
     };
   };
 
-  networking.hostName = "digda";
-
-  # Do not change!
+  # Do not change from 26.05!
   system.stateVersion = "26.05";
 }

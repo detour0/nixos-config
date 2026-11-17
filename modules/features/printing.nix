@@ -7,6 +7,7 @@
 }:
 let
   cfg = config.features.printing;
+  printer = inputs.nix-secrets.printers.home.multifunc;
 in
 {
   options.features.printing.enable = lib.mkEnableOption "CUPS printing service";
@@ -15,11 +16,11 @@ in
     services.printing.enable = true;
 
     hardware.printers = {
-      ensureDefaultPrinter = inputs.nix-secrets.printers.home.multifunc.modelName;
+      ensureDefaultPrinter = printer.modelName;
       ensurePrinters = [
         {
-          name = inputs.nix-secrets.printers.home.multifunc.modelName; # "MFC-J5320DW";
-          deviceUri = "ipp://${inputs.nix-secrets.printers.home.multifunc.ip}/ipp/print";
+          name = printer.modelName;
+          deviceUri = "ipp://${printer.ip}/ipp/print";
           model = "everywhere";
           ppdOptions = {
             PageSize = "A4";

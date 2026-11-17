@@ -4,15 +4,23 @@
   pkgs,
   ...
 }:
+let
+  cfg = config.server.postgres;
+in
 {
-  services = {
+  # Login user with CREATEDB, set in the host file: server.postgres.user = dt.name;
+  options.server.postgres.user = lib.mkOption {
+    type = lib.types.enum (lib.attrNames config.myUsers);
+  };
+
+  config.services = {
     postgresql = {
       enable = true;
       package = pkgs.postgresql_17;
       # ... database setups, databases for nextcloud, paperless, etc.
       ensureUsers = [
         {
-          inherit (config.myUsers.dt) name;
+          name = cfg.user;
           ensureClauses.createdb = true;
         }
         {

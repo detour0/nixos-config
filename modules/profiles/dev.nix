@@ -7,9 +7,19 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    genAttrs
+    mkEnableOption
+    mkIf
+    mkMerge
+    mkOption
+    mkProfileHome
+    mkProfileOptions
+    optional
+    optionals
+    types
+    ;
   cfg = config.profile.dev;
 in
 {
@@ -18,7 +28,7 @@ in
     ../features/vm.nix
   ];
 
-  options.profile.dev = mkProfileOptions "dev profile" {
+  options.profile.dev = mkProfileOptions config "dev profile" {
     editor = mkOption {
       type = types.enum [ "nvim" ];
       default = "nvim";
@@ -43,42 +53,34 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       features.container = {
-        enable = cfg.containers.enable;
-        runtime = cfg.containers.runtime;
+        inherit (cfg.containers) enable runtime;
         rootless = cfg.containers.dockerRootless;
       };
       features.vm.enable = cfg.vm.enable;
       environment.variables.EDITOR = cfg.editor;
+
+      users.users = genAttrs cfg.users (_: {
+        extraGroups = optional cfg.vm.enable "kvm" ++ optional (!cfg.containers.dockerRootless) "docker";
+      });
     }
 
-    (mkProfileHome config "dev" (user: {
+    (mkProfileHome cfg {
       imports = [
         ../features/home/tmux.nix
         ../features/home/direnv.nix
       ]
-      ++ (optional (cfg.editor == "nvim") ../features/home/nvim);
+      ++ optional (cfg.editor == "nvim") ../features/home/nvim;
 
-      home.packages =
-        (with pkgs; [
-          git-filter-repo
-          openssl
-        ])
-        ++ (with pkgsUnstable; [
-          devenv
-        ])
-        ++ (optionals cfg.deploy.enable [
-          inputs.deploy-rs.packages.${pkgs.system}.default
-          pkgs.sops
-          pkgs.age
-        ]);
-    }))
-
-    # 3. Assign additional user profiles
-    {
-      users.users = genAttrs cfg.users (user: {
-        extraGroups =
-          (optional cfg.vm.enable "kvm") ++ (optional (!cfg.containers.dockerRootless) "docker");
-      });
-    }
+      home.packages = [
+        pkgs.git-filter-repo
+        pkgs.openssl
+        pkgsUnstable.devenv
+      ]
+      ++ optionals cfg.deploy.enable [
+        inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
+        pkgs.sops
+        pkgs.age
+      ];
+    })
   ]);
 }

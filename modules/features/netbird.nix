@@ -5,109 +5,35 @@
   ...
 }:
 let
-  cfg = config.netbird-wt0;
-  inherit (lib) mkIf;
+  cfg = config.features.netbird;
 in
 {
-  options.netbird-wt0 =
-    let
-      inherit (lib) mkEnableOption mkOption types;
-    in
-    {
-      enable = mkEnableOption "NetBird setup";
+  options.features.netbird = {
+    enable = lib.mkEnableOption "the NetBird client wt0";
 
-      setupKeyFile = mkOption {
-        type = types.nullOr types.str;
-        default = null;
-        description = "Path to the file containing the setup key.";
-        example = "/etc/netbird/setup-key";
-      };
-
-      # interfaceName = mkOption {
-      #   type = types.str;
-      #   default = "nb0";
-      #   description = "Name for the netbird network interface";
-      # };
+    # Not wired up yet: the module's login unit greps for "Connected", which "Disconnected"
+    # matches too, so it never logs in. Until then: `netbird-wt0 up --setup-key ...` once per host.
+    setupKeyFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Path to the file containing the setup key.";
+      example = "/etc/netbird/setup-key";
     };
+  };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.netbird = {
       package = pkgsUnstable.netbird;
       # Daemon only; the module would add a UI and menu entry on any machine with a desktop session.
       ui.enable = false;
       clients.wt0 = {
-        # Login does nothing atm, might be because the grep "Connected" in the script
-        # ${client.service.name}-login returns 0 when finding "Disconnected"
-        # login = {
-        #   enable = true;
-        #   inherit (cfg) setupKeyFile;
-        # };
-
-        # Needed when using the Netbird SSH Server
-        # config = {
-        #   SSHConfig = {
-        #     DisableSSHAuth = true;
-        #   };
-        # };
-        # environment = {
-        #   NETBIRD_SSH_DIR = "/var/lib/netbird";
-        # };
-        # hardened = false;
-
-        # Port used to listen to wireguard connections
+        # WireGuard listen port
         port = 51821;
-        # Name of the network interface managed by this client. Default: "nb-‹name›"
-        # interface = cfg.interfaceName;
-        # This opens ports required for direct connection without a relay
+        # Ports for direct connections without a relay
         openFirewall = true;
-        # This opens necessary firewall ports in the Netbird client's network interface
+        # Ports on the client's own interface
         openInternalFirewall = true;
       };
     };
-
-    # Needed when using the Netbird SSH Server with hardened = false.
-    # systemd = {
-    #   services.netbird-wt0.path = [ pkgs.shadow ];
-    #   services.netbird-wt0-login.serviceConfig.User = lib.mkForce "root";
-    # };
-
-    # systemd.services.netbird.postStart = lib.optionalString (cfg.setupKeyFile != null) ''
-    #   set -x
-    #   nb='${lib.getExe config.services.netbird.clients.default.wrapper}'
-    #
-    #   fetch_status() {
-    #     status="$("$nb" status 2>&1)"
-    #   }
-    #
-    #   print_status() {
-    #     test -n "$status" || refresh_status
-    #     cat <<EOF
-    #   $status
-    #   EOF
-    #   }
-    #
-    #   refresh_status() {
-    #     fetch_status
-    #     print_status
-    #   }
-    #
-    #   main() {
-    #     print_status | ${lib.getExe pkgs.gnused} 's/^/STATUS:INIT: /g'
-    #     while refresh_status | grep --quiet 'Disconnected' ; do
-    #       sleep 1
-    #     done
-    #     print_status | ${lib.getExe pkgs.gnused} 's/^/STATUS:WAIT: /g'
-    #
-    #     if print_status | grep --quiet 'NeedsLogin' ; then
-    #       "$nb" up
-    #     fi
-    #   }
-    #
-    #   main "$@"
-    # '';
-
-    # disko.simple.impermanence.persist.directories = [
-    #   "/var/lib/netbird"
-    # ];
   };
 }

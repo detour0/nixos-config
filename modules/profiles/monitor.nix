@@ -1,15 +1,14 @@
 { config, lib, ... }:
-let
-  cfg = config.profile.monitor;
 
+let
   inherit (lib)
-    mkProfileOptions
+    mkEnableOption
     mkIf
     mkOption
-    mkEnableOption
+    mkProfileOptions
     types
     ;
-
+  cfg = config.profile.monitor;
   localhost = "127.0.0.1";
 in
 {
@@ -19,27 +18,28 @@ in
     ../server/loki.nix
   ];
 
-  options.profile.monitor = mkProfileOptions "Monitor stack graf/prom/loki" {
+  options.profile.monitor = mkProfileOptions config "Monitor stack graf/prom/loki" {
     localhost = mkEnableOption "Monitor stack on same host";
     listenAddress = mkOption {
       type = types.str;
       default = localhost;
     };
-
   };
 
   config = mkIf cfg.enable {
-    grafana = {
-      enable = true;
-      inherit (cfg) listenAddress;
-    };
-    prometheus = {
-      enable = true;
-      listenAddress = mkIf cfg.localhost localhost;
-    };
-    loki = {
-      enable = false;
-      listenAddress = mkIf cfg.localhost localhost;
+    server = {
+      grafana = {
+        enable = true;
+        inherit (cfg) listenAddress;
+      };
+      prometheus = {
+        enable = true;
+        listenAddress = mkIf cfg.localhost localhost;
+      };
+      loki = {
+        enable = false;
+        listenAddress = mkIf cfg.localhost localhost;
+      };
     };
   };
 }

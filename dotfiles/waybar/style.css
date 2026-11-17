@@ -112,7 +112,6 @@ button:hover {
 #memory,
 #temperature,
 #battery,
-#disk,
 #clock,
 #custom-power {
   color: @fg;
@@ -178,6 +177,18 @@ button:hover {
   min-width: 18px;
 }
 
+/* Narrower numeric modules: less inner padding than the 5px default, the margins keep them apart.
+ * VOL and BRI about 15% (no padding), CPU, MEM and TMP about 10%. */
+#pulseaudio,
+#backlight {
+  padding: 0;
+}
+#cpu,
+#memory,
+#temperature {
+  padding: 0 2px;
+}
+
 #network.disconnected {
   color: @red;
 }
@@ -188,13 +199,11 @@ button:hover {
 }
 
 #memory.warning,
-#disk.warning,
 #battery.warning:not(.charging) {
   color: @orange;
 }
 
 #memory.critical,
-#disk.critical,
 #temperature.critical {
   color: @red;
 }

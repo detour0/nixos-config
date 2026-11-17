@@ -13,6 +13,7 @@ in
   config = lib.mkIf cfg.enable {
     services = {
       mullvad-vpn.enable = true;
+      # The default package is the CLI only; this one has the GUI
       mullvad-vpn.package = pkgs.mullvad-vpn;
       resolved.enable = true;
     };

@@ -7,18 +7,20 @@
 }:
 let
   cfg = config.features.scanning;
+  printer = inputs.nix-secrets.printers.home.multifunc;
 in
 {
   options.features.scanning.enable = lib.mkEnableOption "SANE scanning support";
 
   config = lib.mkIf cfg.enable {
-    hardware.sane.enable = true;
-
-    hardware.sane.brscan4 = {
+    hardware.sane = {
       enable = true;
-      netDevices.home = {
-        model = inputs.nix-secrets.printers.home.multifunc.modelName;
-        ip = "${inputs.nix-secrets.printers.home.multifunc.ip}";
+      brscan4 = {
+        enable = true;
+        netDevices.home = {
+          model = printer.modelName;
+          inherit (printer) ip;
+        };
       };
     };
 

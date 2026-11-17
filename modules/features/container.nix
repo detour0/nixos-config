@@ -5,13 +5,29 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    elem
+    mkEnableOption
+    mkIf
+    mkOption
+    optional
+    optionals
+    types
+    ;
   cfg = config.features.container;
+  docker = elem cfg.runtime [
+    "docker"
+    "both"
+  ];
+  podman = elem cfg.runtime [
+    "podman"
+    "both"
+  ];
+  # Docker reads DNS from /etc/resolv.conf, which containers cannot use on NixOS
+  dns = config.networking.nameservers;
 in
 {
-  # 1. OPTIONS: what this feature exposes
   options.features.container = {
     enable = mkEnableOption "container runtimes";
 
@@ -39,26 +55,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Docker runtime
-    virtualisation.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") {
-      enable = mkIf (!cfg.rootless) true;
+    virtualisation.docker = mkIf docker {
+      enable = !cfg.rootless;
 
-      # Conditionally enable rootless mode
       rootless = mkIf cfg.rootless {
         enable = true;
         setSocketVariable = true;
-        daemon.settings.dns = [
-          "1.1.1.1"
-          "9.9.9.9"
-        ];
+        daemon.settings = { inherit dns; };
       };
 
-      # Rootful daemon settings (only when NOT rootless)
       daemon.settings = mkIf (!cfg.rootless) {
-        dns = [
-          "1.1.1.1"
-          "9.9.9.9"
-        ];
+        inherit dns;
         log-driver = "json-file";
         log-opts = {
           max-size = "300m";
@@ -67,26 +74,21 @@ in
       };
     };
 
-    # Podman runtime
-    virtualisation.podman = mkIf (cfg.runtime == "podman" || cfg.runtime == "both") {
+    virtualisation.podman = mkIf podman {
       enable = true;
       dockerCompat = cfg.runtime == "both";
       defaultNetwork.settings.dns_enabled = true;
     };
 
-    # Compose tool (runtime-agnostic)
     environment.systemPackages = optionals cfg.compose (
-      (optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.docker-compose)
-      ++ (optional (cfg.runtime == "podman" || cfg.runtime == "both") pkgs.podman-compose)
-      ++ (optional (cfg.runtime == "docker" || cfg.runtime == "both") pkgs.lazydocker)
+      optional docker pkgs.docker-compose
+      ++ optional podman pkgs.podman-compose
+      ++ optional docker pkgs.lazydocker
     );
 
-    # Access rules
     networking.firewall.trustedInterfaces = mkIf (!cfg.rootless) [
       "docker0"
       "br-+"
     ];
-
-    # users.groups.docker = mkIf (cfg.runtime == "docker" || cfg.runtime == "both") { };
   };
 }
