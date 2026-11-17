@@ -4,7 +4,7 @@
   ...
 }:
 let
-  cfg = config.prometheus;
+  cfg = config.server.prometheus;
   inherit (lib)
     mkIf
     mkEnableOption
@@ -13,7 +13,7 @@ let
     ;
 in
 {
-  options.prometheus = {
+  options.server.prometheus = {
     enable = mkEnableOption "Prometheus monitoring server";
 
     listenAddress = mkOption {

@@ -1,23 +1,14 @@
-_: {
+{
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
     shellWrapperName = "y";
-    theme = {
-      flavor = {
-        dark = "everforest-medium";
-      };
-    };
-    # flavors."catppuccin-mocha" = ../../../dotfiles/yazi/flavors/catppuccin-mocha;
+    theme.flavor.dark = "everforest-medium";
     flavors."everforest-medium" = ../../../dotfiles/yazi/flavors/everforest-medium;
-    settings = {
-      manager = {
-        ratio = [
-          2
-          5
-          5
-        ];
-      };
-    };
+    settings.manager.ratio = [
+      2
+      5
+      5
+    ];
   };
 }

@@ -1,20 +1,30 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
-  hermes-agent,
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    elem
+    mkEnableOption
+    mkIf
+    mkMerge
+    mkOption
+    mkProfileHome
+    mkProfileOptions
+    optional
+    optionals
+    types
+    ;
   cfg = config.profile.desktop;
 in
 {
   imports = [ ../features/sway.nix ];
 
-  options.profile.desktop = mkProfileOptions "desktop profile" {
+  options.profile.desktop = mkProfileOptions config "desktop profile" {
     environment = mkOption {
       type = types.enum [
         "sway"
@@ -51,22 +61,22 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      features.sway.enable = mkIf (cfg.environment == "sway") true;
+      features.sway.enable = cfg.environment == "sway";
       environment.systemPackages = [ pkgs.usbutils ];
     }
 
-    (mkProfileHome config "desktop" (user: {
-      imports = flatten [
-        (optional (elem "firefox" cfg.browsers) ../features/home/firefox)
-        (optional (elem "brave" cfg.browsers) ../features/home/brave.nix)
-        (optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix)
-        (optional (cfg.agent == "hermes") hermes-agent.homeManagerModules.default)
-      ];
-
-      programs.hermes-agent = {
-        enable = true;
-        desktop.enable = true;
-      };
+    (mkProfileHome cfg {
+      imports =
+        optional (elem "firefox" cfg.browsers) ../features/home/firefox
+        ++ optional (elem "brave" cfg.browsers) ../features/home/brave.nix
+        ++ optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix
+        ++ optional (cfg.agent == "hermes") {
+          imports = [ inputs.hermes-agent.homeManagerModules.default ];
+          programs.hermes-agent = {
+            enable = true;
+            desktop.enable = true;
+          };
+        };
 
       home.packages =
         with pkgs;
@@ -81,7 +91,6 @@ in
           hunspellDicts.de_DE
           hunspellDicts.en_US
         ];
-
-    }))
+    })
   ]);
 }

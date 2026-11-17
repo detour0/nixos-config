@@ -1,49 +1,37 @@
 local v = vim
+local map = v.keymap.set
 
--- Remove search highlighting with Esc
-v.keymap.set("n", "<Esc>", "<Esc>:nohlsearch<CR>", { silent = true })
+map("n", "<Esc>", "<Cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlight" })
 
--- Moving marked lines up and down
-v.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Moves Line Down" })
-v.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Moves Line Up" })
+-- Move the selected lines, reindenting as they go
+map("x", "J", ":m '>+1<CR>gv=gv", { silent = true, desc = "Move selection down" })
+map("x", "K", ":m '<-2<CR>gv=gv", { silent = true, desc = "Move selection up" })
 
--- Fast up and down scrolling (this shouldn't be needed?)
--- v.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll Down" })
--- v.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll Up" })
+-- Resize windows with the arrow keys
+map("n", "<Up>", "<Cmd>resize +2<CR>", { desc = "Increase window height" })
+map("n", "<Down>", "<Cmd>resize -2<CR>", { desc = "Decrease window height" })
+map("n", "<Right>", "<Cmd>vertical resize +2<CR>", { desc = "Increase window width" })
+map("n", "<Left>", "<Cmd>vertical resize -2<CR>", { desc = "Decrease window width" })
 
--- Resize windows with arrow keys
-v.keymap.set("n", "<Down>", ":resize -2<CR>", { desc = "Increase window height" })
-v.keymap.set("n", "<Up>", ":resize +2<CR>", { desc = "Decrease window height" })
-v.keymap.set("n", "<Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
-v.keymap.set("n", "<Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+-- Move by screen line on wrapped lines, unless a count is given
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Down" })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Up" })
 
--- see help sticky keys on windows
-v.cmd([[command! W w]])
-v.cmd([[command! Wq wq]])
-v.cmd([[command! WQ wq]])
-v.cmd([[command! Q q]])
+-- Diagnostics
+map("n", "<leader>e", v.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+map("n", "<leader>q", v.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
--- Remap for dealing with word wrap
-v.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-v.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- System clipboard
+map({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
+map({ "n", "x" }, "<leader>Y", '"+yy', { desc = "Yank line to clipboard" })
+map({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from clipboard" })
+map("x", "<leader>P", '"_dP', { desc = "Paste over selection, keeping the unnamed register" })
 
--- Diagnostic keymaps
-v.diagnostic.config({ jump = { float = true }, underline = true })
-v.keymap.set("n", "<leader>e", v.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-v.keymap.set("n", "<leader>q", v.diagnostic.setloclist, { desc = "Open diagnostics list" })
+map({ "n", "x" }, "<C-a>", "<Esc>gg0vG$", { desc = "Select all" })
 
--- Yanking to clipboard
-v.keymap.set({ "v", "x", "n" }, "<leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to clipboard" })
-v.keymap.set({ "n", "v", "x" }, "<leader>Y", '"+yy', { noremap = true, silent = true, desc = "Yank line to clipboard" })
+map("t", "<Esc>", "<C-\\><C-n>", { desc = "Leave terminal mode" })
 
-v.keymap.set({ "n", "v", "x" }, "<C-a>", "gg0vG$", { noremap = true, silent = true, desc = "Select all" })
-v.keymap.set({ "n", "v", "x" }, "<leader>p", '"+p', { noremap = true, silent = true, desc = "Paste from clipboard" })
-v.keymap.set(
-	"x",
-	"<leader>P",
-	'"_dP',
-	{ noremap = true, silent = true, desc = "Paste over selection without erasing unnamed register" }
-)
-
--- Escape terminal input
-v.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true, noremap = true })
+-- Shift held a little too long (see :help sticky keys)
+for typo, cmd in pairs({ W = "w", Wq = "wq", WQ = "wq", Q = "q" }) do
+	v.api.nvim_create_user_command(typo, cmd, {})
+end

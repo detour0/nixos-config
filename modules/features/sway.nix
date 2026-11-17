@@ -6,19 +6,35 @@
 }:
 let
   cfg = config.features.sway;
+  # The session belongs to one user: tty1 logs them in and starts sway
+  user = "dt";
 in
 {
   options.features.sway.enable = lib.mkEnableOption "swaywm based environment";
 
   config = lib.mkIf cfg.enable {
-    # Enable the gnome-keyring secrets vault.
-    # Will be exposed through DBus to programs willing to store secrets.
+    # Secrets vault, exposed over DBus to programs that want to store secrets
     services.gnome.gnome-keyring.enable = true;
 
     environment.systemPackages = with pkgs; [
       nemo
       qimgv
     ];
+
+    # Also enables polkit
+    programs.sway = {
+      enable = true;
+      # Replaces the default extra packages (foot and so on)
+      extraPackages = [ pkgs.swayidle ];
+    };
+
+    services.getty = {
+      autologinUser = user;
+      autologinOnce = true;
+    };
+    environment.loginShellInit = ''
+      [[ "$(tty)" == /dev/tty1 ]] && sway
+    '';
 
     # swaylock: no delay after a wrong password, 60 s lockout after 5 failures.
     # Standard faillock stack: preauth, unix (skips authfail on success), authfail, authsucc.
@@ -54,46 +70,9 @@ in
           };
         };
       };
-    systemd.tmpfiles.rules = [ "d /run/swaylock-faillock 0700 dt users -" ];
+    systemd.tmpfiles.rules = [ "d /run/swaylock-faillock 0700 ${user} users -" ];
 
-    # security.polkit.enable = true;
-
-    # enable Sway window manager
-    # Doing it like this should enable polkit by default
-    programs = {
-      sway = {
-        enable = true;
-        # wrapperFeatures.gtk = true;
-        extraOptions = [
-          # "--unsupported-gpu"
-        ];
-        # Overide extraPkgs to avoid default installations (foot, etc...)
-        extraPackages = with pkgs; [
-          swayidle
-        ];
-      };
-    };
-
-    services.getty = {
-      autologinUser = "dt";
-      autologinOnce = true;
-    };
-    environment.loginShellInit = ''
-      [[ "$(tty)" == /dev/tty1 ]] && sway
-    '';
-
-    # services.greetd = {
-    #   enable = true;
-    #   settings = {
-    #     default_session = {
-    #       command = "${lib.getExe pkgs.tuigreet} --time --cmd sway";
-    #       user = "greeter";
-    #     };
-    #   };
-    # };
-
-    home-manager.sharedModules = [
-      (lib.mkFeatureBridge ./home/sway)
-    ];
+    # The home-manager side, for every home-manager user of the host
+    home-manager.sharedModules = [ ./home/sway ];
   };
 }

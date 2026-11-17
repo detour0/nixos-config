@@ -9,38 +9,31 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-
-    ../../lib/user-manager.nix
-    ../../users/dt.nix
     ../../modules/system
     ../../modules/system/sops-server.nix
-
-    ../../modules/profiles/dev.nix
-    ../../modules/profiles/core.nix
-    ../../modules/profiles/peripherals.nix
-    ../../modules/profiles/desktop.nix
-    ../../modules/profiles/monitor.nix
-
-    ../../modules/profiles/agents.nix
-
+    ../../modules/profiles
     ../../modules/server/postgres.nix
-    ../../modules/features/netbird.nix
+    ../../users/dt.nix
   ];
 
-  myUsers.dt.enable = true;
+  networking.hostName = "schiggi";
+
   machine = {
     type = "headless";
     bootloader.type = "dedicated";
   };
 
-  netbird-wt0 = {
+  features.netbird = {
     enable = true;
     setupKeyFile = config.sops.secrets.nb_server_setup_key.path;
   };
 
+  server.postgres.user = dt.name;
+
   profile = {
     monitor = {
       enable = true;
+      users = [ dt.name ];
       localhost = true;
       listenAddress = inputs.nix-secrets.networking.schiggi.netbirdIp;
     };
@@ -72,8 +65,6 @@ in
     };
   };
 
-  networking.hostName = "schiggi";
-
-  # Do not change!
+  # Do not change from 25.11!
   system.stateVersion = "25.11";
 }

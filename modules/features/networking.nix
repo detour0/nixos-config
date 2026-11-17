@@ -5,34 +5,29 @@
 }:
 let
   cfg = config.features.networking;
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
 in
 {
-  options.features.networking = {
-    enable = mkEnableOption "networking";
-  };
+  options.features.networking.enable = lib.mkEnableOption "networking";
 
-  config = mkIf cfg.enable {
-    # Enable networking
+  config = lib.mkIf cfg.enable {
     networking = {
-      # nftables.enable = true;
       networkmanager.enable = true;
-
+      nameservers = [
+        "1.1.1.1" # Cloudflare
+        "9.9.9.9" # Quad9
+      ];
       firewall = {
         enable = lib.mkDefault true;
-        allowedTCPPorts = [ ];
-        allowedUDPPorts = [ ];
         logRefusedPackets = true;
       };
     };
 
-    services.resolved.enable = true;
-    services.resolved.settings.Resolve = {
-      LLMNR = false;
-      MulticastDNS = false;
+    services.resolved = {
+      enable = true;
+      settings.Resolve = {
+        LLMNR = false;
+        MulticastDNS = false;
+      };
     };
   };
 }

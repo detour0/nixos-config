@@ -5,11 +5,13 @@
   ...
 }:
 let
+  # A change to the tool goes to the upstream repo first, then gets a new rev and hash here
+  # (set lib.fakeHash, build, copy the hash from the error)
   workrooms-repo = pkgs.fetchFromGitHub {
     owner = "detour0";
     repo = "sway-workrooms";
     rev = "c1af25956a06efcea6cdd297324460e4cf3c9592";
-    sha256 = "sha256-+iRfi/BaEMTWgv40wSAGWs8l6w0OM5swH9IEHV40fVA="; # Nix will complain about this and provide the correct hash
+    hash = "sha256-+iRfi/BaEMTWgv40wSAGWs8l6w0OM5swH9IEHV40fVA=";
   };
   workrooms-pkg = pkgs.rustPlatform.buildRustPackage {
     pname = "workrooms";
@@ -17,6 +19,8 @@ let
     src = workrooms-repo;
     cargoLock.lockFile = "${workrooms-repo}/Cargo.lock";
   };
+  workrooms = "${workrooms-pkg}/bin/sway-workrooms";
+
   urgent-focus = pkgs.writeShellApplication {
     name = "sway-urgent-focus";
     runtimeInputs = with pkgs; [
@@ -33,7 +37,7 @@ let
       coreutils
     ];
     text = ''
-      workrooms_bin=${workrooms-pkg}/bin/sway-workrooms
+      workrooms_bin=${workrooms}
     ''
     + builtins.readFile ./scripts/window-picker.sh;
   };
@@ -52,21 +56,20 @@ in
   ];
 
   home.packages = with pkgs; [
-    grim # screenshot functionality
-    slurp # screenshot functionality, region selection
+    grim # screenshots
+    slurp # region selection for grim
     wdisplays
     speedcrunch
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    wl-clipboard
     (zathura.override { useMupdf = false; })
-    # swaybg
-
     autotiling
     pavucontrol
     brightnessctl # laptop backlight, used by sway keys and the waybar backlight module
     overskride
-
   ];
 
+  # Only for the wrapper; the config it generates is replaced by the dotfile below.
+  # Keybindings, window rules and autostart go in dotfiles/sway/config.
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true; # Fixes common issues with GTK 3 apps
@@ -80,43 +83,38 @@ in
     sort = true;
   };
 
+  # Clipboard history: one wl-paste watcher each for text and images, as user services
   services.cliphist.enable = true;
-
-  dconf.enable = true;
-  dconf.settings = {
-    "org/nemo/desktop" = {
-      show-desktop-icons = false;
-    };
-  };
 
   xdg = {
     mimeApps = {
       enable = true;
-      defaultApplications = {
-        "image/jpeg" = [ "qimgv.desktop" ];
-        "image/png" = [ "qimgv.desktop" ];
-        "image/gif" = [ "qimgv.desktop" ];
-        "image/webp" = [ "qimgv.desktop" ];
-        "image/bmp" = [ "qimgv.desktop" ];
-        "image/tiff" = [ "qimgv.desktop" ];
-        "image/svg+xml" = [ "qimgv.desktop" ];
-        "image/vnd.adobe.photoshop" = [ "qimgv.desktop" ];
-        "image/x-xcf" = [ "qimgv.desktop" ];
-        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
-      };
+      defaultApplications =
+        lib.genAttrs [
+          "image/jpeg"
+          "image/png"
+          "image/gif"
+          "image/webp"
+          "image/bmp"
+          "image/tiff"
+          "image/svg+xml"
+          "image/vnd.adobe.photoshop"
+          "image/x-xcf"
+        ] (_: [ "qimgv.desktop" ])
+        // {
+          "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        };
     };
 
-    # Enables using the workrooms script from the nix-store without an environment var
-    configFile."sway/script-vars.conf".text = ''
-      set $workrooms_bin ${workrooms-pkg}/bin/sway-workrooms
-      set $wallpaper ${config.wallpaper}
-      set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus    '';
+    configFile = {
+      # Everything the dotfile needs from the Nix store; its first line includes this file
+      "sway/script-vars.conf".text = ''
+        set $workrooms_bin ${workrooms}
+        set $wallpaper ${config.wallpaper}
+        set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus
+      '';
 
-    # This creates the link from your home directory to your dotfiles
-    configFile."sway/config".source = lib.mkForce (
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/sway/config"
-    );
+      "sway/config".source = lib.mkForce (config.lib.dotfiles.link "sway/config");
+    };
   };
-  # Temporary solution for checking functionality in a vm (symlink outside vm does not work)
-  # xdg.configFile."sway/config".source = lib.mkForce ../../../../dotfiles/sway/config;
 }

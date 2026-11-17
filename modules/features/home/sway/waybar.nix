@@ -1,32 +1,15 @@
 { config, ... }:
+let
+  inherit (config.lib.dotfiles) link;
+in
 {
-  programs.waybar = {
-    enable = true;
+  # Started by the sway config. Its systemd unit stays off: both together load it twice.
+  programs.waybar.enable = true;
 
-    # 1. Import your JSON config
-    # Use lib.importJSON to convert your external file into a Nix attribute set.
-    # Note: The file must be valid JSON (no comments).
-    # settings = lib.importJSON ../../dotfiles/waybar/config.jsonc;
-
-    # 2. Reference your CSS file
-    # Passing a path literal (starts with ./) tells HM to use the file directly.
-    # style = ../../dotfiles/waybar/style.css;
-
-    # Disable when symlinking config; leads to double loading
-    systemd.enable = false;
+  xdg.configFile = {
+    "waybar/config.jsonc".source = link "waybar/config.jsonc";
+    "waybar/style.css".source = link "waybar/style.css";
+    # NixOS logo for the launcher button, loaded by style.css with a relative url
+    "waybar/nixos.svg".source = link "waybar/nixos.svg";
   };
-
-  xdg.configFile."waybar/config.jsonc".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/config.jsonc";
-
-  xdg.configFile."waybar/style.css".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/style.css";
-
-  # NixOS logo for the launcher button, loaded by style.css with a relative url
-  xdg.configFile."waybar/nixos.svg".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/waybar/nixos.svg";
-
-  # Copy the config files in the nixos for testing in vm:
-  # xdg.configFile."waybar/config.jsonc".source = ../../../../dotfiles/waybar/config.jsonc;
-  # xdg.configFile."waybar/style.css".source = ../../../../dotfiles/waybar/style.css;
 }

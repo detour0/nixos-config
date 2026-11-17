@@ -1,91 +1,64 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
+  options,
   ...
 }:
-
-with lib;
-
 let
   cfg = config.features.hermes;
 in
 
-# ── Provider Login ────────────────────────────────────────────────────────
-# nous-free --> 'hermes auth add nous'
-# fallback doesn't use key_env or api_key and complains about empty
-# OPENROUTER_API_KEY instead, once this is set, it works for the first message
-# and then fails again.
-
+# Provider login for nous-free: 'hermes auth add nous'.
+# A fallback provider ignores key_env and api_key and complains about an empty
+# OPENROUTER_API_KEY instead; once that is set it works for one message, then fails again.
+# The hermes-agent NixOS module is imported per host in flake.nix; without it this does nothing.
 {
-  # 1. OPTIONS: what this feature exposes
-  options.features.hermes = {
-    enable = mkEnableOption "hermes agent";
-  };
-  config = mkIf cfg.enable {
-    services.hermes-agent = {
-      enable = true; # native systemd service, no container
+  options.features.hermes.enable = lib.mkEnableOption "hermes agent";
 
-      # ── Secrets ────────────────────────────────────────────────────────
-      environmentFiles = [ config.sops.secrets."hermes_env".path ];
+  config = lib.optionalAttrs (options.services ? hermes-agent) (
+    lib.mkIf cfg.enable {
+      # Native systemd service, no container
+      services.hermes-agent = {
+        enable = true;
+        environmentFiles = [ config.sops.secrets.hermes_env.path ];
+        addToSystemPackages = true;
+        restart = "always";
+        restartSec = 5;
 
-      settings = {
-        model = {
-          provider = "nous";
-          default = "tencent/hy3:free"; # hy3 from Nous as the standard model
-        };
+        settings = {
+          model = {
+            provider = "nous";
+            default = "tencent/hy3:free";
+          };
 
-        # fallback_providers = [
-        #   {
-        #     provider = "custom";
-        #     model = "mistral-medium-latest";
-        #     base_url = "http://${inputs.nix-secrets.networking.schiggi.netbirdIp}:4000/v1";
-        #     key_env = "LITELLM_KEY";
-        #     api_key = LITELLM_KEY;
-        #   }
-        # ];
+          documents = { };
 
-        # ── Documents ──────────────────────────────────────────────────────
-        documents = {
-          # "USER.md" = ../../dotfiles/agents/documents/USER.md;
-        };
+          toolsets = [ "all" ];
 
-        toolsets = [ "all" ];
+          terminal = {
+            backend = "docker";
+            cwd = ".";
+            timeout = 180;
+          };
 
-        terminal = {
-          backend = "docker";
-          cwd = ".";
-          timeout = 180;
-        };
+          agent = {
+            max_turns = 30;
+            verbose = false;
+          };
 
-        agent = {
-          max_turns = 30;
-          verbose = false;
-        };
+          compression = {
+            enabled = true;
+            threshold = 0.85;
+          };
 
-        compression = {
-          enabled = true;
-          threshold = 0.85;
-        };
+          memory = {
+            memory_enabled = true;
+            user_profile_enabled = true;
+          };
 
-        memory = {
-          memory_enabled = true;
-          user_profile_enabled = true;
-        };
-
-        display = {
-          compact = true;
+          display.compact = true;
         };
       };
-
-      # ── Service tuning ─────────────────────────────────────────────────
-      addToSystemPackages = true;
-      extraArgs = [ ]; # e.g. [ "--verbose" ]
-      restart = "always";
-      restartSec = 5;
-
-      extraPackages = with pkgs; [ ]; # tools the agent can call
-    };
-  };
+    }
+  );
 }

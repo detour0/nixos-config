@@ -1,41 +1,24 @@
-username: # 👈 This transforms the file into a parameterized module function
-{
-  inputs,
-  ...
-}:
+{ inputs, ... }:
 let
-  secretsDir = inputs.nix-secrets.outPath;
+  user = "dt";
+  key = name: {
+    path = "/home/${user}/.ssh/id_ed25519_${name}";
+    mode = "0600";
+    owner = user;
+  };
 in
 {
   sops = {
-    defaultSopsFile = "${secretsDir}/admin.yaml";
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    defaultSopsFile = "${inputs.nix-secrets}/admin.yaml";
 
     secrets = {
-      dt_password = {
-        neededForUsers = true;
-      };
+      dt_password.neededForUsers = true;
       nb_admin_setup_key = { };
-      ssh_github = {
-        path = "/home/${username}/.ssh/id_ed25519_github";
-        mode = "0600";
-        owner = username;
-      };
-      ssh_deploy = {
-        path = "/home/${username}/.ssh/id_ed25519_deploy";
-        mode = "0600";
-        owner = username;
-      };
-      ssh_dt = {
-        path = "/home/${username}/.ssh/id_ed25519_dt";
-        mode = "0600";
-        owner = username;
-      };
+      ssh_github = key "github";
+      ssh_deploy = key "deploy";
+      ssh_dt = key "dt";
     };
   };
 
-  # Automatically establish the safe directory structure
-  systemd.tmpfiles.rules = [
-    "d /home/${username}/.ssh 0700 ${username} users - -"
-  ];
+  systemd.tmpfiles.rules = [ "d /home/${user}/.ssh 0700 ${user} users - -" ];
 }

@@ -12,12 +12,12 @@ let
     types
     optional
     ;
-  cfg = config.grafana;
-  promCfg = config.prometheus;
-  lokiCfg = config.loki;
+  cfg = config.server.grafana;
+  promCfg = config.server.prometheus;
+  lokiCfg = config.server.loki;
 in
 {
-  options.grafana = {
+  options.server.grafana = {
     enable = mkEnableOption "Grafana visualization server";
 
     listenAddress = mkOption {

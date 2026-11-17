@@ -1,4 +1,4 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 {
   xdg.desktopEntries.nemo = {
     name = "Nemo";
@@ -6,19 +6,18 @@
   };
 
   xdg.mimeApps = {
-      enable = true;
-      defaultApplications = {
-          "inode/directory" = [ "nemo.desktop" ];
-          "application/x-gnome-saved-search" = [ "nemo.desktop" ];
-      };
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = [ "nemo.desktop" ];
+      "application/x-gnome-saved-search" = [ "nemo.desktop" ];
+    };
   };
 
-  dconf = {
-      settings = {
-          "org/cinnamon/desktop/applications/terminal" = {
-              exec = "wezterm";
-              exec-arg = "start --cwd";
-          };
-      };
+  dconf.settings = {
+    "org/nemo/desktop".show-desktop-icons = false;
+    "org/cinnamon/desktop/applications/terminal" = {
+      exec = "wezterm";
+      exec-arg = "start --cwd";
+    };
   };
 }

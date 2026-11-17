@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 let
-  # Use string concatenation - prevents Nix from copying to store
-  kanshiPath = "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/kanshi/config";
+  inherit (config.lib.dotfiles) dir link;
+  kanshiConfig = "${dir}/kanshi/config";
 in
 {
-  services.kanshi = {
-    enable = true;
-    # systemdTarget = "sway-session.target";
-  };
+  services.kanshi.enable = true;
+  xdg.configFile."kanshi/config".source = link "kanshi/config";
+
   home.packages = [
+    # Appends the current output layout to the kanshi dotfile as a new profile
     (pkgs.writeShellScriptBin "kanshi-profile" ''
       name=$1
 
@@ -18,19 +18,14 @@ in
       fi
 
       echo "Saving profile $name"
-      echo "Saving to ${kanshiPath}"
+      echo "Saving to ${kanshiConfig}"
 
-
-      echo -e "\nprofile $name {" >> ${kanshiPath}
-      swaymsg -t get_outputs | \
-        jq '.[] | "  output '"'"'\(.make) \(.model) \(.serial)'"'"' mode \(.current_mode.width)x\(.current_mode.height) position \(.rect.x),\(.rect.y)"' -r \
-        >> ${kanshiPath}
-      echo "}" >> ${kanshiPath}
-
+      {
+        echo -e "\nprofile $name {"
+        swaymsg -t get_outputs |
+          jq -r '.[] | "  output '"'"'\(.make) \(.model) \(.serial)'"'"' mode \(.current_mode.width)x\(.current_mode.height) position \(.rect.x),\(.rect.y)"'
+        echo "}"
+      } >> ${kanshiConfig}
     '')
   ];
-
-  # Symlink the config file
-  xdg.configFile."kanshi/config".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/workspace/nixos-config/dotfiles/kanshi/config";
 }

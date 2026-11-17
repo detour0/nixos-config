@@ -4,18 +4,16 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf mkProfileOptions;
   cfg = config.profile.game;
 in
 {
   imports = [ ../features/steam.nix ];
-  options.profile.game = mkProfileOptions "game profile" { };
 
-  config = mkIf cfg.enable (mkMerge [
-    {
-      features.steam.enable = true;
-    }
-  ]);
+  options.profile.game = mkProfileOptions config "game profile" { };
+
+  config = mkIf cfg.enable {
+    features.steam.enable = true;
+  };
 }

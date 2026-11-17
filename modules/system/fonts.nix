@@ -4,33 +4,23 @@
   lib,
   ...
 }:
-let
-  cfg = config.machine;
-in
-lib.mkIf (cfg.type == "client") {
+lib.mkIf (config.machine.type == "client") {
   fonts = {
     packages =
       with pkgs;
       [
-        # icon fonts
         material-design-icons
-
-        # normal fonts
         noto-fonts
         noto-fonts-cjk-sans
         noto-fonts-color-emoji
-
-        # nerdfonts
         jetbrains-mono
       ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+      ++ builtins.filter lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
-    # use fonts specified by user rather than default ones
+    # Only the fonts listed here
     enableDefaultPackages = false;
 
-    # user defined fonts
-    # the reason there's Noto Color Emoji everywhere is to override DejaVu's
-    # B&W emojis that would sometimes show instead of some Color emojis
+    # Noto Color Emoji everywhere, so DejaVu's black-and-white emojis never win
     fontconfig.defaultFonts = {
       serif = [
         "Noto Serif"

@@ -6,18 +6,31 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    genAttrs
+    mkEnableOption
+    mkIf
+    mkMerge
+    mkOption
+    mkProfileHome
+    mkProfileOptions
+    optional
+    types
+    ;
   cfg = config.profile.core;
+  zsh = cfg.shell == "zsh";
+  sshServer = cfg.ssh.state == "server";
+  sshClient = cfg.ssh.state == "client";
 in
 {
   imports = [
     ../features/networking.nix
     ../features/mullvad.nix
+    ../features/netbird.nix
   ];
 
-  options.profile.core = mkProfileOptions "core profile" {
+  options.profile.core = mkProfileOptions config "core profile" {
     shell = mkOption {
       type = types.enum [
         "bash"
@@ -35,7 +48,7 @@ in
           ]
         );
         default = null;
-        description = "Enable ssh as client or server with access over netbird loopback";
+        description = "client: ssh config and agent for the admin keys; server: authorized keys for root and the users";
       };
       rootKeyPub = mkOption {
         type = types.nullOr types.str;
@@ -60,58 +73,47 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      features.networking = {
+      features.networking.enable = true;
+      features.mullvad.enable = cfg.vpn.enable && cfg.vpn.vendor == "mullvad";
+
+      # The login shell can only be set system wide
+      users.defaultUserShell = if zsh then pkgs.zsh else pkgs.bash;
+      environment.shells = optional zsh pkgs.zsh;
+      programs.zsh = mkIf zsh {
         enable = true;
+        # Home-manager's zsh (oh-my-zsh) runs its own compinit, so the global one in
+        # /etc/zshrc only doubles startup time. Keep it for users without a .zshrc (root).
+        enableGlobalCompInit = false;
+        interactiveShellInit = ''
+          if [[ ! -f ''${ZDOTDIR:-$HOME}/.zshrc ]]; then
+            autoload -U compinit && compinit
+          fi
+        '';
       };
 
-      # login/default shell can only be set system wide
-      programs = {
-        zsh = mkIf (cfg.shell == "zsh") {
-          enable = true;
-          # Home-manager's zsh (oh-my-zsh) runs its own compinit, so the global one in
-          # /etc/zshrc only doubles startup time. Keep it for users without a .zshrc (root).
-          enableGlobalCompInit = false;
-          interactiveShellInit = ''
-            if [[ ! -f ''${ZDOTDIR:-$HOME}/.zshrc ]]; then
-              autoload -U compinit && compinit
-            fi
-          '';
-        };
-      };
-
-      # GDM only shows users with their default shell in /etc/shells
-      environment.shells = optional (cfg.shell == "zsh") pkgs.zsh;
-      users = {
-        defaultUserShell = if (cfg.shell == "zsh") then pkgs.zsh else pkgs.bash;
-      };
-
-      # ==========================================
-      # SYSTEM SSH CONFIGURATION
-      # ==========================================
+      # On for every host: sshd also creates the host key that sops decrypts with.
+      # Not reachable from outside; the firewall only lets it through on the NetBird interface.
       services.openssh = {
-        enable = mkIf (cfg.ssh != null) true;
+        enable = true;
         openFirewall = false;
         settings = {
-          PermitRootLogin = if (cfg.ssh.state == "server") then "prohibit-password" else "no";
+          PermitRootLogin = if sshServer then "prohibit-password" else "no";
           PasswordAuthentication = false;
         };
       };
 
-      programs.ssh = mkIf (cfg.ssh.state == "server") {
-        # This injects custom configuration text directly into /etc/ssh/ssh_config
-        # or root's matching profile context.
-        extraConfig = ''
-          Host github.com
-            IdentityFile /var/lib/ssh_automation/id_ed25519_read
-            IdentitiesOnly yes
-        '';
-      };
+      # Servers pull the private secrets repo with their read-only key
+      programs.ssh.extraConfig = mkIf sshServer ''
+        Host github.com
+          IdentityFile /var/lib/ssh_automation/id_ed25519_read
+          IdentitiesOnly yes
+      '';
 
       users.users = {
-        root.openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.rootKeyPub;
+        root.openssh.authorizedKeys.keys = optional sshServer cfg.ssh.rootKeyPub;
       }
       // genAttrs cfg.users (_: {
-        openssh.authorizedKeys.keys = optional (cfg.ssh.state == "server") cfg.ssh.userKeyPub;
+        openssh.authorizedKeys.keys = optional sshServer cfg.ssh.userKeyPub;
       });
 
       environment.systemPackages = with pkgs; [
@@ -131,90 +133,62 @@ in
       ];
     }
 
-    (mkIf (cfg.vpn.enable && cfg.vpn.vendor == "mullvad") {
-      features.mullvad.enable = true;
-    })
+    (mkProfileHome cfg (hm: {
+      imports = [
+        ../features/home/starship.nix
+        ../features/home/yazi.nix
+      ]
+      ++ optional zsh ../features/home/zsh.nix;
 
-    # ==========================================
-    # HOME MANAGER CONFIGURATION
-    # ==========================================
-    (mkProfileHome config "core" (
-      user: hmConfig: {
-        imports = [
-          ../features/home/starship.nix
-          ../features/home/yazi.nix
-        ]
-        ++ optional (cfg.shell == "zsh") ../features/home/zsh.nix;
+      home.packages = with pkgs; [
+        jq
+        tree
+        plocate
+      ];
 
-        home.packages = with pkgs; [
-          jq
-          tree
-          plocate
-        ];
+      programs.fzf.enable = true;
 
-        programs = {
-          fzf = {
-            enable = true;
-            enableZshIntegration = mkIf (cfg.shell == "zsh") true;
-            enableBashIntegration = mkIf (cfg.shell == "bash") true;
-          };
-
-          # ==========================================
-          # USER SSH CONFIGURATION
-          # ==========================================
-          ssh = mkIf (cfg.ssh.state == "client") {
-            enable = true;
-            # Silence warning about default value drops 25.11 to 26.05
-            enableDefaultConfig = false;
-            settings = {
-
-              "github.com" = {
-                HostName = "github.com";
-                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_github";
-              };
-
-              "schiggi" = {
-                HostName = inputs.nix-secrets.networking.schiggi.netbirdIp;
-                User = "root";
-                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
-                # extraOptions are flat values now; note the upstream OpenSSH casing:
-                AddKeysToAgent = "yes";
-              };
-
-              "schiggi.dt" = {
-                HostName = inputs.nix-secrets.networking.schiggi.netbirdIp;
-                User = "dt";
-                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
-              };
-
-              "digda" = {
-                HostName = inputs.nix-secrets.networking.digda.netbirdIp;
-                User = "root";
-                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_deploy";
-              };
-
-              "digda.keeper" = {
-                HostName = inputs.nix-secrets.networking.digda.netbirdIp;
-                User = "keeper";
-                identityFile = "${hmConfig.config.home.homeDirectory}/.ssh/id_ed25519_dt";
-              };
+      # Admin keys (placed by sops-admin.nix) and the hosts they are for
+      programs.ssh = mkIf sshClient {
+        enable = true;
+        # Silence warning about default value drops 25.11 to 26.05
+        enableDefaultConfig = false;
+        settings =
+          let
+            key = name: "${hm.config.home.homeDirectory}/.ssh/id_ed25519_${name}";
+            inherit (inputs.nix-secrets.networking) schiggi digda;
+          in
+          {
+            "github.com" = {
+              HostName = "github.com";
+              identityFile = key "github";
+            };
+            "schiggi" = {
+              HostName = schiggi.netbirdIp;
+              User = "root";
+              identityFile = key "deploy";
+              AddKeysToAgent = "yes";
+            };
+            "schiggi.dt" = {
+              HostName = schiggi.netbirdIp;
+              User = "dt";
+              identityFile = key "dt";
+            };
+            "digda" = {
+              HostName = digda.netbirdIp;
+              User = "root";
+              identityFile = key "deploy";
+            };
+            "digda.keeper" = {
+              HostName = digda.netbirdIp;
+              User = "keeper";
+              identityFile = key "dt";
             };
           };
-        };
+      };
 
-        # Server ssh setup, was supposed to write the file with proper permissions so OpenSsh wouldn't drop
-        # it, but can break on rebuild, when content stays the same, there is no trigger to overwrite the symlink.
-        # home.file.".ssh/authorized_keys" = mkIf (cfg.ssh.state == "server" && cfg.ssh.userKeyPub != null) {
-        #   text = "${cfg.ssh.userKeyPub}";
-        #   onChange = ''
-        #     cat ~/.ssh/authorized_keys > ~/.ssh/authorized_keys.tmp && mv ~/.ssh/authorized_keys.tmp ~/.ssh/authorized_keys
-        #     chmod 600 ~/.ssh/authorized_keys
-        #   '';
-        # };
-
-        # Start ssh-agent to cache passphrase-protected keys
-        services.ssh-agent.enable = mkIf (cfg.ssh.state == "client") true;
-      }
-    ))
+      # Caches passphrase-protected keys
+      services.ssh-agent.enable = sshClient;
+    }))
   ]);
 }

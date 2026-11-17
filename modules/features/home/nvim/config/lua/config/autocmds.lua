@@ -1,29 +1,9 @@
--- local v = vim
---
--- v.api.nvim_create_autocmd("VimEnter", {
--- 	group = v.api.nvim_create_augroup("TelescopeHijack", { clear = true }),
--- 	callback = function()
--- 		local arg = v.fn.argv(0)
--- 		if arg == nil or arg == "" then
--- 			return
--- 		end
---
--- 		local stat = v.uv.fs_stat(arg)
--- 		if stat and stat.type == "directory" then
--- 			-- 1. Force the CWD to the target dir (reusing our previous logic)
--- 			v.api.nvim_set_current_dir(arg)
---
--- 			-- 2. Wipe the directory buffer so we don't see a blank screen
--- 			v.cmd("bwipeout")
---
--- 			-- 3. Open Telescope find_files in the new CWD
--- 			-- We use schedule to ensure the UI is ready
--- 			v.schedule(function()
--- 				require("telescope.builtin").find_files({
--- 					cwd = arg,
--- 					prompt_title = "🔭 Project Files: " .. arg,
--- 				})
--- 			end)
--- 		end
--- 	end,
--- })
+local v = vim
+
+-- No comment leader on a new line. Most ftplugins add these flags back, so setting the option once would not stick.
+v.api.nvim_create_autocmd("FileType", {
+	group = v.api.nvim_create_augroup("no_comment_continuation", { clear = true }),
+	callback = function()
+		v.opt_local.formatoptions:remove({ "c", "r", "o" })
+	end,
+})

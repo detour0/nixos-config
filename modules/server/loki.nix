@@ -4,7 +4,7 @@
   ...
 }:
 let
-  cfg = config.loki;
+  cfg = config.server.loki;
   inherit (lib)
     mkIf
     mkEnableOption
@@ -13,7 +13,7 @@ let
     ;
 in
 {
-  options.loki = {
+  options.server.loki = {
     enable = mkEnableOption "Loki log aggregation server";
 
     listenAddress = mkOption {

@@ -38,6 +38,14 @@ Theming:
 
 - setting a cursor package does nothing
 
+Firefox:
+
+- addon permissions need to be set manually
+- ublock lists need to be set manually
+- sync needs to be logged in manually
+
+dep:
+
 Gnome:
 
 - keybindings conflict when switchen workspace
@@ -47,9 +55,3 @@ KDE Plasma:
 
 - workspace shortcuts need to be set manually
 - splash screen is not disabled
-
-Firefox:
-
-- addon permissions need to be set manually
-- ublock lists need to be set manually
-- sync needs to be logged in manually

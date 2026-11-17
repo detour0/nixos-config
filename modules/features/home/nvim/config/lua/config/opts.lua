@@ -1,77 +1,55 @@
 local v = vim
+local o = v.opt
 
--- NOTE: These 2 need to be set up before any plugins are loaded.
+-- Leader keys have to be set before any plugin loads
 v.g.mapleader = " "
 v.g.maplocalleader = " "
 
--- [[ Setting options ]]
--- See `:help vim.o`
-
--- Disable netrw
--- v.g.loaded_netrw = 1
--- v.g.loaded_netrwPlugin = 1
-
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
-v.opt.list = true
-v.opt.listchars = {
+-- Whitespace: tabs stay blank (indent-blankline draws the guides), the rest is marked
+o.list = true
+o.listchars = {
 	tab = "  ",
 	trail = "￮",
-	-- multispace = "￮", -- shows symbol in tab indentation at start of line
 	extends = "▶",
 	precedes = "◀",
 	nbsp = "‿",
 }
 
--- Show git-relativ filepath at top under bufferline
--- v.opt.winbar = "%#WinBar# %f %m"
-
--- Do not autoinstert comment when breaking new line
-v.opt.formatoptions:remove({ "c", "r", "o" })
-
 -- Search
-v.opt.ignorecase = true -- search case insensitive
-v.opt.smartcase = true -- search matters if capital letter
-v.opt.inccommand = "split" -- splits screen to show all matches
-v.opt.incsearch = true -- Show search matches as you type
-v.opt.hlsearch = true -- Highlight all search matches
+o.ignorecase = true
+o.smartcase = true -- case sensitive once a capital letter is typed
+o.inccommand = "split" -- preview :substitute in a split
 
--- Tabs/Indents
-v.opt.expandtab = true -- Convert tabs to spaces
-v.opt.tabstop = 2 -- Number of spaces that a tab represents
-v.opt.softtabstop = 2 -- Number of spaces for tab operations (editing)
-v.opt.shiftwidth = 2 -- Number of spaces for each indentation level
-v.opt.smartindent = true -- auto-indent based on syntax of the code
-v.opt.cpoptions:append("I")
-v.o.expandtab = true
+-- Indentation
+o.expandtab = true
+o.tabstop = 2
+o.softtabstop = 2
+o.shiftwidth = 2
+o.smartindent = true
+o.breakindent = true -- wrapped lines keep their indent
+o.cpoptions:append("I") -- keep autoindent when moving off an otherwise empty line
 
--- Minimal number of screen lines to keep above and below the cursor.
-v.opt.scrolloff = 10
--- Don't redraw screen while executing macros (improves performance)
-v.opt.lazyredraw = true
--- Make line numbers default
-v.wo.number = true
+-- UI
+o.number = true
+o.relativenumber = true
+o.signcolumn = "yes"
+o.scrolloff = 10
+o.termguicolors = true
+o.mouse = "a"
+o.lazyredraw = true -- no redraw while a macro runs
 
--- Enable mouse mode
-v.o.mouse = "a"
+-- Behaviour
+o.undofile = true
+o.updatetime = 250
+o.timeoutlen = 300
+o.completeopt = "menu,preview,noselect"
 
--- stops line wrapping from being confusing
-v.o.breakindent = true
-
--- Save undo history
-v.o.undofile = true
-
--- Keep signcolumn on by default
-v.wo.signcolumn = "yes"
-v.wo.relativenumber = true
-
--- Decrease update time
-v.o.updatetime = 250
-v.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-v.o.completeopt = "menu,preview,noselect"
-
--- NOTE: You should make sure your terminal supports this
-v.o.termguicolors = true
+v.diagnostic.config({
+	underline = true,
+	jump = {
+		-- Show the diagnostic that ]d / [d land on
+		on_jump = function(_, bufnr)
+			v.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+		end,
+	},
+})
