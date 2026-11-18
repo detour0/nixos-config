@@ -114,7 +114,7 @@ in
         set $urgent_focus_bin ${urgent-focus}/bin/sway-urgent-focus
       '';
 
-      "sway/config".source = lib.mkForce (config.lib.dotfiles.link "sway/config");
+      "sway/config".source = lib.mkForce (config.lib.dotfiles.source "sway/config");
     };
   };
 }

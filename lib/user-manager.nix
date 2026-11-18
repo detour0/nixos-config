@@ -89,12 +89,16 @@ in
           # Both are pinned per host and never change
           home.stateVersion = stateVersion;
 
-          # Live symlink into dotfiles/: edits apply without a rebuild, and the repo has to stay at this path.
-          # `nixos-rebuild build-vm` cannot follow these; to test in a VM, link the store copy instead:
-          #   link = path: ../dotfiles + "/${path}";
+          # Files in dotfiles/, by their path in it. Modules use `source`; `live` switches them all:
+          #   false: store copies. Edits need a rebuild, and the repo can be anywhere.
+          #   true: symlinks into `dir`. Edits apply without a rebuild, and the repo must stay at `dir`.
+          #         `nixos-rebuild build-vm` cannot follow these.
           lib.dotfiles = rec {
+            live = false;
             dir = "${config.home.homeDirectory}/workspace/nixos-config/dotfiles";
             link = path: config.lib.file.mkOutOfStoreSymlink "${dir}/${path}";
+            store = path: ../dotfiles + "/${path}";
+            source = if live then link else store;
           };
 
           programs.git = mkIf (user.gitName != "") {

@@ -55,13 +55,13 @@ Not wired into any host. Do not use these as examples or fix them in passing: `h
 - Package from unstable: the `pkgsUnstable` module argument, available in both NixOS and home-manager modules.
 - No `with lib;`: name what a file uses from `lib` in an `inherit (lib) …;` at the top of its `let`, or write `lib.x`.
 
-## Dotfiles: live or copied
+## Dotfiles
 
-Live symlinks (`config.lib.dotfiles.link "<path>"`, defined in `lib/user-manager.nix`, pointing into
-`~/workspace/nixos-config/dotfiles/`): sway, waybar, kanshi, wezterm.
-Edits take effect without a rebuild, and the repo must stay at that path.
-
-Store copies, which need a rebuild: swaylock, yazi flavors, the Neovim Lua config.
+sway, waybar, kanshi and wezterm use `config.lib.dotfiles.source "<path>"` (in `lib/user-manager.nix`). Its
+`live` flag switches all of them in one place: `false` (the default) copies them into the store, so edits need a
+rebuild and the repo can live anywhere; `true` symlinks them into `dir` (`~/workspace/nixos-config/dotfiles`),
+so edits apply without a rebuild but the repo must stay there and `nixos-rebuild build-vm` cannot follow them.
+swaylock, yazi flavors, rofi and the Neovim Lua config are always store copies.
 
 ## Sway
 
@@ -71,7 +71,7 @@ Four layers. Pick the right one before editing.
 | ---------------- | ------------------------------------------------------------------------------- | ------------ |
 | System           | `modules/features/sway.nix`                                                     | rebuild      |
 | Home-manager     | `modules/features/home/sway/*.nix`, plus `../wallpapers.nix`, `nemo.nix`, `gtkTheme.nix` | rebuild      |
-| Dotfiles         | `dotfiles/sway/config`, `dotfiles/waybar/*`, `dotfiles/kanshi/config`           | sway reload  |
+| Dotfiles         | `dotfiles/sway/config`, `dotfiles/waybar/*`, `dotfiles/kanshi/config`           | rebuild, or sway reload when `live` |
 | Workrooms binary | GitHub `detour0/sway-workrooms`, pinned in `modules/features/home/sway/default.nix` | rebuild      |
 
 **System layer.** Enabled by `profile.desktop.environment = "sway"`. Sets up `programs.sway` (with `swayidle`
@@ -82,7 +82,7 @@ home-manager user on the host, not only the profile's `users`.
 
 **Home-manager layer.** Owns packages (grim, slurp, dunst, autotiling, cliphist, zathura and so on), mime
 defaults, GTK and cursor theme. It enables `wayland.windowManager.sway` only for the wrapper; the config it
-would generate is replaced with `mkForce` by the dotfile symlink. So keybindings, window rules and autostart go
+would generate is replaced with `mkForce` by the dotfile. So keybindings, window rules and autostart go
 in `dotfiles/sway/config`, never in home-manager sway options.
 
 **Passing store paths into the dotfile.** Home-manager writes `~/.config/sway/script-vars.conf`, which sets
@@ -93,7 +93,8 @@ needs from the Nix store goes through that file. The wallpaper is the custom hom
 **What starts what.** Sway `exec`s waybar, swayidle, autotiling and the urgent-focus script. Waybar's systemd
 unit is off on purpose, since having both loads it twice. dunst (D-Bus activated), cliphist and kanshi are
 systemd user services from home-manager, so they get no `exec`; the sway config only restarts kanshi with
-`exec_always`. `kanshi-profile <name>` appends the current output layout to `dotfiles/kanshi/config`. All
+`exec_always`. `kanshi-profile <name>` appends the current output layout to `dotfiles/kanshi/config` under `dir`
+(rebuild afterwards unless `live`). All
 lock-screen styling lives in the store-copied `dotfiles/swaylock/everforest.conf`; swayidle and wlogout call
 plain `swaylock` without colour flags. Colours used from Nix (dunst, wlogout) come from
 `modules/features/home/sway/everforest.nix`.
@@ -111,9 +112,6 @@ plain `swaylock` without colour flags. Colours used from Nix (dunst, wlogout) co
 
 **Checking.** `sway --validate -c ~/.config/sway/config` is safe to run. `swaymsg reload` and
 `pkill -SIGUSR2 waybar` act on the user's running session, so ask first.
-
-**VM testing.** `nixos-rebuild build-vm` cannot follow the out-of-store symlinks. The switch is the `link`
-helper in `lib/user-manager.nix`: the comment above it shows the store-copy variant.
 
 ## Neovim
 
