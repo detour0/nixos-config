@@ -33,9 +33,6 @@
     };
 
     shellAliases = {
-      cw = "cd ~/workspace";
-      cdc = "cd ~/mega/coding";
-      nn = "nvim $HOME/workspace/nixos-config";
     };
 
     completionInit = ''

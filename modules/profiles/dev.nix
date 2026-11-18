@@ -80,6 +80,9 @@ in
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
         pkgs.sops
         pkgs.age
+        # Claude Code sandbox (filesystem and network isolation for shell commands)
+        pkgs.bubblewrap
+        pkgs.socat
       ];
     })
   ]);
