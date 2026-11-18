@@ -86,6 +86,7 @@ in
       yazi-nvim
       trouble-nvim
       nvim-navbuddy
+      diffview-nvim
       nvim-navic
       nui-nvim
 
