@@ -19,7 +19,8 @@ in
         origin = "top-right";
         offset = "(10, 10)";
         width = 350;
-        notification_limit = 5;
+        # Up to 8 popups on screen; beyond that dunst folds the rest into a "(N more)" line.
+        notification_limit = 8;
         gap_size = 6;
         padding = 10;
         horizontal_padding = 12;
