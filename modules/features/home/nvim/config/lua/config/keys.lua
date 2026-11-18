@@ -29,6 +29,11 @@ map("x", "<leader>P", '"_dP', { desc = "Paste over selection, keeping the unname
 
 map({ "n", "x" }, "<C-a>", "<Esc>gg0vG$", { desc = "Select all" })
 
+-- Ctrl+Backspace deletes the word before the cursor. Terminals without an extended keyboard
+-- protocol send it as <C-h>, which otherwise is just another Backspace.
+map({ "i", "c" }, "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
+map({ "i", "c" }, "<C-h>", "<C-w>", { desc = "Delete word before cursor" })
+
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Leave terminal mode" })
 
 -- Shift held a little too long (see :help sticky keys)

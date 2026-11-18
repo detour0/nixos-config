@@ -54,11 +54,12 @@ set $calculator speedcrunch
 #
 # Lock after 15 minutes, displays off 5 minutes later and back on at the next input,
 # lock before the machine goes to sleep. Styling comes from ~/.config/swaylock/config.
+# pgrep: never start a second locker on top of one that is already running.
 exec swayidle -w \
-    timeout 900 'swaylock -f' \
+    timeout 900 'pgrep -x swaylock || swaylock -f' \
     timeout 1200 'swaymsg output "*" power off' \
     resume 'swaymsg output "*" power on' \
-    before-sleep 'swaylock -f'
+    before-sleep 'pgrep -x swaylock || swaylock -f'
 
 ### Autostart
 #
