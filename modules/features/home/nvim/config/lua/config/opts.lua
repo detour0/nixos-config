@@ -41,7 +41,7 @@ o.lazyredraw = true -- no redraw while a macro runs
 -- Behaviour
 o.undofile = true
 o.updatetime = 250
-o.timeoutlen = 300
+o.timeoutlen = 200
 o.completeopt = "menu,preview,noselect"
 
 v.diagnostic.config({
