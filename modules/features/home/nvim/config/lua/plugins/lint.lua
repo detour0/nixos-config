@@ -21,7 +21,10 @@ return {
 			typescript = { "eslint_d" },
 			python = { "ruff" },
 			sql = { "sqlfluff" },
+			markdown = { "markdownlint-cli2" },
 		}
+		require("lint").linters["markdownlint-cli2"].args =
+			{ "--config", v.fn.stdpath("config") .. "/.markdownlint-cli2.jsonc", "-" }
 
 		v.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = v.api.nvim_create_augroup("lint", { clear = true }),

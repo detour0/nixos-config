@@ -5,7 +5,7 @@ local o = v.opt
 v.g.mapleader = " "
 v.g.maplocalleader = " "
 
--- Whitespace: tabs stay blank (indent-blankline draws the guides), the rest is marked
+-- Whitespace: tabs stay blank (snacks.indent draws the guides), the rest is marked
 o.list = true
 o.listchars = {
 	tab = "  ",

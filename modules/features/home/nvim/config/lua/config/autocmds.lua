@@ -7,3 +7,17 @@ v.api.nvim_create_autocmd("FileType", {
 		v.opt_local.formatoptions:remove({ "c", "r", "o" })
 	end,
 })
+
+-- Markdown: each heading's section is a fold (Neovim's own ftplugin, which also shows the hidden line count)
+v.g.markdown_folding = 1
+
+v.api.nvim_create_autocmd("FileType", {
+	group = v.api.nvim_create_augroup("markdown_buffer", { clear = true }),
+	pattern = "markdown",
+	callback = function()
+		-- Prose wraps at word boundaries, not in the middle of a word
+		v.opt_local.linebreak = true
+		-- Files open unfolded: zc / zM close sections
+		v.opt_local.foldlevel = 99
+	end,
+})

@@ -21,7 +21,7 @@ in
 
     # On nvim's PATH only. A language is wired up in config/lua/plugins/{lsp,conform,lint}.lua.
     extraPackages = with pkgs; [
-      # telescope
+      # snacks picker
       ripgrep
       fd
 
@@ -45,6 +45,11 @@ in
       eslint_d
       prettierd
       htmlhint
+
+      # markdown (prettierd formats)
+      markdown-oxide
+      markdownlint-cli2
+      markdown-toc
 
       # go
       gopls
@@ -74,19 +79,15 @@ in
       bufferline-nvim
       nvim-web-devicons
       mini-icons
-      indent-blankline-nvim
       snacks-nvim
       which-key-nvim
 
       # navigation
-      telescope-nvim
-      telescope-fzf-native-nvim
-      telescope-ui-select-nvim
       plenary-nvim
       yazi-nvim
       trouble-nvim
-      nvim-navbuddy
       diffview-nvim
+      nvim-navbuddy
       nvim-navic
       nui-nvim
 
@@ -96,6 +97,10 @@ in
       nvim-lint
       blink-cmp
       colorful-menu-nvim
+
+      # markdown
+      render-markdown-nvim
+      markdown-preview-nvim
 
       # Parsers and queries for every language, merged into one directory (nvim-treesitter-grammars)
       nvim-treesitter.withAllGrammars
@@ -134,6 +139,8 @@ in
 
   # lazy.nvim reads the pack from the store, so Neovim must not find a second copy on its packpath
   xdg.dataFile."nvim/site/pack/hm".enable = lib.mkForce false;
+
+  xdg.configFile."nvim/.markdownlint-cli2.jsonc".source = ./config/markdownlint-cli2.jsonc;
 
   xdg.configFile."nvim/lua" = {
     recursive = true;
