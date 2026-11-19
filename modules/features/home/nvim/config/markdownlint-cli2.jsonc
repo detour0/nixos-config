@@ -1,0 +1,7 @@
+// Rules for markdownlint-cli2 in Neovim (plugins/lint.lua, plugins/conform.lua), for every markdown file
+{
+  "config": {
+    // Prose is soft-wrapped, not broken at 80 columns
+    "MD013": false
+  }
+}

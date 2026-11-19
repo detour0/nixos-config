@@ -126,7 +126,7 @@ plain `swaylock` without colour flags. Colours used from Nix (dunst, wlogout) co
   1. `pkgs.vimPlugins.<attr>` in `plugins`. Use `pkgsUnstable.vimPlugins` only when stable is too old.
   2. A spec in `config/lua/plugins/<name>.lua` with `dev = true`. The spec name must be the plugin's directory
      name in the pack, which often differs from the Nix attribute: `blink-cmp` is `"blink.cmp"`,
-     `conform-nvim` is `"conform.nvim"`, `telescope-nvim` is `"telescope.nvim"`.
+     `conform-nvim` is `"conform.nvim"`, `diffview-nvim` is `"diffview.nvim"`.
 
   A missing or misnamed plugin fails silently. No `build =` steps, no Mason, nothing that downloads at runtime.
 - **Everything is lazy by default** (`defaults.lazy = true`). A spec loads on its `event`, `cmd`, `keys` or
@@ -142,7 +142,8 @@ plain `swaylock` without colour flags. Colours used from Nix (dunst, wlogout) co
   is no `nvim-treesitter.configs`, no `ensure_installed`, and textobject keymaps are defined by hand in that file.
 - Layout: `config/lua/config/{opts,keys,autocmds}.lua` for core settings (leader is space), one file per
   plugin or topic under `config/lua/plugins/`. Completion is blink.cmp (snippets through `vim.snippet`), the
-  picker is telescope, the theme is everforest.
+  picker (including `vim.ui.select`), start screen, notifications and indent guides are snacks.nvim, the theme
+  is everforest.
 - Lua style: tabs, `local v = vim`, stylua formatting, a `desc` on every keymap (which-key shows it).
 - `dotfiles/nvim/` is an old VS Code Neovim config, not this one.
 - A successful build does not put anything live. Do not report a keymap or plugin as tested until the user

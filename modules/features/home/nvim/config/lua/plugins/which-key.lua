@@ -9,6 +9,7 @@ return {
 			{ "<leader>f", group = "[f]ind" },
 			{ "<leader>g", group = "[g]it" },
 			{ "<leader>l", group = "[l]sp" },
+			{ "<leader>m", group = "[m]arkdown" },
 			{ "<leader>n", group = "[n]avigate" },
 			{ "<leader>w", group = "[w]orkspace" },
 		},

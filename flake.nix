@@ -1,6 +1,4 @@
 {
-  description = "Some day... i'll get this working";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
