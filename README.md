@@ -18,25 +18,12 @@ DOC:
 
 TODO:
 
-- neovim: git status/diffs, working lsp reference/definition
-  - enable creating comments in git diffs to sent back to agent
-  - diffview.nvim?
-  - markdown reader
-  - debugger
-  - strg + backspace for word deletion in write mode
-  - something to show notification history
-  - yank history
-
 - Create central variables for [ theme desktop-environment ]
 - Main output variable (kanshi) | show waybar, focus after wr switch
 - configure rofi, integrate cliphist
   - exclude passwords from history
 
 Issues:
-
-Theming:
-
-- setting a cursor package does nothing
 
 Firefox:
 
