@@ -41,8 +41,8 @@ in
         mouse_right_click = "close_current";
       };
 
-      urgency_low = urgency c.bg3 4;
-      urgency_normal = urgency c.green 8 // {
+      urgency_low = urgency c.bg3 8;
+      urgency_normal = urgency c.green 16 // {
         highlight = c.green;
       };
       urgency_critical = urgency c.red 0 // {

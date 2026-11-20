@@ -278,6 +278,22 @@ in
     };
   };
 
+  # Firefox's own shortcut overrides (what about:keyboard writes), keyed by the <key> id.
+  # { } removes a shortcut. Do not set browser.quitShortcut.disabled: it deletes key_quitApplication.
+  # Changes made in about:keyboard are reset by the next switch; restart Firefox to apply.
+  home.file."${config.programs.firefox.configPath}/${
+    config.programs.firefox.profiles.${config.home.username}.path
+  }/customKeys.json" =
+    {
+      force = true;
+      text = builtins.toJSON {
+        key_quitApplication = {
+          modifiers = "accel,shift";
+          key = "Q";
+        }; # Ctrl+Q -> Ctrl+Shift+Q
+      };
+    };
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
