@@ -31,8 +31,9 @@ map({ "n", "x" }, "<C-a>", "<Esc>gg0vG$", { desc = "Select all" })
 
 -- Ctrl+Backspace deletes the word before the cursor. Terminals without an extended keyboard
 -- protocol send it as <C-h>, which otherwise is just another Backspace.
-map({ "i", "c" }, "<C-BS>", "<C-w>", { desc = "Delete word before cursor" })
-map({ "i", "c" }, "<C-h>", "<C-w>", { desc = "Delete word before cursor" })
+-- remap: a buffer's own <C-w> wins where it has one (the snacks picker input, whose plain <C-w> does nothing).
+map({ "i", "c" }, "<C-BS>", "<C-w>", { remap = true, desc = "Delete word before cursor" })
+map({ "i", "c" }, "<C-h>", "<C-w>", { remap = true, desc = "Delete word before cursor" })
 
 map("t", "<Esc>", "<C-\\><C-n>", { desc = "Leave terminal mode" })
 
