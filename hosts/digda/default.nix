@@ -23,6 +23,10 @@ in
 
   services.journald.storage = "persistent";
 
+  # The QXL virtual GPU hung on 2026-11-20 (fence never signalled, PID 1 stuck writing
+  # to the console), so the reboot stalled. Headless: the plain framebuffer is enough.
+  boot.blacklistedKernelModules = [ "qxl" ];
+
   # Pangolin with Newt
   networking.firewall = {
     allowedTCPPorts = [

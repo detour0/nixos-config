@@ -23,7 +23,9 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hermes-agent.url = "github:NousResearch/hermes-agent";
+    # Pinned: no public cache has hermes builds, so every new rev builds the desktop app from source.
+    # Bump the rev on purpose when you want a new version.
+    hermes-agent.url = "github:NousResearch/hermes-agent/231e55958160cbf1ff7b7889b89695ea736614bc";
   };
 
   outputs =

@@ -29,5 +29,10 @@
   systemd.services.crowdsec-firewall-bouncer = {
     after = [ "docker.service" ];
     wants = [ "docker.service" ];
+    # The LAPI runs in the crowdsec container and is not up yet at boot; keep retrying
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
   };
 }
