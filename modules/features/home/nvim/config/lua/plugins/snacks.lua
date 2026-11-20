@@ -55,6 +55,17 @@ return {
 					keys = {
 						-- Close straight from insert mode, not only from normal mode
 						["<Esc>"] = { "close", mode = { "n", "i" } },
+						-- Tab only moves; Enter then opens just the focused item. Marking several for Enter is Ctrl+Space
+						["<Tab>"] = { "list_down", mode = { "i", "n" } },
+						["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+						["<C-Space>"] = { "select_and_next", mode = { "i", "n" } },
+					},
+				},
+				list = {
+					keys = {
+						["<Tab>"] = "list_down",
+						["<S-Tab>"] = "list_up",
+						["<C-Space>"] = { "select_and_next", mode = { "n", "x" } },
 					},
 				},
 			},

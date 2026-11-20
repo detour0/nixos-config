@@ -64,8 +64,7 @@ exec swayidle -w \
 ### Autostart
 #
 exec autotiling -l 2
-exec waybar
-# Clipboard history (cliphist), kanshi and dunst are systemd user services from home-manager
+# waybar, clipboard history (cliphist), kanshi and dunst are systemd user services from home-manager
 # Notification clicks only mark the app urgent; this pulls it to the focused output
 exec $urgent_focus_bin
 # Restart kanshi to avoid sway config reload messing up screen positions
@@ -258,5 +257,5 @@ exec swaymsg "workspace 11; exec $web-browser"
 # Hands the session to systemd (graphical-session.target and the user services bound to it).
 # Home-manager's generated sway config would do this, but this file replaces it.
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec systemctl --user start sway-session.target
+# One exec, so the import finishes first: waybar's unit needs WAYLAND_DISPLAY (ConditionEnvironment).
+exec "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP; systemctl --user start sway-session.target"
