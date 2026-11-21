@@ -13,6 +13,7 @@ in
     ../../modules/system/sops-server.nix
     ../../modules/profiles
     ../../modules/server/postgres.nix
+    ../../modules/server/jellyfin.nix
     ../../users/dt.nix
   ];
 
@@ -29,6 +30,11 @@ in
   };
 
   server.postgres.user = dt.name;
+
+  server.jellyfin = {
+    enable = true;
+    owner = dt.name;
+  };
 
   profile = {
     monitor = {

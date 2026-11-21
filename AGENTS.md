@@ -38,6 +38,9 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
 - `modules/features/home/`: plain home-manager modules, imported by profiles.
 - `modules/server/`: server services behind `server.<name>.enable` (grafana, loki, prometheus), switched on by
   `profile.monitor`. `postgres.nix` has no switch; the host imports it and sets `server.postgres.user` (the login user with CREATEDB).
+  `jellyfin.nix` (`server.jellyfin`) is imported by schiggi directly: `pkgsUnstable.jellyfin`, unpinned on purpose, so back up
+  `/var/lib/jellyfin` before updating nixpkgs-unstable (12.x updates can migrate the database). Port 8096 is open on `wt0` only;
+  media lives in `/srv/media` (owned by dt), libraries and users are set up in the web UI.
 - `dotfiles/`, `assets/`: raw config files and wallpapers.
 
 Not wired into any host. Do not use these as examples or fix them in passing: `hosts/zinyak`,
@@ -76,7 +79,7 @@ Four layers. Pick the right one before editing.
 
 **System layer.** Enabled by `profile.desktop.environment = "sway"`. Sets up `programs.sway` (with `swayidle`
 as the only extra package, which keeps the defaults like foot out), gnome-keyring, and a tty1 autologin that
-starts sway from `loginShellInit`. The autologin user `dt` is hardcoded. It attaches the home-manager side with
+starts sway from `loginShellInit`. On the charger logind ignores the lid (opening it briefly drops the external monitors, which made it suspend). The autologin user `dt` is hardcoded. It attaches the home-manager side with
 `home-manager.sharedModules = [ ./home/sway ]`, so that side applies to every
 home-manager user on the host, not only the profile's `users`.
 
@@ -162,6 +165,7 @@ None of these need root.
 
 ## Applying (user only)
 
-- `sudo nixos-rebuild switch --flake .#shaundi`
-- `deploy .#schiggi`, `deploy .#digda`
+- `just d all` or `just d shaundi schiggi` (`justfile`): servers through deploy-rs, then shaundi through
+  `sudo nixos-rebuild switch`. `just b <hosts>|all` builds without applying.
+- Single hosts by hand: `sudo nixos-rebuild switch --flake .#shaundi`, `deploy .#schiggi`, `deploy .#digda`
 - `nix flake update nix-secrets` after a change in the secrets repo

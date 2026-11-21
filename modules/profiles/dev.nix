@@ -101,6 +101,7 @@ in
       ]
       ++ optionals cfg.deploy.enable [
         inputs.deploy-rs.packages.${pkgs.stdenv.hostPlatform.system}.default
+        pkgs.just # justfile in nixos-config: `just d <hosts>|all`
         pkgs.sops
         pkgs.age
         # Claude Code sandbox (filesystem and network isolation for shell commands)

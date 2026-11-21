@@ -106,6 +106,14 @@ exec swaymsg "workspace 11; exec $web-browser"
     # Laptop panel brightness (--locked: also works on the lock screen)
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set +5%
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    # Media keys for MPRIS players (Supersonic, mpv, browsers)
+    bindsym --locked XF86AudioPlay exec playerctl play-pause
+    bindsym --locked XF86AudioNext exec playerctl next
+    bindsym --locked XF86AudioPrev exec playerctl previous
+    # Volume keys for the default sink (same steps and 100% cap as the waybar scroll)
+    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 6%+
+    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 6%-
+    bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
     # Screenshots
     bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
     # Fullscreen
@@ -256,6 +264,7 @@ exec swaymsg "workspace 11; exec $web-browser"
 
 # Hands the session to systemd (graphical-session.target and the user services bound to it).
 # Home-manager's generated sway config would do this, but this file replaces it.
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-# One exec, so the import finishes first: waybar's unit needs WAYLAND_DISPLAY (ConditionEnvironment).
-exec "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP; systemctl --user start sway-session.target"
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway
+# One exec, so the import finishes first: waybar's unit needs WAYLAND_DISPLAY (ConditionEnvironment),
+# and SWAYSOCK for its sway/workspaces, sway/mode and sway/language modules.
+exec "systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP; systemctl --user start sway-session.target"

@@ -93,7 +93,7 @@
 
       deploy.nodes = {
         schiggi = {
-          hostname = inputs.nix-secrets.networking.schiggi.netbirdIp;
+          hostname = "schiggi"; # ssh alias (modules/profiles/core.nix): deploy key, cached in the agent
           profiles.system = {
             sshUser = "root";
             remoteBuild = true;
@@ -101,7 +101,7 @@
           };
         };
         digda = {
-          hostname = inputs.nix-secrets.networking.digda.netbirdIp;
+          hostname = "digda"; # ssh alias (modules/profiles/core.nix)
           profiles.system = {
             sshUser = "root";
             remoteBuild = false;

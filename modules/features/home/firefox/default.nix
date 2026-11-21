@@ -30,6 +30,8 @@ let
     # SECTION: CUSTOM                                                         *
     #***************************************************************************/
     "general.autoScroll" = true;
+    # Unload background tabs when the system runs low on memory (they reload when selected)
+    "browser.tabs.unloadOnLowMemory" = true;
 
     /**
       **************************************************************************

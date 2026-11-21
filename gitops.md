@@ -40,4 +40,4 @@ committing goes through git.
 2. Build to check: `nixos-rebuild build --flake .#shaundi`.
 3. `<leader>gd` to review, stage with `-` or `S`, `<leader>gs` to check what goes in.
 4. Commit in the style `feat: …` / `fix: …`, lowercase, comma-separated summary.
-5. Apply: `sudo nixos-rebuild switch --flake .#shaundi`, `deploy .#schiggi`, `deploy .#digda`.
+5. Apply: `just d all`, or a subset such as `just d shaundi schiggi`.

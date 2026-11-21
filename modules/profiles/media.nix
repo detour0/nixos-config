@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 
@@ -19,6 +20,8 @@ in
         obs-studio
         yt-dlp
         mpv
+        # Jellyfin music client (unstable: 0.22, Wayland built in)
+        pkgsUnstable.supersonic
       ];
     }
   );

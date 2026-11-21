@@ -36,6 +36,11 @@ in
       [[ "$(tty)" == /dev/tty1 ]] && sway
     '';
 
+    # On the charger, closing the lid never suspends. Opening the lid briefly disconnects the external
+    # monitors, and logind (still seeing the lid closed and no monitor) suspended right then.
+    # On battery the lid still suspends.
+    services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
+
     # swaylock: no delay after a wrong password, 60 s lockout after 5 failures.
     # Standard faillock stack: preauth, unix (skips authfail on success), authfail, authsucc.
     # swaylock runs as the user, so the tally lives in a user-owned dir instead of /run/faillock.

@@ -65,6 +65,7 @@ in
     autotiling
     pavucontrol
     brightnessctl # laptop backlight, used by sway keys and the waybar backlight module
+    playerctl # media keys in the sway config
     overskride
   ];
 

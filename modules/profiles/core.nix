@@ -162,12 +162,13 @@ in
             "github.com" = {
               HostName = "github.com";
               identityFile = key "github";
+              AddKeysToAgent = "6h";
             };
             "schiggi" = {
               HostName = schiggi.netbirdIp;
               User = "root";
               identityFile = key "deploy";
-              AddKeysToAgent = "yes";
+              AddKeysToAgent = "1h";
             };
             "schiggi.dt" = {
               HostName = schiggi.netbirdIp;
@@ -178,6 +179,7 @@ in
               HostName = digda.netbirdIp;
               User = "root";
               identityFile = key "deploy";
+              AddKeysToAgent = "1h";
             };
             "digda.keeper" = {
               HostName = digda.netbirdIp;
