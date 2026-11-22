@@ -26,7 +26,7 @@
     "custom/trayicon": {
         "format": " ",
         "tooltip-format": "Show rofi-drun",
-        "on-click": "rofi -show drun"
+        "on-click": "rofi -show drun -theme-str 'window { width: 720px; } listview { lines: 12; }'"
     },
 
     "idle_inhibitor": {

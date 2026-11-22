@@ -142,6 +142,11 @@ in
 
   xdg.configFile."nvim/.markdownlint-cli2.jsonc".source = ./config/markdownlint-cli2.jsonc;
 
+  # markdown-preview.nvim replaces its markdown.css with g:mkdp_markdown_css, so keep the original and append ours
+  xdg.configFile."nvim/markdown-preview.css".source = pkgs.runCommand "markdown-preview.css" { } ''
+    cat ${pkgs.vimPlugins.markdown-preview-nvim}/app/_static/markdown.css ${./config/markdown-preview.css} > $out
+  '';
+
   xdg.configFile."nvim/lua" = {
     recursive = true;
     source = ./config/lua;

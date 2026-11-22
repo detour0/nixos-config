@@ -101,6 +101,24 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "hermes-agent": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -169,11 +187,11 @@
     },
     "nix-secrets": {
       "locked": {
-        "lastModified": 1795272242,
-        "narHash": "sha256-8hH3hxuUU8NTtANFT+QSUuGLRJPCOPYzJaZlWto8CjA=",
+        "lastModified": 1795365925,
+        "narHash": "sha256-jtUEkzLUl5gH837ytM//RyNoRNRFzTHjrwZPzxIYCZE=",
         "ref": "refs/heads/main",
-        "rev": "852edc1dc6f3c1ef2194ec1ce3093280a2f86267",
-        "revCount": 23,
+        "rev": "a76fdc2d50be11c239ff2295f3408e7cfa9cf758",
+        "revCount": 25,
         "type": "git",
         "url": "ssh://git@github.com/detour0/nix-secrets.git"
       },
@@ -195,6 +213,22 @@
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-forgejo": {
+      "locked": {
+        "lastModified": 1795031880,
+        "narHash": "sha256-Obi0Kr71SBfU9aaDxSncVRT4wYTjLzjMyCmmuC2XGd0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3457b69ac4aba6d9ea9a743370af160fb502db29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3457b69ac4aba6d9ea9a743370af160fb502db29",
         "type": "github"
       }
     },
@@ -289,8 +323,10 @@
         "home-manager": "home-manager_2",
         "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-forgejo": "nixpkgs-forgejo",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "voxtype": "voxtype"
       }
     },
     "sops-nix": {
@@ -314,6 +350,21 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
@@ -368,6 +419,28 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "voxtype": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795307680,
+        "narHash": "sha256-VY6evn+fMTKKUYbaxaE+7uNgbvEXIjeUtWh58/8NNKU=",
+        "owner": "peteonrails",
+        "repo": "voxtype",
+        "rev": "601091db2e4ac08cf28a32ab9d44ceb940be8a63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peteonrails",
+        "ref": "v1.3.1",
+        "repo": "voxtype",
         "type": "github"
       }
     }

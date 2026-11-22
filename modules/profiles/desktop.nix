@@ -50,6 +50,7 @@ in
       ];
     };
     office = mkEnableOption "libre office with language packs";
+    dictation = mkEnableOption "voxtype voice dictation (hold $mod+Alt+space in sway)";
     agent = mkOption {
       type = types.enum [
         "hermes"
@@ -70,6 +71,7 @@ in
         optional (elem "firefox" cfg.browsers) ../features/home/firefox
         ++ optional (elem "brave" cfg.browsers) ../features/home/brave.nix
         ++ optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix
+        ++ optional cfg.dictation ../features/home/voxtype.nix
         ++ optional (cfg.agent == "hermes") {
           imports = [ inputs.hermes-agent.homeManagerModules.default ];
           programs.hermes-agent = {

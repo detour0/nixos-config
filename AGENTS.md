@@ -30,7 +30,11 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
   profile with `users = [ dt.name ];`.
 - `lib/default.nix`: helpers merged into `lib`: `mkProfileOptions`, `mkProfileHome`.
 - `modules/system/`: baseline for every host (`machine.type`, `machine.bootloader.*`, locale, nix
-  settings, sops-nix, the user manager) and the per-role sops modules.
+  settings, sops-nix, the user manager) and the per-role sops modules. `bootstrap.nix` collects
+  `bootstrap.steps.<name>` (user, `after`, `runtimeInputs`, `credentials`, script) from the modules into `/etc/bootstrap`,
+  which the user runs by hand after a fresh install (`sudo /etc/bootstrap [step...]`, `--list`). Every step must be
+  idempotent. Each step runs as a transient `systemd-run` service: no caller PATH (only coreutils and its
+  `runtimeInputs`), no terminal, secrets via `credentials` (LoadCredential) rather than a secret owner.
 - `modules/profiles/`: `profile.<name>` bundles; `default.nix` imports them all and each does nothing until
   enabled. Each has `enable`, `users` (defaults to every user of the host), and its own options.
 - `modules/features/*.nix`: system modules behind `features.<name>.enable`, imported by the profile that
@@ -41,6 +45,20 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
   `jellyfin.nix` (`server.jellyfin`) is imported by schiggi directly: `pkgsUnstable.jellyfin`, unpinned on purpose, so back up
   `/var/lib/jellyfin` before updating nixpkgs-unstable (12.x updates can migrate the database). Port 8096 is open on `wt0` only;
   media lives in `/srv/media` (owned by dt), libraries and users are set up in the web UI.
+  `forgejo.nix` is imported by schiggi directly. Its package comes from the `nixpkgs-forgejo` input, pinned to a fixed
+  rev in `flake.nix` so `nix flake update` never moves it. Upgrading is manual and only when asked: dump first
+  (`sudo -u forgejo forgejo dump`), then bump that rev and run `nix flake lock`.
+  Its bootstrap step `forgejo` creates
+  `forgeadmin` (site admin) and `dt` (with dt's SSH key) unless they exist. It never syncs; the database is the truth.
+  `forgejo-runner.nix` (`server.forgejoRunners.<name>`): Actions runners on the host's Docker daemon, wrapping the
+  upstream `services.forgejo-runner` module (imported from nixpkgs-unstable until 26.11). Offline registration without
+  sops: the secret is the instance's fixed `id` (16 hex, sets the UUID) plus 24 random hex that the unit
+  `forgejo-runner-<name>-secret` writes once to `/var/lib/forgejo-runner-secrets/<name>`; `forgejo-runner-<name>-register`
+  registers it under `scope` and retries until the owner (schiggi: org `homelab`) exists. Job containers never get
+  the Docker socket (`docker_host = "-"`).
+- `modules/features/home/voxtype.nix` (`profile.desktop.dictation`): voxtype dictation from the `voxtype` flake input
+  (pinned to a release tag, bumped by hand) with its home-manager module and user service; the Parakeet model is
+  fetched into the store. The hold-to-talk `bindsym` pair is in `dotfiles/sway/config`.
 - `dotfiles/`, `assets/`: raw config files and wallpapers.
 
 Not wired into any host. Do not use these as examples or fix them in passing: `hosts/zinyak`,

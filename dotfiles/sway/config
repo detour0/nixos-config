@@ -45,7 +45,9 @@ set $right l
 
 # Your preferred applications
 set $term wezterm
-set $menu rofi -show drun
+# Shared rofi size for the launcher and the window picker (same window, switcher toggles modes)
+set $rofi_size -theme-str 'window { width: 720px; } listview { lines: 12; }'
+set $menu rofi -show drun $rofi_size
 set $file-manager yazi
 set $web-browser firefox
 set $calculator speedcrunch
@@ -111,8 +113,8 @@ exec swaymsg "workspace 11; exec $web-browser"
     bindsym --locked XF86AudioNext exec playerctl next
     bindsym --locked XF86AudioPrev exec playerctl previous
     # Volume keys for the default sink (same steps and 100% cap as the waybar scroll)
-    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 6%+
-    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 6%-
+    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 4%+
+    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 4%-
     bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
     # Screenshots
     bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
@@ -130,6 +132,9 @@ exec swaymsg "workspace 11; exec $web-browser"
     bindsym $mod+Shift+space floating toggle
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
+    # Voice dictation (voxtype, profile.desktop.dictation): hold to record, release to type the text
+    bindsym --no-repeat $mod+Alt+space exec voxtype record start
+    bindsym --release $mod+Alt+space exec voxtype record stop
 
   # Notifications (dunst):
   #
@@ -221,7 +226,7 @@ exec swaymsg "workspace 11; exec $web-browser"
     bindsym $mod+period exec $workrooms_bin swap false
 
     # Fuzzy window picker: jumps to the window's workroom, then focuses it
-    bindsym $mod+Tab exec rofi -show windows -theme-str 'window { width: 900px; } listview { lines: 12; }'
+    bindsym $mod+Tab exec rofi -show windows $rofi_size
 
   # Modes
 

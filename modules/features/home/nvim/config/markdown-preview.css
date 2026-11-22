@@ -1,0 +1,23 @@
+
+/* nixos-config: appended to markdown-preview.nvim's own markdown.css (see default.nix).
+   Mermaid diagrams render at natural size (useMaxWidth = false in plugins/markdown.lua), break out of the
+   900px text column to the full window width and scroll inside their own box. Ctrl+wheel zooms the page. */
+body {
+  overflow-x: hidden;
+}
+
+.markdown-body .mermaid {
+  position: relative;
+  left: 50%;
+  width: 96vw;
+  margin-left: -48vw;
+  max-height: 92vh;
+  overflow: auto;
+}
+
+.markdown-body .mermaid svg {
+  display: block;
+  max-width: none !important;
+  /* centred while it fits, left-aligned and scrollable once it is wider */
+  margin: 0 auto;
+}

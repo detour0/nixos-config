@@ -11,6 +11,7 @@ in
     inputs.sops-nix.nixosModules.sops
     ../../lib/user-manager.nix
     ./boot.nix
+    ./bootstrap.nix
     ./fonts.nix
   ];
 

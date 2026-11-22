@@ -2,6 +2,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Forgejo only (modules/server/forgejo.nix). Fixed rev: bumped by hand, never by `nix flake update`.
+    nixpkgs-forgejo.url = "github:nixos/nixpkgs/3457b69ac4aba6d9ea9a743370af160fb502db29";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +28,11 @@
     # Pinned: no public cache has hermes builds, so every new rev builds the desktop app from source.
     # Bump the rev on purpose when you want a new version.
     hermes-agent.url = "github:NousResearch/hermes-agent/231e55958160cbf1ff7b7889b89695ea736614bc";
+    # Voice dictation (modules/features/home/voxtype.nix). Pinned to a release tag; bump it on purpose.
+    voxtype = {
+      url = "github:peteonrails/voxtype/v1.3.1";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =

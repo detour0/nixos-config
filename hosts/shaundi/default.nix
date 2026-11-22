@@ -88,6 +88,7 @@ in
       ];
       agent = "hermes";
       office = true;
+      dictation = true;
     };
 
     peripherals = {

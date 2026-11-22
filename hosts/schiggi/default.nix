@@ -13,6 +13,8 @@ in
     ../../modules/system/sops-server.nix
     ../../modules/profiles
     ../../modules/server/postgres.nix
+    ../../modules/server/forgejo.nix
+    ../../modules/server/forgejo-runner.nix
     ../../modules/server/jellyfin.nix
     ../../users/dt.nix
   ];
@@ -30,6 +32,16 @@ in
   };
 
   server.postgres.user = dt.name;
+
+  server.forgejo = {
+    enable = true;
+    listenAddress = inputs.nix-secrets.networking.schiggi.netbirdIp;
+    sshDomain = inputs.nix-secrets.networking.schiggi.netbirdIp;
+  };
+  server.forgejoRunners.homelab = {
+    id = "26f7490333c4f02e";
+    scope = "homelab";
+  };
 
   server.jellyfin = {
     enable = true;
