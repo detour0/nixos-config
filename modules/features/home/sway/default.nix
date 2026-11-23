@@ -49,6 +49,7 @@ in
     ./rofi.nix
     ./kanshi.nix
     ./dunst.nix
+    ./udiskie.nix
     ./wlogout.nix
     ../wallpapers.nix
     ../nemo.nix

@@ -15,6 +15,7 @@ let
   cfg = config.server.forgejo;
   fjCfg = config.services.forgejo;
   inherit (inputs.nix-secrets.users) dt;
+  agent = inputs.nix-secrets.agents.claude;
   inherit (inputs.nix-secrets) domain;
   # Forgejo comes from its own nixpkgs input, pinned to a fixed rev in flake.nix, so
   # `nix flake update` never moves it. Upgrade by hand: dump first, then bump that rev.
@@ -36,6 +37,9 @@ let
       dt_name=${lib.escapeShellArg dt.name}
       dt_email=${lib.escapeShellArg dt.email.private}
       key=${lib.escapeShellArg dt.sshPub}
+      agent_name=${lib.escapeShellArg agent.name}
+      agent_email=${lib.escapeShellArg "${agent.name}@noreply.${domain}"}
+      agent_key=${lib.escapeShellArg agent.sshPub}
 
       # HOME is the forgejo user's state dir, which Forgejo itself can write: -X and -q keep
       # ~/.psqlrc and ~/.curlrc out of this step.
@@ -69,13 +73,27 @@ let
       }
       create forgeadmin "forgeadmin@noreply.$domain" --admin
       create "$dt_name" "$dt_email"
+      # The AI agent's own account. Restricted: it sees only repos it gets through a team
+      # (homelab → team agents), never the rest of the instance.
+      create "$agent_name" "$agent_email" --restricted
 
-      body=$(cut -d' ' -f2 <<<"$key")
-      has_key=$(db "SELECT count(*) FROM public_key k JOIN \"user\" u ON u.id = k.owner_id
-        WHERE u.lower_name = lower(:'name') AND strpos(k.content, :'body') > 0" -v name="$dt_name" -v body="$body")
-      if [ "$has_key" != 0 ]; then
-        echo "ssh key for $dt_name: exists, skipped"
-      else
+      # Each user's SSH key, added through the admin API unless Forgejo already has it.
+      # Parallel arrays: owner name, public key.
+      key_users=("$dt_name" "$agent_name")
+      key_keys=("$key" "$agent_key")
+      todo=()
+      for i in "''${!key_users[@]}"; do
+        u=''${key_users[$i]}
+        body=$(cut -d' ' -f2 <<<"''${key_keys[$i]}")
+        has_key=$(db "SELECT count(*) FROM public_key k JOIN \"user\" u ON u.id = k.owner_id
+          WHERE u.lower_name = lower(:'name') AND strpos(k.content, :'body') > 0" -v name="$u" -v body="$body")
+        if [ "$has_key" != 0 ]; then
+          echo "ssh key for $u: exists, skipped"
+        else
+          todo+=("$i")
+        fi
+      done
+      if [ "''${#todo[@]}" -gt 0 ]; then
         # Forgejo rejects API calls from a user who must change their password, so clear
         # forgeadmin's flag for this step and put it back afterwards. The trap also drops the
         # temporary admin token, and says so loudly when either cleanup fails.
@@ -96,11 +114,14 @@ let
         db "DELETE FROM access_token WHERE name = 'nix-bootstrap'"
         token=$(fj admin user generate-access-token --username forgeadmin \
           --token-name nix-bootstrap --scopes write:admin --raw)
-        # The header comes from a file descriptor, so the token never shows up in argv (ps)
-        jq -n --arg t "$dt_name" --arg k "$key" '{title: $t, key: $k}' |
-          curl -q -fsS -X POST -H @<(printf 'Authorization: token %s\n' "$token") \
-            -H 'Content-Type: application/json' --data @- "$api/v1/admin/users/$dt_name/keys" >/dev/null
-        echo "ssh key for $dt_name: added"
+        for i in "''${todo[@]}"; do
+          u=''${key_users[$i]}
+          # The header comes from a file descriptor, so the token never shows up in argv (ps)
+          jq -n --arg t "$u" --arg k "''${key_keys[$i]}" '{title: $t, key: $k}' |
+            curl -q -fsS -X POST -H @<(printf 'Authorization: token %s\n' "$token") \
+              -H 'Content-Type: application/json' --data @- "$api/v1/admin/users/$u/keys" >/dev/null
+          echo "ssh key for $u: added"
+        done
       fi
     '';
   };
@@ -159,7 +180,8 @@ in
       };
     };
 
-    # Creates the site admin `forgeadmin` and the normal user `dt` (with dt's SSH key) unless they exist.
+    # Creates the site admin `forgeadmin`, the normal user `dt` and the restricted agent user `claude`
+    # (each of the latter two with its SSH key) unless they exist.
     # Forgejo prints each random password once; it must be changed at first login.
     bootstrap.steps.forgejo = bootstrapStep;
   };

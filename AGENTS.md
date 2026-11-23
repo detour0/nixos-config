@@ -35,6 +35,10 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
   which the user runs by hand after a fresh install (`sudo /etc/bootstrap [step...]`, `--list`). Every step must be
   idempotent. Each step runs as a transient `systemd-run` service: no caller PATH (only coreutils and its
   `runtimeInputs`), no terminal, secrets via `credentials` (LoadCredential) rather than a secret owner.
+- SSH client config (`modules/profiles/core.nix`, home-manager): one alias per host and key. A `Match exec
+  "printenv AI_AGENT"` block comes first: in AI agent sessions ssh uses only the agent's key (`id_ed25519_claude`,
+  pubkey in `nix-secrets.agents.claude`) and the separate user agent `ssh-agent-claude`, never the user's agent.
+  `forgejo` is git over SSH to Forgejo on schiggi.
 - `modules/profiles/`: `profile.<name>` bundles; `default.nix` imports them all and each does nothing until
   enabled. Each has `enable`, `users` (defaults to every user of the host), and its own options.
 - `modules/features/*.nix`: system modules behind `features.<name>.enable`, imported by the profile that

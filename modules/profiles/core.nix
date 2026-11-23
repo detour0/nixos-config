@@ -157,12 +157,41 @@ in
           let
             key = name: "${hm.config.home.homeDirectory}/.ssh/id_ed25519_${name}";
             inherit (inputs.nix-secrets.networking) schiggi digda;
+            hosts = [
+              "github.com"
+              "forgejo"
+              "schiggi"
+              "schiggi.dt"
+              "digda"
+              "digda.keeper"
+            ];
           in
           {
+            # AI agents (Claude Code sets AI_AGENT in every command it runs, your own shells don't) never
+            # touch your keys: they get their own agent socket, which holds only what you add to it by
+            # hand (ssh-add -t), plus their own key. First match wins in ssh_config, so this block must
+            # come before the hosts; IdentityFile adds up, so the agent key is tried first everywhere and
+            # your passphrase-protected keys are skipped (BatchMode: no prompt).
+            agent = hm.lib.hm.dag.entryBefore hosts {
+              header = "Match exec \"printenv AI_AGENT >/dev/null\"";
+              IdentityAgent = "\${XDG_RUNTIME_DIR}/ssh-agent-claude";
+              identityFile = key "claude";
+              IdentitiesOnly = "yes";
+              BatchMode = "yes";
+              AddKeysToAgent = "no";
+            };
             "github.com" = {
               HostName = "github.com";
               identityFile = key "github";
               AddKeysToAgent = "6h";
+            };
+            # Git over SSH to Forgejo (shared host sshd, user forgejo). You push as dt with the dt key;
+            # an AI agent pushes as its own Forgejo user with its key (agent block above).
+            "forgejo" = {
+              HostName = schiggi.netbirdIp;
+              User = "forgejo";
+              identityFile = key "dt";
+              IdentitiesOnly = "yes";
             };
             "schiggi" = {
               HostName = schiggi.netbirdIp;
@@ -191,6 +220,17 @@ in
 
       # Caches passphrase-protected keys
       services.ssh-agent.enable = sshClient;
+
+      # Separate agent for AI agents (see the agent block above), empty by default. To lend one of
+      # your keys for a while: SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent-claude ssh-add -t 1h <key>
+      systemd.user.services.ssh-agent-claude = mkIf sshClient {
+        Unit.Description = "SSH agent for AI agents";
+        Service = {
+          ExecStartPre = "${pkgs.coreutils}/bin/rm -f %t/ssh-agent-claude";
+          ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent-claude";
+        };
+        Install.WantedBy = [ "default.target" ];
+      };
     }))
   ]);
 }

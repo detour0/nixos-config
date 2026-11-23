@@ -65,29 +65,6 @@ in
     }
 
     (mkProfileHome cfg {
-      # git keeps using the SSH key; gh only talks to the API
-      programs.gh = {
-        enable = true;
-        gitCredentialHelper.enable = false;
-        settings.git_protocol = "ssh";
-      };
-
-      # Hands the agent token to Claude Code sessions only, not to every shell
-      programs.zsh.initContent = mkIf (config.sops.secrets ? agent_token_github) (
-        let
-          token = config.sops.secrets.agent_token_github.path;
-        in
-        ''
-          claude() {
-            if [[ -r ${token} ]]; then
-              GH_TOKEN="$(<${token})" command claude "$@"
-            else
-              command claude "$@"
-            fi
-          }
-        ''
-      );
-
       imports = [
         ../features/home/tmux.nix
         ../features/home/direnv.nix

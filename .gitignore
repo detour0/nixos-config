@@ -2,4 +2,21 @@
 /dotfiles/backups/
 /result
 *.qcow2
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Claude Code sandbox placeholders (/dev/null char devices bind-mounted over paths it protects).
+# Remove a line here before adding a real file at that path.
+/.mcp.json
+/.claude/agents
+/.claude/commands
+/.claude/hooks
+/.claude/launch.json
+/.claude/loop.md
+/.claude/output-styles
+/.claude/routines
+/.claude/scheduled_tasks.json
+/.claude/settings.json
+/.claude/skills
+/.claude/workflows
 

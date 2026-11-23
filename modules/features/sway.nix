@@ -28,6 +28,9 @@ in
       extraPackages = [ pkgs.swayidle ];
     };
 
+    # Mounting removable drives as the user (udiskie in the tray, nemo)
+    services.udisks2.enable = true;
+
     services.getty = {
       autologinUser = user;
       autologinOnce = true;

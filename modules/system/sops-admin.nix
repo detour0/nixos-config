@@ -17,11 +17,8 @@ in
       ssh_github = key "github";
       ssh_deploy = key "deploy";
       ssh_dt = key "dt";
-      # Fine-grained GitHub token for Claude Code's gh; the claude wrapper in profile.dev reads it
-      agent_token_github = {
-        mode = "0400";
-        owner = user;
-      };
+      # The AI agent's own key (Forgejo user claude); see the agent block in profiles/core.nix
+      ssh_claude = key "claude";
     };
   };
 
