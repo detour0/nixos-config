@@ -16,7 +16,8 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
 - Never inline secrets, IPs or keys, and never print decrypted values. They come from
   `inputs.nix-secrets.<...>` (plain values) or sops (`config.sops.secrets.<name>.path`).
 - `nix flake update [input]` only when asked.
-- Commit only when asked. Style: `feat: …` / `fix: …`, lowercase, comma-separated summary.
+- Commit only when asked. Style: `feat: …` / `fix: …`, lowercase, comma-separated summary. No `Co-Authored-By:`
+  or other AI attribution lines (the repo is public on GitHub, which lists them as contributors).
 - `git add` new files before building: a flake only sees git-tracked files, so an untracked file "does not exist".
 
 ## Layout
@@ -188,6 +189,7 @@ None of these need root.
 ## Applying (user only)
 
 - `just d all` or `just d shaundi schiggi` (`justfile`): servers through deploy-rs, then shaundi through
-  `sudo nixos-rebuild switch`. `just b <hosts>|all` builds without applying.
+  `sudo nixos-rebuild switch`. `just b <hosts>|all` builds without applying. `just gh-push` (user only) pushes
+  this repo, nix-secrets and sway-workrooms to their GitHub fallback.
 - Single hosts by hand: `sudo nixos-rebuild switch --flake .#shaundi`, `deploy .#schiggi`, `deploy .#digda`
 - `nix flake update nix-secrets` after a change in the secrets repo

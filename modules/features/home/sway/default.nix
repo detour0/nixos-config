@@ -83,6 +83,11 @@ in
     modi = "drun,windows:${window-picker}/bin/sway-window-picker";
     matching = "fuzzy";
     sort = true;
+    # fzf-style scoring (prefix and consecutive hits first) instead of the default levenshtein
+    sorting-method = "fzf";
+    # Default also matches exec and categories: the nix store hashes in Exec= make
+    # fuzzy queries hit almost every app ("bra" matched Mullvad VPN via its store path)
+    drun-match-fields = "name,generic,keywords";
   };
 
   # Clipboard history: one wl-paste watcher each for text and images, as user services

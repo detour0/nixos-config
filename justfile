@@ -36,3 +36,21 @@ b +hosts:
       attrs+=(".#nixosConfigurations.$h.config.system.build.toplevel")
     done
     nix build --no-link "${attrs[@]}"
+
+# Never forces, so a rewritten history is rejected; needs your github key, refuses agents.
+# Push main + tags of nixos-config, nix-secrets, sway-workrooms from the local clones to GitHub (fallback copy)
+gh-push:
+    #!/usr/bin/env bash
+    set -uo pipefail
+    [ -z "${AI_AGENT:-}" ] || { echo "gh-push is for the user, not agents" >&2; exit 1; }
+    failed=()
+    for r in nixos-config nix-secrets sway-workrooms; do
+      d=~/workspace/$r
+      echo "== $r"
+      git -C "$d" fetch -q origin && git -C "$d" fetch -q github || { failed+=("$r"); continue; }
+      [ "$(git -C "$d" rev-parse main)" = "$(git -C "$d" rev-parse origin/main)" ] ||
+        echo "   note: local main differs from Forgejo (ahead $(git -C "$d" rev-list --count origin/main..main), behind $(git -C "$d" rev-list --count main..origin/main))"
+      git -C "$d" log --oneline github/main..main | sed 's/^/   /'
+      git -C "$d" push --follow-tags github main || failed+=("$r")
+    done
+    [ ${#failed[@]} -eq 0 ] || { echo "failed: ${failed[*]}" >&2; exit 1; }

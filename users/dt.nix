@@ -7,6 +7,7 @@
 {
   myUsers.dt = {
     shell = pkgs.zsh;
+    # Change here doesn't change the gnomekeyring password
     hashedPasswordFile = config.sops.secrets.dt_password.path;
     description = "detour0";
     extraGroups = [

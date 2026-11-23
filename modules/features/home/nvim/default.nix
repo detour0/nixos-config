@@ -92,6 +92,7 @@ in
       nui-nvim
 
       # code
+      dial-nvim
       nvim-lspconfig
       conform-nvim
       nvim-lint

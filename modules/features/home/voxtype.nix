@@ -38,11 +38,13 @@ in
       hotkey.enabled = false;
       audio = {
         max_duration_secs = 600; # long dictations; Parakeet splits them into windows
-        duck_media = false; # lower playing media while recording (default 34% amplitude), restored on stop
+        duck_media = true; # lower playing media while recording (default 34% amplitude), restored on stop
         # Bluetooth headsets switch to headset mode when the mic opens, which pauses players anyway;
         # voxtype pauses them first and resumes them when recording stops
-        pause_media = true;
+        pause_media = false;
       };
+      # No notification with the text of a successful dictation; failures still notify
+      output.notification.on_transcription = false;
       parakeet.threads = 4; # physical cores
       # Only used with engine = "whisper": detection limited to these, English first
       whisper.language = [
