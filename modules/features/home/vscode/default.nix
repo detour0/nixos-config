@@ -7,10 +7,10 @@
 }:
 {
   home.file.".config/Code/User/settings.json".source = lib.mkForce (
-    config.lib.file.mkOutOfStoreSymlink ./../../../dotfiles/Code/User/settings.json
+    config.lib.dotfiles.source "Code/User/settings.json"
   );
   home.file.".config/Code/User/keybindings.json".source = lib.mkForce (
-    config.lib.file.mkOutOfStoreSymlink ../../../dotfiles/Code/User/keybindings.json
+    config.lib.dotfiles.source "Code/User/keybindings.json"
   );
   programs.vscode = {
     enable = true;
