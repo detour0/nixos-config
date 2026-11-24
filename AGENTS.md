@@ -68,7 +68,7 @@ Flake-based NixOS config with home-manager as a NixOS module (nixpkgs 26.05, plu
 
 Not wired into any host. Do not use these as examples or fix them in passing: `hosts/zinyak`,
 `hosts/desktop-NixOs`, `modules/features/{nh,tws,gnome,kde-plasma}.nix`, and in `modules/features/home/`:
-`bash.nix`, `fzf.nix`, `git.nix`, `ghostty.nix`, `plasma.nix`, `gnome-extensions.nix`, `vscode/`.
+`bash.nix`, `fzf.nix`, `git.nix`, `plasma.nix`, `gnome-extensions.nix`, `vscode/`.
 
 ## Adding things
 

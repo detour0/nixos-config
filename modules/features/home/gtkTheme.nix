@@ -15,9 +15,10 @@ in
   gtk = {
     enable = true;
     cursorTheme = cursor;
+    # Papirus (~300k icons) cost every new GTK4 process ~0.7 s of indexing; breeze-dark ~0.25 s
     iconTheme = {
-      name = "Papirus";
-      package = pkgs.papirus-icon-theme;
+      name = "breeze-dark";
+      package = pkgs.kdePackages.breeze-icons;
     };
     gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = true;

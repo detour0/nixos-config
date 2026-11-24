@@ -32,9 +32,15 @@ in
       ];
       default = "sway";
     };
-    emulator = mkOption {
-      type = types.enum [ "wezterm" ];
-      default = "wezterm";
+    emulators = mkOption {
+      type = types.listOf (
+        types.enum [
+          "wezterm"
+          "ghostty"
+        ]
+      );
+      default = [ "wezterm" ];
+      description = "Terminal emulators to install. sway's $term stays wezterm.";
     };
     browsers = mkOption {
       type = types.listOf (
@@ -70,7 +76,8 @@ in
       imports =
         optional (elem "firefox" cfg.browsers) ../features/home/firefox
         ++ optional (elem "brave" cfg.browsers) ../features/home/brave.nix
-        ++ optional (cfg.emulator == "wezterm") ../features/home/wezterm.nix
+        ++ optional (elem "wezterm" cfg.emulators) ../features/home/wezterm.nix
+        ++ optional (elem "ghostty" cfg.emulators) ../features/home/ghostty.nix
         ++ optional cfg.dictation ../features/home/voxtype.nix
         ++ optional (cfg.agent == "hermes") {
           imports = [ inputs.hermes-agent.homeManagerModules.default ];

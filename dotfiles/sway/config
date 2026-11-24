@@ -45,6 +45,7 @@ set $right l
 
 # Your preferred applications
 set $term wezterm
+# set $term ghostty +new-window
 # Shared rofi size for the launcher and the window picker (same window, switcher toggles modes)
 set $rofi_size -theme-str 'window { width: 720px; } listview { lines: 12; }'
 set $menu rofi -show drun $rofi_size

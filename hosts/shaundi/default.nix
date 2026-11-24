@@ -81,6 +81,10 @@ in
       enable = true;
       users = [ dt.name ];
       environment = "sway";
+      emulators = [
+        "wezterm"
+        "ghostty"
+      ];
       browsers = [
         "firefox"
         "librewolf" # TODO: implement
