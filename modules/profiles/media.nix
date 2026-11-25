@@ -22,6 +22,8 @@ in
         mpv
         # Jellyfin music client (unstable: 0.22, Wayland built in)
         pkgsUnstable.supersonic
+        # keyboard-friendlier Jellyfin client, native (SDL)
+        tauon
       ];
     }
   );
