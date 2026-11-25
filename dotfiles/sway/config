@@ -134,8 +134,8 @@ exec swaymsg "workspace 11; exec $web-browser"
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
     # Voice dictation (voxtype, profile.desktop.dictation): hold to record, release to type the text
-    bindsym --no-repeat $mod+Alt+space exec voxtype record start
-    bindsym --release $mod+Alt+space exec voxtype record stop
+    bindsym --no-repeat Alt+space exec voxtype record start
+    bindsym --release Alt+space exec voxtype record stop
 
   # Notifications (dunst):
   #
