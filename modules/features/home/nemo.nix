@@ -1,4 +1,12 @@
 { pkgs, ... }:
+let
+  # Nemo's "Open in Terminal" runs only the `exec` key (it ignores exec-arg) with the
+  # folder as working directory. A plain `wezterm` hands the window to the running
+  # GUI instance without that cwd, so it opens in ~. Pass it explicitly.
+  nemo-terminal = pkgs.writeShellScript "nemo-terminal" ''
+    exec wezterm start --cwd "$PWD"
+  '';
+in
 {
   xdg.desktopEntries.nemo = {
     name = "Nemo";
@@ -16,8 +24,8 @@
   dconf.settings = {
     "org/nemo/desktop".show-desktop-icons = false;
     "org/cinnamon/desktop/applications/terminal" = {
-      exec = "wezterm";
-      exec-arg = "start --cwd";
+      exec = "${nemo-terminal}";
+      exec-arg = "";
     };
   };
 }
