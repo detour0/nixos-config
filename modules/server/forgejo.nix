@@ -22,7 +22,7 @@ let
   pinned = inputs.nixpkgs-forgejo.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   # Step of /etc/bootstrap (modules/system/bootstrap.nix), see bootstrap.steps.forgejo below
   bootstrapStep = {
-    user = fjCfg.user;
+    inherit (fjCfg) user;
     runtimeInputs = [
       fjCfg.package
       config.services.postgresql.package

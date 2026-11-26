@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
 
   programs.plasma = {
     enable = true;
@@ -160,19 +159,21 @@
         ];
       };
 
-/*       kwin = {
-        # "Expose" = "Meta+,";
-        "Switch Window Down" = "Meta+J";
-        "Switch Window Left" = "Meta+H";
-        "Switch Window Right" = "Meta+L";
-        "Switch Window Up" = "Meta+K";
-      }; */
-#       ActivityManager = {
-#           "switch-to-activity-2f6b3df2-80a8-4dba-83b9-eeb9033d9e27" = "Meta+V,none,Switch to activity \"browsing\"";
-#           "switch-to-activity-ef316a8a-24ef-4c39-81bd-8c436ad5fa63" = "Meta+C,none,Switch to activity \"markets\"";
-#           "switch-to-activity-46f11b91-3ab9-4869-9b95-93801e7b20b5" = "Meta+X,none,Switch to activity \"coding/learn\"";
-#           "switch-to-activity-e860db6f-3d07-4810-9667-4996111d2c6f" = "Meta+Z,none,Switch to activity \"coding/projects\"";
-#       };
+      /*
+        kwin = {
+             # "Expose" = "Meta+,";
+             "Switch Window Down" = "Meta+J";
+             "Switch Window Left" = "Meta+H";
+             "Switch Window Right" = "Meta+L";
+             "Switch Window Up" = "Meta+K";
+           };
+      */
+      #       ActivityManager = {
+      #           "switch-to-activity-2f6b3df2-80a8-4dba-83b9-eeb9033d9e27" = "Meta+V,none,Switch to activity \"browsing\"";
+      #           "switch-to-activity-ef316a8a-24ef-4c39-81bd-8c436ad5fa63" = "Meta+C,none,Switch to activity \"markets\"";
+      #           "switch-to-activity-46f11b91-3ab9-4869-9b95-93801e7b20b5" = "Meta+X,none,Switch to activity \"coding/learn\"";
+      #           "switch-to-activity-e860db6f-3d07-4810-9667-4996111d2c6f" = "Meta+Z,none,Switch to activity \"coding/projects\"";
+      #       };
     };
 
     #
@@ -189,7 +190,7 @@
       # Disables splash screen
       ksplashrc = {
         "[KSplash]" = {
-            "Engine" = "None";
+          "Engine" = "None";
         };
       };
       kactivitymanagerdrc = {

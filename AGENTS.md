@@ -183,8 +183,8 @@ None of these need root.
 - `nixos-rebuild build --flake .#shaundi`: full build, writes the gitignored `./result`.
 - `nix build .#nixosConfigurations.<host>.config.system.build.toplevel --dry-run`: for the servers.
 - Add `--show-trace` on evaluation errors.
-- Nix files are formatted with `nixfmt` and linted with `statix`. Neither is on PATH outside Neovim:
-  `nix run nixpkgs#nixfmt -- <file>`, `nix run nixpkgs#statix -- check <file>`.
+- Nix files are formatted with `nixfmt` and linted with `statix`, both in the dev shell (`nix develop`, or direnv).
+  The pre-commit hook checks the staged `.nix` files with them.
 
 ## Applying (user only)
 

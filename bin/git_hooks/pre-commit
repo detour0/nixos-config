@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# pre-commit: branch, large files, sensitive files, secrets, nix formatting and lint, no inline IPs/keys, stateVersion, live dotfiles
+set -uo pipefail
+. "$(dirname "$0")/common.sh"
+devshell
+
+# nixos-config only: IPs and keys come from nix-secrets, never inline. Loopback, 0.0.0.0, public DNS and CIDR ranges are fine.
+check_inline_values() {
+  local f hits
+  for f in $(staged_files '\.nix$'); do
+    hits=$(added_lines "$f" | grep -E 'ssh-(ed25519|rsa|ecdsa)[^ ]* AAAA|-----BEGIN|AGE-SECRET-KEY-|age1[0-9a-z]{58}')
+    [ -z "$hits" ] || fail inline-key "$f adds a key inline" "put it in nix-secrets and use inputs.nix-secrets.<...>"
+    hits=$(added_lines "$f" | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}(/[0-9]+)?' |
+      grep -vE '/[0-9]+$|^(127\.|0\.0\.0\.0$|1\.1\.1\.1$|9\.9\.9\.9$)' | paste -sd ' ')
+    [ -z "$hits" ] || fail inline-ip "$f adds an IP inline: $hits" "put it in nix-secrets and use inputs.nix-secrets.<...>"
+  done
+}
+
+# nixos-config only: system.stateVersion is pinned per host and never changes.
+check_state_version() {
+  git diff --cached -U0 --no-color --diff-filter=M -- '*.nix' | grep -E '^-' | grep -vE '^--- ' | grep -q stateVersion || return 0
+  fail state-version "the staged change edits a stateVersion line" "never change system.stateVersion; undo that line"
+}
+
+# nixos-config only: dotfiles stay store copies: live = true links them into the main checkout from whatever checkout you build.
+check_dotfiles_live() {
+  staged_files '^lib/user-manager\.nix$' >/dev/null || return 0
+  git show :lib/user-manager.nix | grep -qE '^[[:space:]]*live[[:space:]]*=[[:space:]]*true' || return 0
+  fail live "lib/user-manager.nix sets live = true" "keep live = false (see AGENTS.md, Dotfiles)"
+}
+
+check_protected_branch
+check_branch_name
+check_large_files
+check_sensitive_paths
+check_secrets
+check_nix
+check_inline_values
+check_state_version
+check_dotfiles_live
+
+finish

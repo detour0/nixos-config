@@ -2,7 +2,8 @@
   username,
   pkgs,
   ...
-}: {
+}:
+{
   # home.packages = [pkgs.gh];
 
   programs.git = {

@@ -168,7 +168,9 @@ let
             ${forgejoCli} \
               forgejo-cli actions register --name ${escapeShellArg "${host}-${name}"} \
               --scope ${escapeShellArg inst.scope} --secret-file "$CREDENTIALS_DIRECTORY/secret" >/dev/null
-            echo "runner ${host}-${name}: registered (scope: ${if inst.scope == "" then "instance" else inst.scope})"
+            echo "runner ${host}-${name}: registered (scope: ${
+              if inst.scope == "" then "instance" else inst.scope
+            })"
           '';
         };
 
@@ -199,19 +201,19 @@ in
 
   config = mkIf (cfg != { }) {
     assertions = [
-          {
-            assertion = fj.enable && config.virtualisation.docker.enable;
-            message = "server.forgejoRunners needs server.forgejo and Docker on the same host.";
-          }
-          {
-            assertion =
-              let
-                ids = mapAttrsToList (_: i: i.id) cfg;
-              in
-              lib.length ids == lib.length (lib.unique ids);
-            message = "server.forgejoRunners: every instance needs its own id.";
-          }
-        ];
+      {
+        assertion = fj.enable && config.virtualisation.docker.enable;
+        message = "server.forgejoRunners needs server.forgejo and Docker on the same host.";
+      }
+      {
+        assertion =
+          let
+            ids = mapAttrsToList (_: i: i.id) cfg;
+          in
+          lib.length ids == lib.length (lib.unique ids);
+        message = "server.forgejoRunners: every instance needs its own id.";
+      }
+    ];
     services.forgejo-runner = {
       package = pinned.forgejo-runner;
       instances = mapAttrs (name: inst: (perInstance name inst).instance) cfg;

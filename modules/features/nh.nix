@@ -1,5 +1,5 @@
-{ 
-     # Finally less nix-command-mess
+{
+  # Finally less nix-command-mess
   programs.nh = {
     enable = true;
     clean.enable = true;

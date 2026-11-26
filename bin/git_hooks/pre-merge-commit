@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# pre-merge-commit: no merge commits on main/master (it only changes through pull requests on Forgejo).
+set -uo pipefail
+. "$(dirname "$0")/common.sh"
+
+check_protected_branch
+
+finish

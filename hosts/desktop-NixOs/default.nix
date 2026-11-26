@@ -36,26 +36,23 @@
 
   # for Nvidia GPU
 
-  environment.systemPackages =
-    (with pkgs; [
+  environment.systemPackages = with pkgs; [
 
-      wget
-      curl
-      neofetch
-      btop
-      man-pages
-      man-pages-posix
+    wget
+    curl
+    neofetch
+    btop
+    man-pages
+    man-pages-posix
 
-      # Archive
-      zip
-      unzip
-      p7zip
+    # Archive
+    zip
+    unzip
+    p7zip
 
-      docker-compose
-      docker-compose-language-service
-    ])
-    ++ [
-    ];
+    docker-compose
+    docker-compose-language-service
+  ];
 
   # After changing settings, Docker needs manual restart 'systemctl --user restart docker.service'
   virtualisation.docker.rootless = {

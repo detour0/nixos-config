@@ -8,7 +8,10 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-secrets.url = "git+ssh://forgejo/homelab/nix-secrets.git";
+    nix-secrets = {
+      url = "git+ssh://forgejo/homelab/nix-secrets.git";
+      inputs.nixpkgs.follows = "nixpkgs"; # only its dev shell uses it
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -116,6 +119,19 @@
           };
         };
       };
+
+      # Tools of the git hooks (bin/git_hooks); the hooks enter this shell themselves.
+      devShells.x86_64-linux.default =
+        let
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        in
+        pkgs.mkShell {
+          packages = with pkgs; [
+            betterleaks
+            nixfmt
+            statix
+          ];
+        };
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     };

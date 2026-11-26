@@ -1,0 +1,3 @@
+# statix config (read by the pre-commit hook too)
+# repeated_keys: `boot.a = …; boot.b = …;` is normal NixOS module style
+disabled = ["repeated_keys"]

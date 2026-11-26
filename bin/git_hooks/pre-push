@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# pre-push: pushes go to Forgejo only (ssh alias), and never to main/master (pull requests only).
+set -uo pipefail
+. "$(dirname "$0")/common.sh"
+
+check_push_remote "$1" "$2"
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  check_push_ref "$remote_ref"
+done
+
+finish

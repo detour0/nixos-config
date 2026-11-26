@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# post-checkout: a new worktree starts from the latest origin/main (fetch, then fast-forward the new branch).
+# Can't refuse anything: the checkout has already happened.
+set -uo pipefail
+. "$(dirname "$0")/common.sh"
+
+# Only for `git worktree add`: no previous HEAD, branch checkout, inside a linked worktree.
+[[ $1 =~ ^0+$ ]] && [ "$3" = 1 ] || exit 0
+[ "$(git rev-parse --git-dir)" != "$(git rev-parse --git-common-dir)" ] || exit 0
+
+if ! git fetch -q origin; then
+  echo "${YELLOW}post-checkout: git fetch origin failed; the worktree may not start from the latest commit${RESET}" >&2
+  exit 0
+fi
+base=''
+for b in $PROTECTED_BRANCHES; do
+  git rev-parse -q --verify "origin/$b" >/dev/null && base="origin/$b" && break
+done
+[ -n "$base" ] || exit 0
+
+if git merge-base --is-ancestor "$base" HEAD; then
+  : # already up to date (or ahead)
+elif git merge-base --is-ancestor HEAD "$base"; then
+  git merge -q --ff-only "$base" &&
+    echo "post-checkout: fast-forwarded $(current_branch) to $base ($(git rev-parse --short HEAD))" >&2
+else
+  echo "${YELLOW}post-checkout: $(current_branch) and $base have diverged${RESET}" >&2
+  echo "  -> git rebase $base" >&2
+fi

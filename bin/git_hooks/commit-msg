@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# commit-msg: refuses messages that break the rules in common.sh (commit_rules).
+set -uo pipefail
+. "$(dirname "$0")/common.sh"
+
+msg=$(git stripspace --strip-comments <"$1")
+subject=$(head -n1 <<<"$msg")
+re="^($COMMIT_TYPES): [^A-Z]"
+
+case "$subject" in
+  "Merge "* | 'Revert "'* | "fixup! "* | "squash! "* | "amend! "*) ;; # written by git itself
+  *)
+    if ! [[ $subject =~ $re ]]; then
+      fail subject "the subject doesn't follow the rules below" "got: '$subject'"
+      commit_rules | sed 's/^/   /' >&2
+    fi
+    ;;
+esac
+
+if grep -qiE '^co-authored-by:|generated with .*claude|noreply@anthropic\.com' <<<"$msg"; then
+  fail attribution "no Co-Authored-By or other AI attribution lines" "remove them from the message"
+fi
+
+finish
