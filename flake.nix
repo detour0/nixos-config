@@ -8,7 +8,7 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-secrets.url = "git+ssh://git@github.com/detour0/nix-secrets.git";
+    nix-secrets.url = "git+ssh://forgejo/homelab/nix-secrets.git";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

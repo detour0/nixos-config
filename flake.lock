@@ -193,11 +193,11 @@
         "rev": "9500fd2c35417dd9fcdc2aa7cff0cd72b8e1e673",
         "revCount": 26,
         "type": "git",
-        "url": "ssh://git@github.com/detour0/nix-secrets.git"
+        "url": "ssh://forgejo/homelab/nix-secrets.git"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@github.com/detour0/nix-secrets.git"
+        "url": "ssh://forgejo/homelab/nix-secrets.git"
       }
     },
     "nixpkgs": {
