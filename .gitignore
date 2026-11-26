@@ -1,9 +1,52 @@
+# ============================================================
+# Secrets (general)
+# ============================================================
+.env
+.env.*
+.env-*
+*.env
+!.env.example
+!*.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.kdbx
+*.age
+id_rsa*
+id_ecdsa*
+id_ed25519*
+!*.pub
+.netrc
+.npmrc
+.pypirc
+credentials.json
+*_credentials.yaml
+*.secret
+*.secrets
+
+# ============================================================
+# OS / editor / local tooling
+# ============================================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.direnv/
+.claude/settings.local.json
+CLAUDE.local.md
+
+# ============================================================
+# Project
+# ============================================================
 /move_test
 /dotfiles/backups/
 /result
+/result-*
 *.qcow2
-.claude/settings.local.json
-CLAUDE.local.md
 
 # Claude Code sandbox placeholders (/dev/null char devices bind-mounted over paths it protects).
 # Remove a line here before adding a real file at that path.
@@ -19,4 +62,3 @@ CLAUDE.local.md
 /.claude/settings.json
 /.claude/skills
 /.claude/workflows
-
