@@ -70,6 +70,10 @@ in
     overskride
   ];
 
+  # Tracks the most recently active MPRIS player; playerctl (media keys) then targets that one
+  # instead of the first player on the bus (often a paused Firefox tab).
+  services.playerctld.enable = true;
+
   # Only for the wrapper; the config it generates is replaced by the dotfile below.
   # Keybindings, window rules and autostart go in dotfiles/sway/config.
   wayland.windowManager.sway = {
