@@ -37,20 +37,29 @@ b +hosts:
     done
     nix build --no-link "${attrs[@]}"
 
-# Never forces, so a rewritten history is rejected; needs your github key, refuses agents.
-# Push main + tags of nixos-config, nix-secrets, sway-workrooms from the local clones to GitHub (fallback copy)
+# For you only: agents are kept out by a Claude Code deny rule, not here (`! just gh-push` in a Claude session
+# sets AI_AGENT too). Pulls main from Forgejo first (fast-forward only) and pushes Forgejo's main, so GitHub always
+# gets the newest version, never unpushed local commits. A repo whose main can't fast-forward (diverged, or
+# uncommitted changes in the way) fails and isn't pushed. Never forces, so a rewritten history is rejected.
+# Pull main from Forgejo, push it + tags of nixos-config, nix-secrets, sway-workrooms to GitHub (fallback copy)
 gh-push:
     #!/usr/bin/env bash
     set -uo pipefail
-    [ -z "${AI_AGENT:-}" ] || { echo "gh-push is for the user, not agents" >&2; exit 1; }
+    # without AI_AGENT, ssh uses your keys instead of the agent block (modules/profiles/core.nix)
+    git() { env -u AI_AGENT git "$@"; }
     failed=()
     for r in nixos-config nix-secrets sway-workrooms; do
       d=~/workspace/$r
       echo "== $r"
-      git -C "$d" fetch -q origin && git -C "$d" fetch -q github || { failed+=("$r"); continue; }
-      [ "$(git -C "$d" rev-parse main)" = "$(git -C "$d" rev-parse origin/main)" ] ||
-        echo "   note: local main differs from Forgejo (ahead $(git -C "$d" rev-list --count origin/main..main), behind $(git -C "$d" rev-list --count main..origin/main))"
-      git -C "$d" log --oneline github/main..main | sed 's/^/   /'
-      git -C "$d" push --follow-tags github main || failed+=("$r")
+      git -C "$d" fetch -q --tags origin && git -C "$d" fetch -q github || { failed+=("$r"); continue; }
+      if [ "$(git -C "$d" symbolic-ref -q --short HEAD)" = main ]; then
+        git -C "$d" merge -q --ff-only origin/main
+      else
+        git -C "$d" fetch -q origin main:main
+      fi || { echo "   could not fast-forward local main to Forgejo's (diverged or dirty checkout), not pushed" >&2; failed+=("$r"); continue; }
+      ahead=$(git -C "$d" rev-list --count origin/main..main)
+      [ "$ahead" = 0 ] || echo "   note: local main has $ahead commit(s) not on Forgejo, not pushed"
+      git -C "$d" log --oneline github/main..origin/main | sed 's/^/   /'
+      git -C "$d" push --follow-tags github origin/main:refs/heads/main || failed+=("$r")
     done
     [ ${#failed[@]} -eq 0 ] || { echo "failed: ${failed[*]}" >&2; exit 1; }

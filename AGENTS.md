@@ -189,7 +189,7 @@ None of these need root.
 ## Applying (user only)
 
 - `just d all` or `just d shaundi schiggi` (`justfile`): servers through deploy-rs, then shaundi through
-  `sudo nixos-rebuild switch`. `just b <hosts>|all` builds without applying. `just gh-push` (user only) pushes
-  this repo, nix-secrets and sway-workrooms to their GitHub fallback.
+  `sudo nixos-rebuild switch`. `just b <hosts>|all` builds without applying. `just gh-push` (user only, agents never
+  run it) pulls main from Forgejo and pushes it for this repo, nix-secrets and sway-workrooms to their GitHub fallback.
 - Single hosts by hand: `sudo nixos-rebuild switch --flake .#shaundi`, `deploy .#schiggi`, `deploy .#digda`
 - `nix flake update nix-secrets` after a change in the secrets repo
