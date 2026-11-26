@@ -60,6 +60,7 @@ gh-push:
       ahead=$(git -C "$d" rev-list --count origin/main..main)
       [ "$ahead" = 0 ] || echo "   note: local main has $ahead commit(s) not on Forgejo, not pushed"
       git -C "$d" log --oneline github/main..origin/main | sed 's/^/   /'
-      git -C "$d" push --follow-tags github origin/main:refs/heads/main || failed+=("$r")
+      # --no-verify: the repos' pre-push hooks only allow Forgejo, and this is the one sanctioned exception
+      git -C "$d" push --no-verify --follow-tags github origin/main:refs/heads/main || failed+=("$r")
     done
     [ ${#failed[@]} -eq 0 ] || { echo "failed: ${failed[*]}" >&2; exit 1; }
